@@ -1,5 +1,9 @@
 
-CFLAGS=-fpic -D NDEBUG -O3 -Wall -I minisat/ -D __STDC_LIMIT_MACROS -D __STDC_FORMAT_MACROS
+r: CFLAGS=-fpic -D NDEBUG -O3 -Wall -I minisat/ -D __STDC_LIMIT_MACROS -D __STDC_FORMAT_MACROS
+d: CFLAGS=-fpic -D DEBUG -O0 -ggdb -Wall -I minisat/ -D __STDC_LIMIT_MACROS -D __STDC_FORMAT_MACROS
+
+r: libminisat.so
+d: libminisat.so
 
 libminisat.so: minisat.o Solver.o System.o
 	g++ -shared $(CFLAGS) -o $@ $^
