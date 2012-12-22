@@ -7,8 +7,8 @@ class Solver(object):
 
     def __init__(self):
         """Load the minisat library with ctypes and create a Solver object."""
-        dir = os.path.dirname(os.path.abspath(__file__))
-        self.lib = ctypes.cdll.LoadLibrary(dir+'/libminisat.so')
+        dirname = os.path.dirname(os.path.abspath(__file__))
+        self.lib = ctypes.cdll.LoadLibrary(dirname+'/libminisat.so')
         self._setup_lib()
         self.s = self.lib.Solver_new()
 
@@ -147,12 +147,12 @@ class SubsetSolver(Solver):
         self.n = 0
         super(SubsetSolver, self).__init__()
 
-    def set_orig(self, vars, clauses):
+    def set_orig(self, o_vars, o_clauses):
         """Record how many of the solver's variables and clauses are "original,"
             as opposed to clause-selector variables, etc.
         """
-        self.origvars = vars
-        self.origclauses = clauses
+        self.origvars = o_vars
+        self.origclauses = o_clauses
 
     def add_clause(self, lits):
         if self.origvars is None:
