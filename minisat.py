@@ -89,6 +89,8 @@ class Solver(object):
             A boolean value returned from Minisat's addClause() function,
             indicating success (True) or conflict (False).
         """
+        if not all([abs(x) <= self.nvars() for x in lits]):
+            raise Exception("Not all variables in %s are created yet.  Call new_var() first." % lits)
         if len(lits) > 1:
             array = (c_int * len(lits))(*lits)
             self.lib.addClause(self.s, len(lits), array)
