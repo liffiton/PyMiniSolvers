@@ -1,3 +1,4 @@
+CXX ?= g++
 
 r: libminisat.so libminicard.so
 d: libminisat.so libminicard.so
@@ -9,28 +10,28 @@ SATINC=minisat/
 CARDINC=minicard/
 
 libminisat.so: minisat.o satSolver.o satSystem.o
-	g++ -shared $(CFLAGS) -o $@ $^
+	$(CXX) -shared $(CFLAGS) -o $@ $^
 
 minisat.o: minisat.cpp
-	g++ -c $(CFLAGS) -I $(SATINC) -o $@ $^
+	$(CXX) -c $(CFLAGS) -I $(SATINC) -o $@ $^
 
 satSolver.o: minisat/minisat/core/Solver.cc
-	g++ -c $(CFLAGS) -I $(SATINC) -o $@ $^
+	$(CXX) -c $(CFLAGS) -I $(SATINC) -o $@ $^
 
 satSystem.o: minisat/minisat/utils/System.cc
-	g++ -c $(CFLAGS) -I $(SATINC) -o $@ $^
+	$(CXX) -c $(CFLAGS) -I $(SATINC) -o $@ $^
     
 libminicard.so: minicard.o cardSolver.o cardSystem.o
-	g++ -shared $(CFLAGS) -o $@ $^
+	$(CXX) -shared $(CFLAGS) -o $@ $^
 
 minicard.o: minicard.cpp
-	g++ -c $(CFLAGS) -I $(CARDINC) -o $@ $^
+	$(CXX) -c $(CFLAGS) -I $(CARDINC) -o $@ $^
 
 cardSolver.o: minicard/minicard/Solver.cc
-	g++ -c $(CFLAGS) -I $(CARDINC) -o $@ $^
+	$(CXX) -c $(CFLAGS) -I $(CARDINC) -o $@ $^
 
 cardSystem.o: minicard/utils/System.cc
-	g++ -c $(CFLAGS) -I $(CARDINC) -o $@ $^
+	$(CXX) -c $(CFLAGS) -I $(CARDINC) -o $@ $^
 
 clean:
 	rm -f *.so *.o
