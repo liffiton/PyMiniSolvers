@@ -16,6 +16,13 @@ extern "C" {
     int nClauses(Solver* s) { return s->nClauses(); }
 
     int newVar(Solver* s, uint8_t polarity) { return s->newVar(polarity); }  // 0=False, 1=True
+    bool addAtMost(Solver* s, int len, int* lits, int k) {
+        vec<Lit> atmost;
+        for (int i = 0 ; i < len ; i++) {
+            atmost.push( itoLit(lits[i]) );
+        }
+        return s->addAtMost(atmost, k);
+    }
     bool addClause(Solver* s, int len, int* lits) {
         vec<Lit> clause;
         for (int i = 0 ; i < len ; i++) {

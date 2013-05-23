@@ -77,6 +77,25 @@ class Solver(object):
     def nclauses(self):
         return self.lib.nClauses(self.s)
 
+    def add_atmost(self, lits, k):
+        """Add an AtMost constraint to the solver.
+
+        Args:
+            lits: A list of literals as integers.  Each integer specifies a
+                variable with *1*-based counting and a sign via the sign of
+                the integer.  Ex.: [-1, 2, -3] is [!x0, x1, !x2]
+            k: The [upper] bound to place on these literals
+
+        Returns:
+            A boolean value returned from MiniCard's addAtmost() function,
+            indicating success (True) or conflict (False).
+        """
+        if len(lits) > 1:
+            array = (c_int * len(lits))(*lits)
+            self.lib.addAtMost(self.s, len(lits), array, k)
+        else:
+            self.lib.addAtMost(self.s, 0, None, 0)
+
     def add_clause(self, lits):
         """Add a clause to the solver.
 
