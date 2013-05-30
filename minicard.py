@@ -27,6 +27,8 @@ class Solver(object):
 
         l.newVar.argtypes = [c_void_p, c_ubyte]
 
+        l.addAtMost.restype = c_bool
+        l.addAtMost.argtypes = [c_void_p, c_int, c_void_p, c_int]
         l.addClause.restype = c_bool
         l.addClause.argtypes = [c_void_p, c_int, c_void_p]
         l.addUnit.restype = c_bool
@@ -87,9 +89,11 @@ class Solver(object):
             k: The [upper] bound to place on these literals
 
         Returns:
-            A boolean value returned from MiniCard's addAtmost() function,
+            A boolean value returned from MiniCard's addAtMost() function,
             indicating success (True) or conflict (False).
         """
+        if not all([abs(x) <= self.nvars() for x in lits]):
+            raise Exception("Not all variables in %s are created yet.  Call new_var() first." % lits)
         if len(lits) > 1:
             array = (c_int * len(lits))(*lits)
             self.lib.addAtMost(self.s, len(lits), array, k)
@@ -108,6 +112,8 @@ class Solver(object):
             A boolean value returned from MiniCard's addClause() function,
             indicating success (True) or conflict (False).
         """
+        if not all([abs(x) <= self.nvars() for x in lits]):
+            raise Exception("Not all variables in %s are created yet.  Call new_var() first." % lits)
         if len(lits) > 1:
             array = (c_int * len(lits))(*lits)
             self.lib.addClause(self.s, len(lits), array)
