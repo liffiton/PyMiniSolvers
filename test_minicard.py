@@ -5,7 +5,7 @@ import unittest
 class MinicardTest(unittest.TestCase):
     def setUp(self):
         self.solver = minicard.Solver()
-        self.atmosts = [(range(1,31), 15)]
+        self.atmosts = [(list(range(1,31)), 15)]
         self.clauses = [ [15], [10], [8], [12, 5], [4, 6], [2], [1], [-1, -2, -6, -8, -10, -12, -15] ]
         self.assumptions = [-x for x in range(16,31)]
         self.numvars = 30
