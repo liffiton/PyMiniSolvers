@@ -46,6 +46,8 @@ class Solver(object):
         l.unsatCore.argtypes = [c_void_p, c_int, c_void_p]
         l.modelValue.argtypes = [c_void_p, c_int]
         l.fillModel.argtypes = [c_void_p, c_void_p, c_int, c_int]
+        l.getModelTrues.restype = c_int
+        l.getModelTrues.argtypes = [c_void_p, c_void_p, c_int, c_int]
 
     def __del__(self):
         """Delete the Solver object"""
@@ -156,6 +158,22 @@ class Solver(object):
         array = (c_int * (end-start))()
         self.lib.fillModel(self.s, array, start, end)
         return array[:]
+
+    def get_model_trues(self, start=0, end=-1):
+        """Get variables assigned true in the current model from the solver.
+
+        Args:
+            start, end:  The optional start and end indices, interpreted as in range().
+
+        Returns:
+            A list of true variables in the solver's current model.  If a start
+            index was given, the variables are indexed from that value.
+        """
+        if end == -1:
+            end = self.nvars()
+        array = (c_int * (end-start))()
+        count = self.lib.getModelTrues(self.s, array, start, end)
+        return array[:count]
 
     def model_value(self, i):
         return self.lib.modelValue(self.s, i)

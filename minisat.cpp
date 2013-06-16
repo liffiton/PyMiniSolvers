@@ -56,6 +56,14 @@ extern "C" {
         }
     }
 
+    int getModelTrues(Solver* s, int* trues, int from, int to) {
+        int count = 0;
+        for (int i = from ; i < to ; i++) {
+            if (s->modelValue(i) == l_True) trues[count++] = i-from;
+        }
+        return count;
+    }
+
     // returns a core with 0-based counting
     // (i.e., first clause is 0, etc.)
     // (subtracts given number of original variables from conflict variables)
