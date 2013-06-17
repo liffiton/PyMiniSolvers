@@ -191,6 +191,5 @@ class SubsetSolver(Solver):
         return array[:length]
 
     def sat_subset(self):
-        model = self.get_model(start = self.origvars, end = self.origvars+self.origclauses)
-        return [i for i in range(self.n) if model[i]]
+        return self.get_model_trues(start = self.origvars, end = self.origvars+self.origclauses)
 
