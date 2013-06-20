@@ -163,17 +163,10 @@ class Solver(object):
     def model_value(self, i):
         return self.lib.modelValue(self.s, i)
 
-class SubsetSolver(Solver):
-    """A subclass of the Solver class specifically for reasoning about subsets of a clause set.
-
-    TODO: additional documentation, example.
-    """
-
-    def __init__(self):
-        self.origvars = None
-        self.origclauses = None
-        self.n = 0
-        super(SubsetSolver, self).__init__()
+class SubsetMixin(object):
+    origvars = None
+    origclauses = None
+    n = 0
 
     def set_orig(self, o_vars, o_clauses):
         """Record how many of the solver's variables and clauses are "original,"
@@ -186,7 +179,7 @@ class SubsetSolver(Solver):
         if self.origvars is None:
             raise Exception("SubsetSolver.set_orig() must be called before .add_clause()")
         instrumented_clause = [-(self.origvars+self.n+1)] + lits
-        super(SubsetSolver, self).add_clause(instrumented_clause)
+        super(SubsetMixin, self).add_clause(instrumented_clause)
         self.n += 1
 
     def solve_subset(self, subset):
@@ -201,4 +194,11 @@ class SubsetSolver(Solver):
 
     def sat_subset(self):
         return self.get_model_trues(start = self.origvars, end = self.origvars+self.origclauses)
+
+class SubsetSolver(SubsetMixin, Solver):
+    """A subclass of the Solver class specifically for reasoning about subsets of a clause set.
+
+    TODO: additional documentation, example.
+    """
+    pass
 
