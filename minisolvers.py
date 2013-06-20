@@ -55,7 +55,8 @@ class Solver(object):
     @staticmethod
     def _to_intptr(a):
         """Helper function to get a ctypes POINTER(c_int) for an array"""
-        return ctypes.cast(a.buffer_info()[0], ctypes.POINTER(c_int))
+        addr, size = a.buffer_info()
+        return ctypes.cast(addr, ctypes.POINTER(c_int)) , size
 
     def new_var(self, polarity=None):
         """Create a new variable in the solver.
@@ -101,8 +102,8 @@ class Solver(object):
             raise Exception("Not all variables in %s are created yet.  Call new_var() first." % lits)
         if len(lits) > 1:
             a = array.array('i',lits)
-            a_ptr = self._to_intptr(a)
-            self.lib.addClause(self.s, len(lits), a_ptr)
+            a_ptr, size = self._to_intptr(a)
+            self.lib.addClause(self.s, size, a_ptr)
         elif len(lits) == 1:
             self.lib.addUnit(self.s, lits[0])
         else:
@@ -112,7 +113,7 @@ class Solver(object):
         """Solve the current set of clauses, optionally with a set of assumptions.
 
         Args:
-            assumptions: A list of literals as integers, specified as in add_clause().
+            assumptions: An iterable returning literals as integers, specified as in add_clause().
 
         Returns:
             True if the clauses (and assumptions) are satisfiable, False otherwise.
@@ -121,8 +122,8 @@ class Solver(object):
             return self.lib.solve(self.s)
         else:
             a = array.array('i',assumptions)
-            a_ptr = self._to_intptr(a)
-            return self.lib.solve_assumptions(self.s, len(assumptions), a_ptr)
+            a_ptr, size = self._to_intptr(a)
+            return self.lib.solve_assumptions(self.s, size, a_ptr)
 
     def simplify(self):
         return self.lib.simplify(self.s)
@@ -185,8 +186,8 @@ class SubsetMixin(object):
 
     def solve_subset(self, subset):
         a = array.array('i', subset)
-        a_ptr = self._to_intptr(a)
-        return self.lib.solve_subset(self.s, self.origvars, len(subset), a_ptr)
+        a_ptr, size = self._to_intptr(a)
+        return self.lib.solve_subset(self.s, self.origvars, size, a_ptr)
 
     def unsat_core(self):
         a = (c_int * self.nclauses())()
