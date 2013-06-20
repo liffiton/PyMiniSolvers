@@ -1,3 +1,4 @@
+import array
 import os
 import ctypes
 from ctypes import c_void_p, c_ubyte, c_bool, c_int
@@ -45,11 +46,16 @@ class Solver(object):
         l.modelValue.argtypes = [c_void_p, c_int]
         l.fillModel.argtypes = [c_void_p, c_void_p, c_int, c_int]
         l.getModelTrues.restype = c_int
-        l.getModelTrues.argtypes = [c_void_p, c_void_p]
+        l.getModelTrues.argtypes = [c_void_p, c_void_p, c_int, c_int]
 
     def __del__(self):
         """Delete the Solver object"""
         self.lib.Solver_delete(self.s)
+
+    @staticmethod
+    def _to_intptr(a):
+        """Helper function to get a ctypes POINTER(c_int) for an array"""
+        return ctypes.cast(a.buffer_info()[0], ctypes.POINTER(c_int))
 
     def new_var(self, polarity=None):
         """Create a new variable in the solver.
@@ -91,11 +97,12 @@ class Solver(object):
             A boolean value returned from Minisat's addClause() function,
             indicating success (True) or conflict (False).
         """
-        if not all([abs(x) <= self.nvars() for x in lits]):
+        if not all(abs(x) <= self.nvars() for x in lits):
             raise Exception("Not all variables in %s are created yet.  Call new_var() first." % lits)
         if len(lits) > 1:
-            array = (c_int * len(lits))(*lits)
-            self.lib.addClause(self.s, len(lits), array)
+            a = array.array('i',lits)
+            a_ptr = self._to_intptr(a)
+            self.lib.addClause(self.s, len(lits), a_ptr)
         elif len(lits) == 1:
             self.lib.addUnit(self.s, lits[0])
         else:
@@ -113,8 +120,9 @@ class Solver(object):
         if assumptions is None:
             return self.lib.solve(self.s)
         else:
-            array = (c_int * len(assumptions))(*assumptions)
-            return self.lib.solve_assumptions(self.s, len(assumptions), array)
+            a = array.array('i',assumptions)
+            a_ptr = self._to_intptr(a)
+            return self.lib.solve_assumptions(self.s, len(assumptions), a_ptr)
 
     def simplify(self):
         return self.lib.simplify(self.s)
@@ -132,9 +140,9 @@ class Solver(object):
         """
         if end == -1:
             end = self.nvars()
-        array = (c_int * (end-start))()
-        self.lib.fillModel(self.s, array, start, end)
-        return array[:]
+        a = (c_int * (end-start))()
+        self.lib.fillModel(self.s, a, start, end)
+        return a[:]
 
     def get_model_trues(self, start=0, end=-1):
         """Get variables assigned true in the current model from the solver.
@@ -148,9 +156,9 @@ class Solver(object):
         """
         if end == -1:
             end = self.nvars()
-        array = (c_int * (end-start))()
-        count = self.lib.getModelTrues(self.s, array, start, end)
-        return array[:count]
+        a = (c_int * (end-start))()
+        count = self.lib.getModelTrues(self.s, a, start, end)
+        return a[:count]
 
     def model_value(self, i):
         return self.lib.modelValue(self.s, i)
@@ -182,13 +190,14 @@ class SubsetSolver(Solver):
         self.n += 1
 
     def solve_subset(self, subset):
-        array = (c_int * len(subset))(*subset)
-        return self.lib.solve_subset(self.s, self.origvars, len(subset), array)
+        a = array.array('i', subset)
+        a_ptr = self._to_intptr(a)
+        return self.lib.solve_subset(self.s, self.origvars, len(subset), a_ptr)
 
     def unsat_core(self):
-        array = (c_int * self.nclauses())()
-        length = self.lib.unsatCore(self.s, self.origvars, array)
-        return array[:length]
+        a = (c_int * self.nclauses())()
+        length = self.lib.unsatCore(self.s, self.origvars, a)
+        return a[:length]
 
     def sat_subset(self):
         return self.get_model_trues(start = self.origvars, end = self.origvars+self.origclauses)
