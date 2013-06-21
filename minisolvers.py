@@ -25,6 +25,7 @@ class Solver(object):
 
         l.nVars.argtypes = [c_void_p]
         l.nClauses.argtypes = [c_void_p]
+        l.setPhaseSaving.argtypes = [c_int]
 
         l.newVar.argtypes = [c_void_p, c_ubyte]
 
@@ -85,6 +86,10 @@ class Solver(object):
 
     def nclauses(self):
         return self.lib.nClauses(self.s)
+
+    def set_phase_saving(self, ps):
+        '''Set the level of phase saving (0=none, 1=limited, 2=full (default)).'''
+        self.lib.setPhaseSaving(self.s, ps)
 
     def add_clause(self, lits):
         """Add a clause to the solver.
@@ -177,11 +182,11 @@ class SubsetMixin(object):
         self.origvars = o_vars
         self.origclauses = o_clauses
 
-    def add_clause(self, lits):
+    def add_clause_instrumented(self, lits):
         if self.origvars is None:
-            raise Exception("SubsetSolver.set_orig() must be called before .add_clause()")
+            raise Exception("SubsetSolver.set_orig() must be called before .add_clause_instrumented()")
         instrumented_clause = [-(self.origvars+self.n+1)] + lits
-        super(SubsetMixin, self).add_clause(instrumented_clause)
+        self.add_clause(instrumented_clause)
         self.n += 1
 
     def solve_subset(self, subset):

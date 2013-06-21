@@ -15,6 +15,9 @@ extern "C" {
     int nVars(Solver* s) { return s->nVars(); }
     int nClauses(Solver* s) { return s->nClauses(); }
 
+    // Controls the level of phase saving (0=none, 1=limited, 2=full).
+    void setPhaseSaving(Solver* s, int ps) { s->phase_saving = ps; }
+
     int newVar(Solver* s, uint8_t polarity) { return s->newVar(polarity); }  // 0=False, 1=True
     bool addAtMost(Solver* s, int len, int* lits, int k) {
         vec<Lit> atmost;
