@@ -108,11 +108,11 @@ class Solver(object):
         if len(lits) > 1:
             a = array.array('i',lits)
             a_ptr, size = self._to_intptr(a)
-            self.lib.addClause(self.s, size, a_ptr)
+            return self.lib.addClause(self.s, size, a_ptr)
         elif len(lits) == 1:
-            self.lib.addUnit(self.s, lits[0])
+            return self.lib.addUnit(self.s, lits[0])
         else:
-            self.lib.addClause(self.s, 0, None)
+            return self.lib.addClause(self.s, 0, None)
 
     def solve(self, assumptions=None):
         """Solve the current set of clauses, optionally with a set of assumptions.
@@ -140,15 +140,16 @@ class Solver(object):
             start, end:  The optional start and end indices, interpreted as in range().
 
         Returns:
-            A list of booleans indexed to each variable (from 0).  If a start index was
-            given, the returned list starts at that index (i.e., get_model(10)[0] is index
-            10 from the solver's model.
+            An array of booleans indexed to each variable (from 0).  If a start
+            index was given, the returned list starts at that index (i.e.,
+            get_model(10)[0] is index 10 from the solver's model.
         """
         if end == -1:
             end = self.nvars()
-        a = (c_int * (end-start))()
-        self.lib.fillModel(self.s, a, start, end)
-        return a[:]
+        a = array.array('i',[-1] * (end-start))
+        a_ptr, size = self._to_intptr(a)
+        self.lib.fillModel(self.s, a_ptr, start, end)
+        return a
 
     def get_model_trues(self, start=0, end=-1):
         """Get variables assigned true in the current model from the solver.
@@ -157,13 +158,17 @@ class Solver(object):
             start, end:  The optional start and end indices, interpreted as in range().
 
         Returns:
-            A list of true variables in the solver's current model.  If a start
-            index was given, the variables are indexed from that value.
+            An array of true variables in the solver's current model.  If a
+            start index was given, the variables are indexed from that value.
         """
         if end == -1:
             end = self.nvars()
-        a = (c_int * (end-start))()
-        count = self.lib.getModelTrues(self.s, a, start, end)
+        a = array.array('i',[-1] * (end-start))
+        a_ptr, size = self._to_intptr(a)
+        count = self.lib.getModelTrues(self.s, a_ptr, start, end)
+        # reduce the array down to just the valid indexes
+        #while len(a) > count:
+            #a.pop()
         return a[:count]
 
     def model_value(self, i):
@@ -195,9 +200,13 @@ class SubsetMixin(object):
         return self.lib.solve_subset(self.s, self.origvars, size, a_ptr)
 
     def unsat_core(self):
-        a = (c_int * self.nclauses())()
-        length = self.lib.unsatCore(self.s, self.origvars, a)
-        return a[:length]
+        a = array.array('i',[-1] * self.nclauses())
+        a_ptr, size = self._to_intptr(a)
+        length = self.lib.unsatCore(self.s, self.origvars, a_ptr)
+        # reduce the array down to just the valid indexes
+        while len(a) > length:
+            a.pop()
+        return a
 
     def sat_subset(self):
         return self.get_model_trues(start = self.origvars, end = self.origvars+self.origclauses)
@@ -237,10 +246,11 @@ class MinicardSolver(Solver):
         if not all(abs(x) <= self.nvars() for x in lits):
             raise Exception("Not all variables in %s are created yet.  Call new_var() first." % lits)
         if len(lits) > 1:
-            array = (c_int * len(lits))(*lits)
-            self.lib.addAtMost(self.s, len(lits), array, k)
+            a = array.array('i',lits)
+            a_ptr, size = self._to_intptr(a)
+            return self.lib.addAtMost(self.s, size, a_ptr, k)
         else:
-            self.lib.addAtMost(self.s, 0, None, 0)
+            return self.lib.addAtMost(self.s, 0, None, 0)
 
 class MinisatSubsetSolver(SubsetMixin, MinisatSolver):
     pass
