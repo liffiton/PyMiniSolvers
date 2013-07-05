@@ -3,8 +3,8 @@ CXX ?= g++
 r: libminisat.so libminicard.so
 d: libminisat.so libminicard.so
 
-r: CFLAGS=-fpic -D NDEBUG -O3 -Wall -D __STDC_LIMIT_MACROS -D __STDC_FORMAT_MACROS
-d: CFLAGS=-fpic -D DEBUG -O0 -ggdb -Wall -D __STDC_LIMIT_MACROS -D __STDC_FORMAT_MACROS
+r: CFLAGS=-fpic -D NDEBUG -O3 -Wall -D __STDC_LIMIT_MACROS -D __STDC_FORMAT_MACROS -Wno-parentheses -Wextra
+d: CFLAGS=-fpic -D DEBUG -O0 -ggdb -Wall -D __STDC_LIMIT_MACROS -D __STDC_FORMAT_MACROS -Wno-parentheses -Wextra
 
 SATINC=minisat/
 CARDINC=minicard/
