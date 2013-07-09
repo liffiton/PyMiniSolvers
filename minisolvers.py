@@ -177,22 +177,24 @@ class Solver(object):
 class SubsetMixin(object):
     """A mixin for any Solver class that lets it reason about subsets of a clause set."""
     origvars = None
-    origclauses = None
+    relvars = None
     n = 0
 
-    def set_orig(self, o_vars, o_clauses):
+    def set_varcounts(self, vars, constraints):
         """Record how many of the solver's variables and clauses are "original,"
             as opposed to clause-selector variables, etc.
         """
-        self.origvars = o_vars
-        self.origclauses = o_clauses
+        self.origvars = vars
+        self.relvars = constraints
 
-    def add_clause_instrumented(self, lits):
+    def add_clause_instrumented(self, lits, index):
+        """Add a clause with a relaxation variable (the rel.var. is based on
+           the index, which is assumed to be 0-based).
+        """
         if self.origvars is None:
             raise Exception("SubsetSolver.set_orig() must be called before .add_clause_instrumented()")
-        instrumented_clause = [-(self.origvars+self.n+1)] + lits
+        instrumented_clause = [-(self.origvars+1+index)] + lits
         self.add_clause(instrumented_clause)
-        self.n += 1
 
     def solve_subset(self, subset):
         a = array.array('i', subset)
@@ -209,7 +211,7 @@ class SubsetMixin(object):
         return a
 
     def sat_subset(self):
-        return self.get_model_trues(start = self.origvars, end = self.origvars+self.origclauses)
+        return self.get_model_trues(start = self.origvars, end = self.origvars+self.relvars)
 
 class MinisatSolver(Solver):
     def __init__(self):
