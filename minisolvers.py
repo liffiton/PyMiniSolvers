@@ -25,7 +25,8 @@ class Solver(object):
 
         l.nVars.argtypes = [c_void_p]
         l.nClauses.argtypes = [c_void_p]
-        l.setPhaseSaving.argtypes = [c_int]
+        l.setPhaseSaving.argtypes = [c_void_p, c_int]
+        l.setRndPol.argtypes = [c_void_p, c_bool]
 
         l.newVar.argtypes = [c_void_p, c_ubyte]
 
@@ -90,6 +91,10 @@ class Solver(object):
     def set_phase_saving(self, ps):
         '''Set the level of phase saving (0=none, 1=limited, 2=full (default)).'''
         self.lib.setPhaseSaving(self.s, ps)
+
+    def set_rnd_pol(self, val):
+        '''Set whether random polarities are used for decisions (overridden if vars are created with a user polarity other than None)'''
+        self.lib.setRndPol(self.s, val)
 
     def add_clause(self, lits):
         """Add a clause to the solver.

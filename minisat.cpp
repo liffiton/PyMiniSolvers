@@ -18,6 +18,9 @@ extern "C" {
     // Controls the level of phase saving (0=none, 1=limited, 2=full).
     void setPhaseSaving(Solver* s, int ps) { s->phase_saving = ps; }
 
+    // Control whether random polarities are used (overridden if vars are created with a user polarity other than Undef)
+    void setRndPol(Solver* s, bool val) { s->rnd_pol = val; }
+
     int newVar(Solver* s, uint8_t polarity) { return s->newVar(lbool(polarity)); }  // 0=False, 1=True, 2=Undef
     bool addClause(Solver* s, int len, int* lits) {
         vec<Lit> clause;
