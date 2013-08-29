@@ -3,6 +3,7 @@ import os
 import ctypes
 from ctypes import c_void_p, c_ubyte, c_bool, c_int
 
+
 class Solver(object):
     """The Solver class is meant as a fairly direct analog of Minisat/Minicard's Solver class."""
 
@@ -58,11 +59,11 @@ class Solver(object):
     def _to_intptr(a):
         """Helper function to get a ctypes POINTER(c_int) for an array"""
         addr, size = a.buffer_info()
-        return ctypes.cast(addr, ctypes.POINTER(c_int)) , size
+        return ctypes.cast(addr, ctypes.POINTER(c_int)), size
 
     def new_var(self, polarity=None):
         """Create a new variable in the solver.
-        
+
         Args:
             polarity: A boolean specifying the default polarity for this
                 variable.  True = variable's default is True, etc.  Note
@@ -73,12 +74,12 @@ class Solver(object):
         Returns:
             The new variable's number (0-based counting).
         """
-              
+
         if polarity is None:
             pol_int = 2
-        elif polarity == True:
+        elif polarity is True:
             pol_int = 1
-        elif polarity == False:
+        elif polarity is False:
             pol_int = 0
         return self.lib.newVar(self.s, pol_int)
 
@@ -111,7 +112,7 @@ class Solver(object):
         if not all(abs(x) <= self.nvars() for x in lits):
             raise Exception("Not all variables in %s are created yet.  Call new_var() first." % lits)
         if len(lits) > 1:
-            a = array.array('i',lits)
+            a = array.array('i', lits)
             a_ptr, size = self._to_intptr(a)
             return self.lib.addClause(self.s, size, a_ptr)
         elif len(lits) == 1:
@@ -131,7 +132,7 @@ class Solver(object):
         if assumptions is None:
             return self.lib.solve(self.s)
         else:
-            a = array.array('i',assumptions)
+            a = array.array('i', assumptions)
             a_ptr, size = self._to_intptr(a)
             return self.lib.solve_assumptions(self.s, size, a_ptr)
 
@@ -151,7 +152,7 @@ class Solver(object):
         """
         if end == -1:
             end = self.nvars()
-        a = array.array('i',[-1] * (end-start))
+        a = array.array('i', [-1] * (end-start))
         a_ptr, size = self._to_intptr(a)
         self.lib.fillModel(self.s, a_ptr, start, end)
         return a
@@ -168,7 +169,7 @@ class Solver(object):
         """
         if end == -1:
             end = self.nvars()
-        a = array.array('i',[-1] * (end-start))
+        a = array.array('i', [-1] * (end-start))
         a_ptr, size = self._to_intptr(a)
         count = self.lib.getModelTrues(self.s, a_ptr, start, end)
         # reduce the array down to just the valid indexes
@@ -178,6 +179,7 @@ class Solver(object):
 
     def model_value(self, i):
         return self.lib.modelValue(self.s, i)
+
 
 class SubsetMixin(object):
     """A mixin for any Solver class that lets it reason about subsets of a clause set."""
@@ -207,7 +209,7 @@ class SubsetMixin(object):
         return self.lib.solve_subset(self.s, self.origvars, size, a_ptr)
 
     def unsat_core(self):
-        a = array.array('i',[-1] * self.nclauses())
+        a = array.array('i', [-1] * self.nclauses())
         a_ptr, size = self._to_intptr(a)
         length = self.lib.unsatCore(self.s, self.origvars, a_ptr)
         # reduce the array down to just the valid indexes
@@ -216,11 +218,13 @@ class SubsetMixin(object):
         return a
 
     def sat_subset(self):
-        return self.get_model_trues(start = self.origvars, end = self.origvars+self.relvars)
+        return self.get_model_trues(start=self.origvars, end=self.origvars+self.relvars)
+
 
 class MinisatSolver(Solver):
     def __init__(self):
         super(MinisatSolver, self).__init__("libminisat.so")
+
 
 class MinicardSolver(Solver):
     def __init__(self):
@@ -253,15 +257,16 @@ class MinicardSolver(Solver):
         if not all(abs(x) <= self.nvars() for x in lits):
             raise Exception("Not all variables in %s are created yet.  Call new_var() first." % lits)
         if len(lits) > 1:
-            a = array.array('i',lits)
+            a = array.array('i', lits)
             a_ptr, size = self._to_intptr(a)
             return self.lib.addAtMost(self.s, size, a_ptr, k)
         else:
             return self.lib.addAtMost(self.s, 0, None, 0)
 
+
 class MinisatSubsetSolver(SubsetMixin, MinisatSolver):
     pass
 
+
 class MinicardSubsetSolver(SubsetMixin, MinicardSolver):
     pass
-

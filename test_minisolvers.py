@@ -1,6 +1,7 @@
 import minisolvers
 import unittest
 
+
 class MinisatTest(unittest.TestCase):
     def setUp(self):
         self.solver = minisolvers.MinisatSolver()
@@ -16,7 +17,7 @@ class MinisatTest(unittest.TestCase):
             self.assertEqual(self.solver.nvars(), i+1)
 
     def test_add_clause_without_vars(self):
-        self.assertRaises(Exception, self.solver.add_clause, [-1,2])
+        self.assertRaises(Exception, self.solver.add_clause, [-1, 2])
 
     def add_subset(self, subset):
         for i in range(self.numvars):
@@ -36,11 +37,11 @@ class MinisatTest(unittest.TestCase):
         self.add_subset(self.clauses[:-2])
         self.assertEqual(self.solver.solve([-5]), True)
         self.assertEqual(self.solver.solve([-6]), True)
-        self.assertEqual(self.solver.solve([-5,-6]), False)
+        self.assertEqual(self.solver.solve([-5, -6]), False)
 
     def test_model(self):
         from math import copysign
-        isPositive = lambda x: copysign(1,x) > 0
+        isPositive = lambda x: copysign(1, x) > 0
         subset = self.clauses[:-1]
         self.add_subset(subset)
         self.solver.solve()
@@ -49,12 +50,13 @@ class MinisatTest(unittest.TestCase):
         for cl in subset:
             self.assertTrue(any([ m[abs(x)-1] == isPositive(x) for x in cl ]))
 
+
 class MinicardTest(unittest.TestCase):
     def setUp(self):
         self.solver = minisolvers.MinicardSolver()
-        self.atmosts = [(list(range(1,31)), 15)]
+        self.atmosts = [(list(range(1, 31)), 15)]
         self.clauses = [ [15], [10], [8], [12, 5], [4, 6], [2], [1], [-1, -2, -6, -8, -10, -12, -15] ]
-        self.assumptions = [-x for x in range(16,31)]
+        self.assumptions = [-x for x in range(16, 31)]
         self.numvars = 30
 
     def tearDown(self):
@@ -66,7 +68,7 @@ class MinicardTest(unittest.TestCase):
             self.assertEqual(self.solver.nvars(), i+1)
 
     def test_add_clause_without_vars(self):
-        self.assertRaises(Exception, self.solver.add_clause, [-1,2])
+        self.assertRaises(Exception, self.solver.add_clause, [-1, 2])
 
     def make_vars(self):
         for i in range(self.numvars):
@@ -96,12 +98,12 @@ class MinicardTest(unittest.TestCase):
         self.add_subset(self.clauses[:-2])
         self.assertEqual(self.solver.solve([-5]), True)
         self.assertEqual(self.solver.solve([-6]), True)
-        self.assertEqual(self.solver.solve([-8,-10]), False)
+        self.assertEqual(self.solver.solve([-8, -10]), False)
 
     def test_model(self):
         self.make_vars()
         from math import copysign
-        isPositive = lambda x: copysign(1,x) > 0
+        isPositive = lambda x: copysign(1, x) > 0
         subset = self.clauses[:-1]
         self.add_subset(subset)
         self.solver.solve()
@@ -113,7 +115,7 @@ class MinicardTest(unittest.TestCase):
     def int_check(self):
         import random
         for i in range(1000):
-            assumps = [x*random.choice([1,-1]) for x in self.assumptions]
+            assumps = [x*random.choice([1, -1]) for x in self.assumptions]
             self.solver.solve(assumps)
             self.assertEqual(self.solver.solve(self.assumptions), True)
 
@@ -127,4 +129,3 @@ class MinicardTest(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
-
