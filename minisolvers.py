@@ -40,8 +40,6 @@ class Solver(object):
         l.solve.argtypes = [c_void_p]
         l.solve_assumptions.restype = c_bool
         l.solve_assumptions.argtypes = [c_void_p, c_int, c_void_p]
-        l.solve_subset.restype = c_bool
-        l.solve_subset.argtypes = [c_void_p, c_int, c_int, c_void_p]
         l.simplify.restype = c_bool
         l.simplify.argtypes = [c_void_p]
 
@@ -199,14 +197,17 @@ class SubsetMixin(object):
            the index, which is assumed to be 0-based).
         """
         if self.origvars is None:
-            raise Exception("SubsetSolver.set_orig() must be called before .add_clause_instrumented()")
+            raise Exception("SubsetSolver.set_varcounts() must be called before .add_clause_instrumented()")
         instrumented_clause = [-(self.origvars+1+index)] + lits
         self.add_clause(instrumented_clause)
 
     def solve_subset(self, subset):
-        a = array.array('i', subset)
+        if self.origvars is None:
+            raise Exception("SubsetSolver.set_varcounts() must be called before .solve_subset()")
+        # convert clause indices to clause-selector variable indices
+        a = array.array('i', (i+self.origvars+1 for i in subset))
         a_ptr, size = self._to_intptr(a)
-        return self.lib.solve_subset(self.s, self.origvars, size, a_ptr)
+        return self.lib.solve_assumptions(self.s, size, a_ptr)
 
     def unsat_core(self):
         a = array.array('i', [-1] * self.nclauses())

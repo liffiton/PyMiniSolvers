@@ -41,13 +41,6 @@ extern "C" {
         }
         return s->solve(assumptions);
     }
-    bool solve_subset(Solver* s, int nv, int len, int* subset) {
-        vec<Lit> assumptions;
-        for (int i = 0 ; i < len ; i++) {
-            assumptions.push( itoLit(subset[i] + nv + 1) );
-        }
-        return s->solve(assumptions);
-    }
 
     bool simplify(Solver* s) { return s->simplify(); }
 
