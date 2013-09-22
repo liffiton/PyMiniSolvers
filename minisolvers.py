@@ -171,8 +171,6 @@ class Solver(object):
         a_ptr, size = self._to_intptr(a)
         count = self.lib.getModelTrues(self.s, a_ptr, start, end)
         # reduce the array down to just the valid indexes
-        #while len(a) > count:
-            #a.pop()
         return a[:count]
 
     def model_value(self, i):
@@ -214,9 +212,7 @@ class SubsetMixin(object):
         a_ptr, size = self._to_intptr(a)
         length = self.lib.unsatCore(self.s, self.origvars, a_ptr)
         # reduce the array down to just the valid indexes
-        while len(a) > length:
-            a.pop()
-        return a
+        return a[:length]
 
     def sat_subset(self):
         return self.get_model_trues(start=self.origvars, end=self.origvars+self.relvars)
