@@ -49,6 +49,9 @@ class Solver(object):
         l.getModelTrues.restype = c_int
         l.getModelTrues.argtypes = [c_void_p, c_void_p, c_int, c_int]
 
+        l.getImplies.argtypes = [c_void_p, c_void_p]
+        l.getImplies.restype = c_int
+
     def __del__(self):
         """Delete the Solver object"""
         self.lib.Solver_delete(self.s)
@@ -175,6 +178,19 @@ class Solver(object):
 
     def model_value(self, i):
         return self.lib.modelValue(self.s, i)
+
+    def implies(self):
+        """Get literals known to be implied by the current formula.
+           (I.e., all assignments made at level 0)
+
+        Returns:
+           An array of literals.
+        """
+        a = array.array('i', [-1] * self.nvars())
+        a_ptr, size = self._to_intptr(a)
+        count = self.lib.getImplies(self.s, a_ptr)
+        # reduce the array down to just the valid indexes
+        return a[:count]
 
 
 class SubsetMixin(object):

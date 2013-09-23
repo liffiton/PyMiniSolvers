@@ -8,6 +8,10 @@ inline Lit itoLit(int i) {
     return (sign) ? ~mkLit(var) : mkLit(var);
 }
 
+inline int Littoi(Lit l) {
+    return (var(l)+1) * (sign(l) ? -1 : 1);
+}
+
 extern "C" {
     Solver* Solver_new() { return new Solver(); }
     void Solver_delete(Solver* s) { delete s; }
@@ -78,5 +82,19 @@ extern "C" {
             core[i] = var(s->conflict[i]) - nv;
         }
         return s->conflict.size();
+    }
+
+    // fills an array w/ any literals known to be implied by the current formula
+    // (i.e., all 0-level assignments)
+    // returns number of elements in the filled array
+    int getImplies(Solver* s, int* assigns) {
+        vec<Lit> empty;
+        vec<Lit> outvec;
+        s->implies(empty, outvec, true);
+        int len = outvec.size();
+        for (int i = 0 ; i < len ; i++) {
+            assigns[i] = Littoi(outvec[i]);
+        }
+        return len;
     }
 }
