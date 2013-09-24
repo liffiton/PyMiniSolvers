@@ -25,7 +25,9 @@ extern "C" {
     // Control whether random polarities are used (overridden if vars are created with a user polarity other than Undef)
     void setRndPol(Solver* s, bool val) { s->rnd_pol = val; }
 
-    int newVar(Solver* s, uint8_t polarity) { return s->newVar(lbool(polarity)); }  // 0=False, 1=True, 2=Undef
+    // polarity: 0=False, 1=True, 2=Undef
+    int newVar(Solver* s, uint8_t polarity, bool dvar=true) { return s->newVar(lbool(polarity), dvar); }
+
     bool addClause(Solver* s, int len, int* lits) {
         vec<Lit> clause;
         for (int i = 0 ; i < len ; i++) {

@@ -25,7 +25,9 @@ extern "C" {
     // Control whether random polarities are used (overridden if vars are created with a user polarity other than Undef)
     void setRndPol(Solver* s, bool val) { s->rnd_pol = val; }
 
-    int newVar(Solver* s, uint8_t polarity) { return s->newVar(polarity); }  // 0=False, 1=True
+    // polarity: 0=False, 1=True, 2=Undef
+    int newVar(Solver* s, uint8_t polarity, bool dvar=true) { return s->newVar(polarity, dvar); }
+
     bool addAtMost(Solver* s, int len, int* lits, int k) {
         vec<Lit> atmost;
         for (int i = 0 ; i < len ; i++) {

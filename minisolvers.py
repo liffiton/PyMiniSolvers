@@ -29,7 +29,7 @@ class Solver(object):
         l.setPhaseSaving.argtypes = [c_void_p, c_int]
         l.setRndPol.argtypes = [c_void_p, c_bool]
 
-        l.newVar.argtypes = [c_void_p, c_ubyte]
+        l.newVar.argtypes = [c_void_p, c_ubyte, c_bool]
 
         l.addClause.restype = c_bool
         l.addClause.argtypes = [c_void_p, c_int, c_void_p]
@@ -62,7 +62,7 @@ class Solver(object):
         addr, size = a.buffer_info()
         return ctypes.cast(addr, ctypes.POINTER(c_int)), size
 
-    def new_var(self, polarity=None):
+    def new_var(self, polarity=None, dvar=True):
         """Create a new variable in the solver.
 
         Args:
@@ -82,7 +82,7 @@ class Solver(object):
             pol_int = 1
         elif polarity is False:
             pol_int = 0
-        return self.lib.newVar(self.s, pol_int)
+        return self.lib.newVar(self.s, pol_int, dvar)
 
     def nvars(self):
         return self.lib.nVars(self.s)
