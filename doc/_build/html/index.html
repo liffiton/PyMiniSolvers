@@ -1,1 +1,889 @@
-Documentation coming soon...
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>minisolvers.py &mdash; PyMiniSolvers 0.9 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.9',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="PyMiniSolvers 0.9 documentation" href="#" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="#">PyMiniSolvers 0.9 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-minisolvers">
+<span id="minisolvers-py"></span><h1>minisolvers.py<a class="headerlink" href="#module-minisolvers" title="Permalink to this headline">¶</a></h1>
+<p>A Python API for the <a class="reference external" href="http://minisat.se/">MiniSat</a> and <a class="reference external" href="http://git.io/minicard">MiniCard</a> constraint solvers.</p>
+<dl class="docutils">
+<dt>Classes:</dt>
+<dd><dl class="first last docutils">
+<dt>Solver</dt>
+<dd>An abstract base class for the other classes.</dd>
+<dt>SubsetMixin</dt>
+<dd>A mixin class adding &#8216;subset&#8217; functionality to Solver subclasses.</dd>
+<dt><a class="reference internal" href="#minisolvers.MinisatSolver" title="minisolvers.MinisatSolver"><tt class="xref py py-class docutils literal"><span class="pre">MinisatSolver</span></tt></a></dt>
+<dd>Solve CNF instances using MiniSat.</dd>
+<dt><a class="reference internal" href="#minisolvers.MinicardSolver" title="minisolvers.MinicardSolver"><tt class="xref py py-class docutils literal"><span class="pre">MinicardSolver</span></tt></a></dt>
+<dd>Solve CNF+ (CNF plus cardinality constraints) using MiniCard.</dd>
+<dt><a class="reference internal" href="#minisolvers.MinisatSubsetSolver" title="minisolvers.MinisatSubsetSolver"><tt class="xref py py-class docutils literal"><span class="pre">MinisatSubsetSolver</span></tt></a></dt>
+<dd>Solve arbitrary subsets of CNF instances and find SAT subsets / UNSAT cores.</dd>
+<dt><a class="reference internal" href="#minisolvers.MinicardSubsetSolver" title="minisolvers.MinicardSubsetSolver"><tt class="xref py py-class docutils literal"><span class="pre">MinicardSubsetSolver</span></tt></a></dt>
+<dd>Solve arbitrary subsets of CNF+ instances and find SAT subsets / UNSAT cores.</dd>
+</dl>
+</dd>
+</dl>
+<hr class="docutils" />
+<dl class="class">
+<dt id="minisolvers.MinisatSolver">
+<em class="property">class </em><tt class="descclassname">minisolvers.</tt><tt class="descname">MinisatSolver</tt><a class="headerlink" href="#minisolvers.MinisatSolver" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">minisolvers.Solver</span></tt></p>
+<p>A Python analog to MiniSat&#8217;s Solver class.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">S</span> <span class="o">=</span> <span class="n">MinisatSolver</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Create variables using <tt class="docutils literal"><span class="pre">new_var()</span></tt>.  Add clauses as list of literals with
+<tt class="docutils literal"><span class="pre">add_clause()</span></tt>, analogous to MiniSat&#8217;s <tt class="docutils literal"><span class="pre">add_clause()</span></tt>.  Literals are
+specified as integers, with the magnitude indicating the variable index
+(with 1-based counting) and the sign indicating True/False.  For example,
+to add clauses (x0), (!x1), (!x0 + x1 + !x2), and (x2 + x3):</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="n">S</span><span class="o">.</span><span class="n">new_var</span><span class="p">()</span>  
+<span class="go">0</span>
+<span class="go">1</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">clause</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]:</span>
+<span class="gp">... </span>    <span class="n">S</span><span class="o">.</span><span class="n">add_clause</span><span class="p">(</span><span class="n">clause</span><span class="p">)</span>  
+<span class="go">True</span>
+<span class="go">True</span>
+<span class="gp">...</span>
+</pre></div>
+</div>
+<p>The <tt class="docutils literal"><span class="pre">solve()</span></tt> method returns True or False just like MiniSat&#8217;s.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">S</span><span class="o">.</span><span class="n">solve</span><span class="p">()</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+<p>Models are returned as arrays of Booleans, indexed by var.
+So the following represents x0=True, x1=False, x2=False, x3=True.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">S</span><span class="o">.</span><span class="n">get_model</span><span class="p">())</span>
+<span class="go">[1, 0, 0, 1]</span>
+</pre></div>
+</div>
+<p>The <tt class="docutils literal"><span class="pre">add_clause()</span></tt> method may return False if a conflict is detected
+when adding the clause, even without search.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">S</span><span class="o">.</span><span class="n">add_clause</span><span class="p">([</span><span class="o">-</span><span class="mi">4</span><span class="p">])</span>
+<span class="go">False</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">S</span><span class="o">.</span><span class="n">solve</span><span class="p">()</span>
+<span class="go">False</span>
+</pre></div>
+</div>
+<dl class="method">
+<dt id="minisolvers.MinisatSolver.add_clause">
+<tt class="descname">add_clause</tt><big>(</big><em>lits</em><big>)</big><a class="headerlink" href="#minisolvers.MinisatSolver.add_clause" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a clause to the solver.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><dl class="first last docutils">
+<dt>lits:</dt>
+<dd>A list of literals as integers.  Each integer specifies a
+variable with <em>1</em>-based counting and a sign via the sign of the
+integer.  Ex.: [-1, 2, -3] is (!x0 + x1 + !x2)</dd>
+</dl>
+</dd>
+<dt>Returns:</dt>
+<dd>A boolean value returned from MiniSat&#8217;s <tt class="docutils literal"><span class="pre">addClause()</span></tt> function,
+indicating success (True) or conflict (False).</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="minisolvers.MinisatSolver.get_model">
+<tt class="descname">get_model</tt><big>(</big><em>start=0</em>, <em>end=-1</em><big>)</big><a class="headerlink" href="#minisolvers.MinisatSolver.get_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the current model from the solver, optionally retrieving only a slice.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><dl class="first last docutils">
+<dt>start, end (int):</dt>
+<dd>Optional start and end indices, interpreted as in <tt class="docutils literal"><span class="pre">range()</span></tt>.</dd>
+</dl>
+</dd>
+<dt>Returns:</dt>
+<dd>An array of booleans indexed to each variable (from 0).  If a start
+index was given, the returned list starts at that index (i.e.,
+<tt class="docutils literal"><span class="pre">get_model(10)[0]</span></tt> is index 10 from the solver&#8217;s model.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="minisolvers.MinisatSolver.get_model_trues">
+<tt class="descname">get_model_trues</tt><big>(</big><em>start=0</em>, <em>end=-1</em><big>)</big><a class="headerlink" href="#minisolvers.MinisatSolver.get_model_trues" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get variables assigned true in the current model from the solver.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><dl class="first last docutils">
+<dt>start, end (int):</dt>
+<dd>Optional start and end indices, interpreted as in <tt class="docutils literal"><span class="pre">range()</span></tt>.</dd>
+</dl>
+</dd>
+<dt>Returns:</dt>
+<dd>An array of true variables in the solver&#8217;s current model.  If a
+start index was given, the variables are indexed from that value.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="minisolvers.MinisatSolver.implies">
+<tt class="descname">implies</tt><big>(</big><big>)</big><a class="headerlink" href="#minisolvers.MinisatSolver.implies" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Get literals known to be implied by the current formula.</dt>
+<dd>(I.e., all assignments made at level 0)</dd>
+<dt>Returns:</dt>
+<dd>An array of literals.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="minisolvers.MinisatSolver.model_value">
+<tt class="descname">model_value</tt><big>(</big><em>i</em><big>)</big><a class="headerlink" href="#minisolvers.MinisatSolver.model_value" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="minisolvers.MinisatSolver.nclauses">
+<tt class="descname">nclauses</tt><big>(</big><big>)</big><a class="headerlink" href="#minisolvers.MinisatSolver.nclauses" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="minisolvers.MinisatSolver.new_var">
+<tt class="descname">new_var</tt><big>(</big><em>polarity=None</em>, <em>dvar=True</em><big>)</big><a class="headerlink" href="#minisolvers.MinisatSolver.new_var" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a new variable in the solver.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><dl class="first last docutils">
+<dt>polarity (bool):</dt>
+<dd>The default polarity for this variable.  True = variable&#8217;s
+default is True, etc.  Note that this is the reverse of the &#8216;user
+polarity&#8217; in MiniSat, where True indicates the <em>sign</em> is True,
+hence the default value is False.</dd>
+<dt>dvar (bool):</dt>
+<dd>Whether this variable will be used as a decision variable.</dd>
+</dl>
+</dd>
+<dt>Returns:</dt>
+<dd>The new variable&#8217;s index (0-based counting).</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="minisolvers.MinisatSolver.nvars">
+<tt class="descname">nvars</tt><big>(</big><big>)</big><a class="headerlink" href="#minisolvers.MinisatSolver.nvars" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="minisolvers.MinisatSolver.set_phase_saving">
+<tt class="descname">set_phase_saving</tt><big>(</big><em>ps</em><big>)</big><a class="headerlink" href="#minisolvers.MinisatSolver.set_phase_saving" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the level of phase saving (0=none, 1=limited, 2=full (default)).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="minisolvers.MinisatSolver.set_rnd_pol">
+<tt class="descname">set_rnd_pol</tt><big>(</big><em>val</em><big>)</big><a class="headerlink" href="#minisolvers.MinisatSolver.set_rnd_pol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set whether random polarities are used for decisions (overridden if vars are created with a user polarity other than None)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="minisolvers.MinisatSolver.simplify">
+<tt class="descname">simplify</tt><big>(</big><big>)</big><a class="headerlink" href="#minisolvers.MinisatSolver.simplify" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="minisolvers.MinisatSolver.solve">
+<tt class="descname">solve</tt><big>(</big><em>assumptions=None</em><big>)</big><a class="headerlink" href="#minisolvers.MinisatSolver.solve" title="Permalink to this definition">¶</a></dt>
+<dd><p>Solve the current set of clauses, optionally with a set of assumptions.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><dl class="first last docutils">
+<dt>assumptions:</dt>
+<dd>An iterable returning literals as integers, specified as in
+<tt class="docutils literal"><span class="pre">add_clause()</span></tt>.</dd>
+</dl>
+</dd>
+<dt>Returns:</dt>
+<dd>True if the clauses (and assumptions) are satisfiable, False otherwise.</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="minisolvers.MinicardSolver">
+<em class="property">class </em><tt class="descclassname">minisolvers.</tt><tt class="descname">MinicardSolver</tt><a class="headerlink" href="#minisolvers.MinicardSolver" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">minisolvers.Solver</span></tt></p>
+<p>A Python analog to MiniCard&#8217;s Solver class.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">S</span> <span class="o">=</span> <span class="n">MinicardSolver</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">):</span>  <span class="n">tmp</span><span class="o">=</span><span class="n">S</span><span class="o">.</span><span class="n">new_var</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Add clauses (x0), (!x1), and (x2 + x3)
+&gt;&gt;&gt; for clause in [1], [-2], [3, 4]:
+...    S.add_clause(clause)
+True
+True
+True</p>
+<p>AtMost({x0, !x1, x2}, 2)
+&gt;&gt;&gt; S.add_atmost([1,-2,3], 2)
+True</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">S</span><span class="o">.</span><span class="n">solve</span><span class="p">()</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+<p>Models are returned as arrays of Booleans, indexed by var.
+So the following represents x0=True, x1=False, x2=False, x3=True.
+&gt;&gt;&gt; list(S.get_model())
+[1, 0, 0, 1]</p>
+<dl class="method">
+<dt id="minisolvers.MinicardSolver.add_atmost">
+<tt class="descname">add_atmost</tt><big>(</big><em>lits</em>, <em>k</em><big>)</big><a class="headerlink" href="#minisolvers.MinicardSolver.add_atmost" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add an AtMost constraint to the solver.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><dl class="first last docutils">
+<dt>lits:</dt>
+<dd>A list of literals as integers.  Each integer specifies a
+variable with <strong>1</strong>-based counting and a sign via the sign of
+the integer.  Ex.: [-1, 2, -3] is {!x0, x1, !x2}</dd>
+<dt>k (int):</dt>
+<dd>The [upper] bound to place on these literals.</dd>
+</dl>
+</dd>
+<dt>Returns:</dt>
+<dd>A boolean value returned from MiniCard&#8217;s <tt class="docutils literal"><span class="pre">addAtMost()</span></tt>
+function, indicating success (True) or conflict (False).</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="minisolvers.MinicardSolver.add_clause">
+<tt class="descname">add_clause</tt><big>(</big><em>lits</em><big>)</big><a class="headerlink" href="#minisolvers.MinicardSolver.add_clause" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a clause to the solver.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><dl class="first last docutils">
+<dt>lits:</dt>
+<dd>A list of literals as integers.  Each integer specifies a
+variable with <em>1</em>-based counting and a sign via the sign of the
+integer.  Ex.: [-1, 2, -3] is (!x0 + x1 + !x2)</dd>
+</dl>
+</dd>
+<dt>Returns:</dt>
+<dd>A boolean value returned from MiniSat&#8217;s <tt class="docutils literal"><span class="pre">addClause()</span></tt> function,
+indicating success (True) or conflict (False).</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="minisolvers.MinicardSolver.get_model">
+<tt class="descname">get_model</tt><big>(</big><em>start=0</em>, <em>end=-1</em><big>)</big><a class="headerlink" href="#minisolvers.MinicardSolver.get_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the current model from the solver, optionally retrieving only a slice.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><dl class="first last docutils">
+<dt>start, end (int):</dt>
+<dd>Optional start and end indices, interpreted as in <tt class="docutils literal"><span class="pre">range()</span></tt>.</dd>
+</dl>
+</dd>
+<dt>Returns:</dt>
+<dd>An array of booleans indexed to each variable (from 0).  If a start
+index was given, the returned list starts at that index (i.e.,
+<tt class="docutils literal"><span class="pre">get_model(10)[0]</span></tt> is index 10 from the solver&#8217;s model.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="minisolvers.MinicardSolver.get_model_trues">
+<tt class="descname">get_model_trues</tt><big>(</big><em>start=0</em>, <em>end=-1</em><big>)</big><a class="headerlink" href="#minisolvers.MinicardSolver.get_model_trues" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get variables assigned true in the current model from the solver.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><dl class="first last docutils">
+<dt>start, end (int):</dt>
+<dd>Optional start and end indices, interpreted as in <tt class="docutils literal"><span class="pre">range()</span></tt>.</dd>
+</dl>
+</dd>
+<dt>Returns:</dt>
+<dd>An array of true variables in the solver&#8217;s current model.  If a
+start index was given, the variables are indexed from that value.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="minisolvers.MinicardSolver.implies">
+<tt class="descname">implies</tt><big>(</big><big>)</big><a class="headerlink" href="#minisolvers.MinicardSolver.implies" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Get literals known to be implied by the current formula.</dt>
+<dd>(I.e., all assignments made at level 0)</dd>
+<dt>Returns:</dt>
+<dd>An array of literals.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="minisolvers.MinicardSolver.model_value">
+<tt class="descname">model_value</tt><big>(</big><em>i</em><big>)</big><a class="headerlink" href="#minisolvers.MinicardSolver.model_value" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="minisolvers.MinicardSolver.nclauses">
+<tt class="descname">nclauses</tt><big>(</big><big>)</big><a class="headerlink" href="#minisolvers.MinicardSolver.nclauses" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="minisolvers.MinicardSolver.new_var">
+<tt class="descname">new_var</tt><big>(</big><em>polarity=None</em>, <em>dvar=True</em><big>)</big><a class="headerlink" href="#minisolvers.MinicardSolver.new_var" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a new variable in the solver.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><dl class="first last docutils">
+<dt>polarity (bool):</dt>
+<dd>The default polarity for this variable.  True = variable&#8217;s
+default is True, etc.  Note that this is the reverse of the &#8216;user
+polarity&#8217; in MiniSat, where True indicates the <em>sign</em> is True,
+hence the default value is False.</dd>
+<dt>dvar (bool):</dt>
+<dd>Whether this variable will be used as a decision variable.</dd>
+</dl>
+</dd>
+<dt>Returns:</dt>
+<dd>The new variable&#8217;s index (0-based counting).</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="minisolvers.MinicardSolver.nvars">
+<tt class="descname">nvars</tt><big>(</big><big>)</big><a class="headerlink" href="#minisolvers.MinicardSolver.nvars" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="minisolvers.MinicardSolver.set_phase_saving">
+<tt class="descname">set_phase_saving</tt><big>(</big><em>ps</em><big>)</big><a class="headerlink" href="#minisolvers.MinicardSolver.set_phase_saving" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the level of phase saving (0=none, 1=limited, 2=full (default)).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="minisolvers.MinicardSolver.set_rnd_pol">
+<tt class="descname">set_rnd_pol</tt><big>(</big><em>val</em><big>)</big><a class="headerlink" href="#minisolvers.MinicardSolver.set_rnd_pol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set whether random polarities are used for decisions (overridden if vars are created with a user polarity other than None)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="minisolvers.MinicardSolver.simplify">
+<tt class="descname">simplify</tt><big>(</big><big>)</big><a class="headerlink" href="#minisolvers.MinicardSolver.simplify" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="minisolvers.MinicardSolver.solve">
+<tt class="descname">solve</tt><big>(</big><em>assumptions=None</em><big>)</big><a class="headerlink" href="#minisolvers.MinicardSolver.solve" title="Permalink to this definition">¶</a></dt>
+<dd><p>Solve the current set of clauses, optionally with a set of assumptions.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><dl class="first last docutils">
+<dt>assumptions:</dt>
+<dd>An iterable returning literals as integers, specified as in
+<tt class="docutils literal"><span class="pre">add_clause()</span></tt>.</dd>
+</dl>
+</dd>
+<dt>Returns:</dt>
+<dd>True if the clauses (and assumptions) are satisfiable, False otherwise.</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="minisolvers.MinisatSubsetSolver">
+<em class="property">class </em><tt class="descclassname">minisolvers.</tt><tt class="descname">MinisatSubsetSolver</tt><a class="headerlink" href="#minisolvers.MinisatSubsetSolver" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">minisolvers.SubsetMixin</span></tt>, <a class="reference internal" href="#minisolvers.MinisatSolver" title="minisolvers.MinisatSolver"><tt class="xref py py-class docutils literal"><span class="pre">minisolvers.MinisatSolver</span></tt></a></p>
+<p>A class for reasoning about subsets of constraints within MiniSat.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">S</span> <span class="o">=</span> <span class="n">MinisatSubsetSolver</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>It must be told explicitlyhow many of its variables are &#8220;real&#8221; and how
+many are relaxation variables for constraints.
+&gt;&gt;&gt; S.set_varcounts(vars = 4, constraints = 5)</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="o">+</span><span class="mi">5</span><span class="p">):</span>  <span class="n">tmp</span><span class="o">=</span><span class="n">S</span><span class="o">.</span><span class="n">new_var</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">clause</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">([[</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]]):</span>
+<span class="gp">... </span>   <span class="n">S</span><span class="o">.</span><span class="n">add_clause_instrumented</span><span class="p">(</span><span class="n">clause</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Any subset of the constraints can be tested for satisfiability.
+&gt;&gt;&gt; S.solve_subset([0,1,2])
+True
+&gt;&gt;&gt; S.solve_subset([0,1,2,3])
+False</p>
+<p>If a subset is found to be unsatisfiable, an UNSAT core can be found.
+Cores are returned as array objects.
+&gt;&gt;&gt; core = S.unsat_core()
+&gt;&gt;&gt; sorted(core)
+[0, 1, 2, 3]</p>
+<dl class="method">
+<dt id="minisolvers.MinisatSubsetSolver.add_clause">
+<tt class="descname">add_clause</tt><big>(</big><em>lits</em><big>)</big><a class="headerlink" href="#minisolvers.MinisatSubsetSolver.add_clause" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a clause to the solver.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><dl class="first last docutils">
+<dt>lits:</dt>
+<dd>A list of literals as integers.  Each integer specifies a
+variable with <em>1</em>-based counting and a sign via the sign of the
+integer.  Ex.: [-1, 2, -3] is (!x0 + x1 + !x2)</dd>
+</dl>
+</dd>
+<dt>Returns:</dt>
+<dd>A boolean value returned from MiniSat&#8217;s <tt class="docutils literal"><span class="pre">addClause()</span></tt> function,
+indicating success (True) or conflict (False).</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="minisolvers.MinisatSubsetSolver.add_clause_instrumented">
+<tt class="descname">add_clause_instrumented</tt><big>(</big><em>lits</em>, <em>index</em><big>)</big><a class="headerlink" href="#minisolvers.MinisatSubsetSolver.add_clause_instrumented" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a clause with a relaxation variable (the rel.var. is
+based on the index, which is assumed to be 0-based).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="minisolvers.MinisatSubsetSolver.get_model">
+<tt class="descname">get_model</tt><big>(</big><em>start=0</em>, <em>end=-1</em><big>)</big><a class="headerlink" href="#minisolvers.MinisatSubsetSolver.get_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the current model from the solver, optionally retrieving only a slice.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><dl class="first last docutils">
+<dt>start, end (int):</dt>
+<dd>Optional start and end indices, interpreted as in <tt class="docutils literal"><span class="pre">range()</span></tt>.</dd>
+</dl>
+</dd>
+<dt>Returns:</dt>
+<dd>An array of booleans indexed to each variable (from 0).  If a start
+index was given, the returned list starts at that index (i.e.,
+<tt class="docutils literal"><span class="pre">get_model(10)[0]</span></tt> is index 10 from the solver&#8217;s model.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="minisolvers.MinisatSubsetSolver.get_model_trues">
+<tt class="descname">get_model_trues</tt><big>(</big><em>start=0</em>, <em>end=-1</em><big>)</big><a class="headerlink" href="#minisolvers.MinisatSubsetSolver.get_model_trues" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get variables assigned true in the current model from the solver.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><dl class="first last docutils">
+<dt>start, end (int):</dt>
+<dd>Optional start and end indices, interpreted as in <tt class="docutils literal"><span class="pre">range()</span></tt>.</dd>
+</dl>
+</dd>
+<dt>Returns:</dt>
+<dd>An array of true variables in the solver&#8217;s current model.  If a
+start index was given, the variables are indexed from that value.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="minisolvers.MinisatSubsetSolver.implies">
+<tt class="descname">implies</tt><big>(</big><big>)</big><a class="headerlink" href="#minisolvers.MinisatSubsetSolver.implies" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Get literals known to be implied by the current formula.</dt>
+<dd>(I.e., all assignments made at level 0)</dd>
+<dt>Returns:</dt>
+<dd>An array of literals.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="minisolvers.MinisatSubsetSolver.model_value">
+<tt class="descname">model_value</tt><big>(</big><em>i</em><big>)</big><a class="headerlink" href="#minisolvers.MinisatSubsetSolver.model_value" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="minisolvers.MinisatSubsetSolver.nclauses">
+<tt class="descname">nclauses</tt><big>(</big><big>)</big><a class="headerlink" href="#minisolvers.MinisatSubsetSolver.nclauses" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="minisolvers.MinisatSubsetSolver.new_var">
+<tt class="descname">new_var</tt><big>(</big><em>polarity=None</em>, <em>dvar=True</em><big>)</big><a class="headerlink" href="#minisolvers.MinisatSubsetSolver.new_var" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a new variable in the solver.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><dl class="first last docutils">
+<dt>polarity (bool):</dt>
+<dd>The default polarity for this variable.  True = variable&#8217;s
+default is True, etc.  Note that this is the reverse of the &#8216;user
+polarity&#8217; in MiniSat, where True indicates the <em>sign</em> is True,
+hence the default value is False.</dd>
+<dt>dvar (bool):</dt>
+<dd>Whether this variable will be used as a decision variable.</dd>
+</dl>
+</dd>
+<dt>Returns:</dt>
+<dd>The new variable&#8217;s index (0-based counting).</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="minisolvers.MinisatSubsetSolver.nvars">
+<tt class="descname">nvars</tt><big>(</big><big>)</big><a class="headerlink" href="#minisolvers.MinisatSubsetSolver.nvars" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="minisolvers.MinisatSubsetSolver.sat_subset">
+<tt class="descname">sat_subset</tt><big>(</big><big>)</big><a class="headerlink" href="#minisolvers.MinisatSubsetSolver.sat_subset" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="minisolvers.MinisatSubsetSolver.set_phase_saving">
+<tt class="descname">set_phase_saving</tt><big>(</big><em>ps</em><big>)</big><a class="headerlink" href="#minisolvers.MinisatSubsetSolver.set_phase_saving" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the level of phase saving (0=none, 1=limited, 2=full (default)).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="minisolvers.MinisatSubsetSolver.set_rnd_pol">
+<tt class="descname">set_rnd_pol</tt><big>(</big><em>val</em><big>)</big><a class="headerlink" href="#minisolvers.MinisatSubsetSolver.set_rnd_pol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set whether random polarities are used for decisions (overridden if vars are created with a user polarity other than None)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="minisolvers.MinisatSubsetSolver.set_varcounts">
+<tt class="descname">set_varcounts</tt><big>(</big><em>vars</em>, <em>constraints</em><big>)</big><a class="headerlink" href="#minisolvers.MinisatSubsetSolver.set_varcounts" title="Permalink to this definition">¶</a></dt>
+<dd><p>Record how many of the solver&#8217;s variables and clauses are
+&#8220;original,&#8221; as opposed to clause-selector variables, etc.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="minisolvers.MinisatSubsetSolver.simplify">
+<tt class="descname">simplify</tt><big>(</big><big>)</big><a class="headerlink" href="#minisolvers.MinisatSubsetSolver.simplify" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="minisolvers.MinisatSubsetSolver.solve">
+<tt class="descname">solve</tt><big>(</big><em>assumptions=None</em><big>)</big><a class="headerlink" href="#minisolvers.MinisatSubsetSolver.solve" title="Permalink to this definition">¶</a></dt>
+<dd><p>Solve the current set of clauses, optionally with a set of assumptions.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><dl class="first last docutils">
+<dt>assumptions:</dt>
+<dd>An iterable returning literals as integers, specified as in
+<tt class="docutils literal"><span class="pre">add_clause()</span></tt>.</dd>
+</dl>
+</dd>
+<dt>Returns:</dt>
+<dd>True if the clauses (and assumptions) are satisfiable, False otherwise.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="minisolvers.MinisatSubsetSolver.solve_subset">
+<tt class="descname">solve_subset</tt><big>(</big><em>subset</em><big>)</big><a class="headerlink" href="#minisolvers.MinisatSubsetSolver.solve_subset" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="minisolvers.MinisatSubsetSolver.unsat_core">
+<tt class="descname">unsat_core</tt><big>(</big><big>)</big><a class="headerlink" href="#minisolvers.MinisatSubsetSolver.unsat_core" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="minisolvers.MinicardSubsetSolver">
+<em class="property">class </em><tt class="descclassname">minisolvers.</tt><tt class="descname">MinicardSubsetSolver</tt><a class="headerlink" href="#minisolvers.MinicardSubsetSolver" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">minisolvers.SubsetMixin</span></tt>, <a class="reference internal" href="#minisolvers.MinicardSolver" title="minisolvers.MinicardSolver"><tt class="xref py py-class docutils literal"><span class="pre">minisolvers.MinicardSolver</span></tt></a></p>
+<p>A class for reasoning about subsets of constraints within
+MiniCard.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">S</span> <span class="o">=</span> <span class="n">MinicardSubsetSolver</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">S</span><span class="o">.</span><span class="n">set_varcounts</span><span class="p">(</span><span class="nb">vars</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span> <span class="n">constraints</span> <span class="o">=</span> <span class="mi">4</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="o">+</span><span class="mi">4</span><span class="p">):</span>  <span class="n">tmp</span><span class="o">=</span><span class="n">S</span><span class="o">.</span><span class="n">new_var</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">clause</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">([[</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">4</span><span class="p">]]):</span>
+<span class="gp">... </span>   <span class="n">S</span><span class="o">.</span><span class="n">add_clause_instrumented</span><span class="p">(</span><span class="n">clause</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>AtMost constraints cannot be instrumented &#8211; they are simply hard
+constraints.
+&gt;&gt;&gt; S.add_atmost([1,-2,3], 2)
+True</p>
+<p>Any subset of the constraints can be tested for satisfiability.
+&gt;&gt;&gt; S.solve_subset([0,1])
+True
+&gt;&gt;&gt; S.solve_subset([0,1,2,3])
+False</p>
+<p>If a subset is found to be unsatisfiable, an UNSAT core can be
+found.  Cores are returned as array objects.  Hard constraints are
+not returned in the core, but the core is found with respect to those
+constraints as well.
+&gt;&gt;&gt; core = S.unsat_core()
+&gt;&gt;&gt; sorted(core)
+[0, 1, 2]</p>
+<dl class="method">
+<dt id="minisolvers.MinicardSubsetSolver.add_atmost">
+<tt class="descname">add_atmost</tt><big>(</big><em>lits</em>, <em>k</em><big>)</big><a class="headerlink" href="#minisolvers.MinicardSubsetSolver.add_atmost" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add an AtMost constraint to the solver.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><dl class="first last docutils">
+<dt>lits:</dt>
+<dd>A list of literals as integers.  Each integer specifies a
+variable with <strong>1</strong>-based counting and a sign via the sign of
+the integer.  Ex.: [-1, 2, -3] is {!x0, x1, !x2}</dd>
+<dt>k (int):</dt>
+<dd>The [upper] bound to place on these literals.</dd>
+</dl>
+</dd>
+<dt>Returns:</dt>
+<dd>A boolean value returned from MiniCard&#8217;s <tt class="docutils literal"><span class="pre">addAtMost()</span></tt>
+function, indicating success (True) or conflict (False).</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="minisolvers.MinicardSubsetSolver.add_clause">
+<tt class="descname">add_clause</tt><big>(</big><em>lits</em><big>)</big><a class="headerlink" href="#minisolvers.MinicardSubsetSolver.add_clause" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a clause to the solver.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><dl class="first last docutils">
+<dt>lits:</dt>
+<dd>A list of literals as integers.  Each integer specifies a
+variable with <em>1</em>-based counting and a sign via the sign of the
+integer.  Ex.: [-1, 2, -3] is (!x0 + x1 + !x2)</dd>
+</dl>
+</dd>
+<dt>Returns:</dt>
+<dd>A boolean value returned from MiniSat&#8217;s <tt class="docutils literal"><span class="pre">addClause()</span></tt> function,
+indicating success (True) or conflict (False).</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="minisolvers.MinicardSubsetSolver.add_clause_instrumented">
+<tt class="descname">add_clause_instrumented</tt><big>(</big><em>lits</em>, <em>index</em><big>)</big><a class="headerlink" href="#minisolvers.MinicardSubsetSolver.add_clause_instrumented" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a clause with a relaxation variable (the rel.var. is
+based on the index, which is assumed to be 0-based).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="minisolvers.MinicardSubsetSolver.get_model">
+<tt class="descname">get_model</tt><big>(</big><em>start=0</em>, <em>end=-1</em><big>)</big><a class="headerlink" href="#minisolvers.MinicardSubsetSolver.get_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the current model from the solver, optionally retrieving only a slice.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><dl class="first last docutils">
+<dt>start, end (int):</dt>
+<dd>Optional start and end indices, interpreted as in <tt class="docutils literal"><span class="pre">range()</span></tt>.</dd>
+</dl>
+</dd>
+<dt>Returns:</dt>
+<dd>An array of booleans indexed to each variable (from 0).  If a start
+index was given, the returned list starts at that index (i.e.,
+<tt class="docutils literal"><span class="pre">get_model(10)[0]</span></tt> is index 10 from the solver&#8217;s model.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="minisolvers.MinicardSubsetSolver.get_model_trues">
+<tt class="descname">get_model_trues</tt><big>(</big><em>start=0</em>, <em>end=-1</em><big>)</big><a class="headerlink" href="#minisolvers.MinicardSubsetSolver.get_model_trues" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get variables assigned true in the current model from the solver.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><dl class="first last docutils">
+<dt>start, end (int):</dt>
+<dd>Optional start and end indices, interpreted as in <tt class="docutils literal"><span class="pre">range()</span></tt>.</dd>
+</dl>
+</dd>
+<dt>Returns:</dt>
+<dd>An array of true variables in the solver&#8217;s current model.  If a
+start index was given, the variables are indexed from that value.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="minisolvers.MinicardSubsetSolver.implies">
+<tt class="descname">implies</tt><big>(</big><big>)</big><a class="headerlink" href="#minisolvers.MinicardSubsetSolver.implies" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Get literals known to be implied by the current formula.</dt>
+<dd>(I.e., all assignments made at level 0)</dd>
+<dt>Returns:</dt>
+<dd>An array of literals.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="minisolvers.MinicardSubsetSolver.model_value">
+<tt class="descname">model_value</tt><big>(</big><em>i</em><big>)</big><a class="headerlink" href="#minisolvers.MinicardSubsetSolver.model_value" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="minisolvers.MinicardSubsetSolver.nclauses">
+<tt class="descname">nclauses</tt><big>(</big><big>)</big><a class="headerlink" href="#minisolvers.MinicardSubsetSolver.nclauses" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="minisolvers.MinicardSubsetSolver.new_var">
+<tt class="descname">new_var</tt><big>(</big><em>polarity=None</em>, <em>dvar=True</em><big>)</big><a class="headerlink" href="#minisolvers.MinicardSubsetSolver.new_var" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a new variable in the solver.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><dl class="first last docutils">
+<dt>polarity (bool):</dt>
+<dd>The default polarity for this variable.  True = variable&#8217;s
+default is True, etc.  Note that this is the reverse of the &#8216;user
+polarity&#8217; in MiniSat, where True indicates the <em>sign</em> is True,
+hence the default value is False.</dd>
+<dt>dvar (bool):</dt>
+<dd>Whether this variable will be used as a decision variable.</dd>
+</dl>
+</dd>
+<dt>Returns:</dt>
+<dd>The new variable&#8217;s index (0-based counting).</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="minisolvers.MinicardSubsetSolver.nvars">
+<tt class="descname">nvars</tt><big>(</big><big>)</big><a class="headerlink" href="#minisolvers.MinicardSubsetSolver.nvars" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="minisolvers.MinicardSubsetSolver.sat_subset">
+<tt class="descname">sat_subset</tt><big>(</big><big>)</big><a class="headerlink" href="#minisolvers.MinicardSubsetSolver.sat_subset" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="minisolvers.MinicardSubsetSolver.set_phase_saving">
+<tt class="descname">set_phase_saving</tt><big>(</big><em>ps</em><big>)</big><a class="headerlink" href="#minisolvers.MinicardSubsetSolver.set_phase_saving" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the level of phase saving (0=none, 1=limited, 2=full (default)).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="minisolvers.MinicardSubsetSolver.set_rnd_pol">
+<tt class="descname">set_rnd_pol</tt><big>(</big><em>val</em><big>)</big><a class="headerlink" href="#minisolvers.MinicardSubsetSolver.set_rnd_pol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set whether random polarities are used for decisions (overridden if vars are created with a user polarity other than None)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="minisolvers.MinicardSubsetSolver.set_varcounts">
+<tt class="descname">set_varcounts</tt><big>(</big><em>vars</em>, <em>constraints</em><big>)</big><a class="headerlink" href="#minisolvers.MinicardSubsetSolver.set_varcounts" title="Permalink to this definition">¶</a></dt>
+<dd><p>Record how many of the solver&#8217;s variables and clauses are
+&#8220;original,&#8221; as opposed to clause-selector variables, etc.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="minisolvers.MinicardSubsetSolver.simplify">
+<tt class="descname">simplify</tt><big>(</big><big>)</big><a class="headerlink" href="#minisolvers.MinicardSubsetSolver.simplify" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="minisolvers.MinicardSubsetSolver.solve">
+<tt class="descname">solve</tt><big>(</big><em>assumptions=None</em><big>)</big><a class="headerlink" href="#minisolvers.MinicardSubsetSolver.solve" title="Permalink to this definition">¶</a></dt>
+<dd><p>Solve the current set of clauses, optionally with a set of assumptions.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><dl class="first last docutils">
+<dt>assumptions:</dt>
+<dd>An iterable returning literals as integers, specified as in
+<tt class="docutils literal"><span class="pre">add_clause()</span></tt>.</dd>
+</dl>
+</dd>
+<dt>Returns:</dt>
+<dd>True if the clauses (and assumptions) are satisfiable, False otherwise.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="minisolvers.MinicardSubsetSolver.solve_subset">
+<tt class="descname">solve_subset</tt><big>(</big><em>subset</em><big>)</big><a class="headerlink" href="#minisolvers.MinicardSubsetSolver.solve_subset" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="minisolvers.MinicardSubsetSolver.unsat_core">
+<tt class="descname">unsat_core</tt><big>(</big><big>)</big><a class="headerlink" href="#minisolvers.MinicardSubsetSolver.unsat_core" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/index.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="#">PyMiniSolvers 0.9 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Mark Liffiton.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+    </div>
+  </body>
+</html>
