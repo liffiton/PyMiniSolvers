@@ -1,9 +1,33 @@
 PyMiniSolvers
 =============
 
-PyMiniSolvers is a Python API to the MiniSat and MiniCard constraint solvers.
-It closely matches the interfaces of their Solver classes, providing flexible
-and powerful access to most of the solvers' standard capabilities.
+PyMiniSolvers is a Python API for the [MiniSat](http://minisat.se/) and
+[MiniCard](http://git.io/minicard) constraint solvers.  It closely matches the
+interfaces of their Solver classes, providing flexible and powerful access to
+most of the solvers' standard capabilities.
+
+Example usage:
+```python
+>>> import minisolvers
+>>> S = minisolvers.MinisatSolver()
+>>> for i in range(4):
+...     S.new_var()  
+>>> for clause in [1], [-2], [-1, 2, -3], [3, 4]:
+...     S.add_clause(clause)  
+
+>>> S.solve()
+True
+
+>>> list(S.get_model())
+[1, 0, 0, 1]
+```
+
+For further examples, see the documentation.
+
+API Documentation
+-----------------
+
+http://liffiton.github.io/PyMiniSolvers/
 
 Setup
 -----
