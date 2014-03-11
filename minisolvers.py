@@ -1,19 +1,23 @@
-"""A Python API for the MiniSat and MiniCard C++ libraries.
+"""A Python API for the MiniSat_ and MiniCard_ constraint solvers.
 
-Solver
-  An abstract base class for the other classes.
-SubsetMixin
-  A mixin class adding 'subset' functionality to Solver subclasses.
+.. _MiniSat: http://minisat.se/
+.. _MiniCard: http://git.io/minicard
 
-:class:`MinisatSolver`
-  Solve CNF instances using Minisat.
-:class:`MinicardSolver`
-  Solve CNF+ (CNF plus cardinality constraints) using Minicard.
+Classes:
+  Solver
+    An abstract base class for the other classes.
+  SubsetMixin
+    A mixin class adding 'subset' functionality to Solver subclasses.
 
-:class:`MinisatSubsetSolver`
-  Solve aribtrary subsets of CNF instances and find SAT subsets / UNSAT cores.
-:class:`MinicardSubsetSolver`
-  Solve aribtrary subsets of CNF+ instances and find SAT subsets / UNSAT cores.
+  :class:`MinisatSolver`
+    Solve CNF instances using MiniSat.
+  :class:`MinicardSolver`
+    Solve CNF+ (CNF plus cardinality constraints) using MiniCard.
+
+  :class:`MinisatSubsetSolver`
+    Solve arbitrary subsets of CNF instances and find SAT subsets / UNSAT cores.
+  :class:`MinicardSubsetSolver`
+    Solve arbitrary subsets of CNF+ instances and find SAT subsets / UNSAT cores.
 """
 
 import array
@@ -24,9 +28,9 @@ from ctypes import c_void_p, c_ubyte, c_bool, c_int
 
 
 class Solver(object):
-    """The Solver class is an abstract base class for Minisat and
-    Minicard solver classes.  It provides the basic methods that both
-    contain, closely following the methods in Minisat and Minicard's
+    """The Solver class is an abstract base class for MiniSat and
+    MiniCard solver classes.  It provides the basic methods that both
+    contain, closely following the methods in MiniSat and MiniCard's
     Solver class.
 
     Solver should not be instantiated directly.  Instead, use its
@@ -105,7 +109,7 @@ class Solver(object):
             polarity (bool):
               The default polarity for this variable.  True = variable's
               default is True, etc.  Note that this is the reverse of the 'user
-              polarity' in minisat, where True indicates the *sign* is True,
+              polarity' in MiniSat, where True indicates the *sign* is True,
               hence the default value is False.
             dvar (bool):
               Whether this variable will be used as a decision variable.
@@ -146,7 +150,7 @@ class Solver(object):
               integer.  Ex.: [-1, 2, -3] is (!x0 + x1 + !x2)
 
         Returns:
-            A boolean value returned from Minisat's ``addClause()`` function,
+            A boolean value returned from MiniSat's ``addClause()`` function,
             indicating success (True) or conflict (False).
         """
         if not all(abs(x) <= self.nvars() for x in lits):
@@ -277,7 +281,7 @@ class SubsetMixin(object):
 
 
 class MinisatSolver(Solver):
-    """A Python analog to Minisat's Solver class.
+    """A Python analog to MiniSat's Solver class.
 
     >>> S = MinisatSolver()
 
@@ -322,7 +326,7 @@ class MinisatSolver(Solver):
 
 
 class MinicardSolver(Solver):
-    """A Python analog to Minicard's Solver class.
+    """A Python analog to MiniCard's Solver class.
 
     >>> S = MinicardSolver()
     >>> for i in range(4):  tmp=S.new_var()
@@ -387,7 +391,7 @@ class MinicardSolver(Solver):
 
 
 class MinisatSubsetSolver(SubsetMixin, MinisatSolver):
-    """A class for reasoning about subsets of constraints within Minisat.
+    """A class for reasoning about subsets of constraints within MiniSat.
 
     >>> S = MinisatSubsetSolver()
 
@@ -417,7 +421,7 @@ class MinisatSubsetSolver(SubsetMixin, MinisatSolver):
 
 class MinicardSubsetSolver(SubsetMixin, MinicardSolver):
     """A class for reasoning about subsets of constraints within
-    Minicard.
+    MiniCard.
 
     >>> S = MinicardSubsetSolver()
     >>> S.set_varcounts(vars = 4, constraints = 4)
