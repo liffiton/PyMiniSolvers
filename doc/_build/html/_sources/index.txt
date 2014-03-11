@@ -1,6 +1,9 @@
 
 minisolvers.py
 ==============
+
+[Hosted on GitHub: https://github.com/liffiton/PyMiniSolvers/]
+
 .. automodule:: minisolvers
 
 ----
