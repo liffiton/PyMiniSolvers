@@ -127,9 +127,11 @@ class Solver(object):
         return self.lib.newVar(self.s, pol_int, dvar)
 
     def nvars(self):
+        '''Get the number of variables created in the solver.'''
         return self.lib.nVars(self.s)
 
     def nclauses(self):
+        '''Get the number of clauses or constraints added to the solver.'''
         return self.lib.nClauses(self.s)
 
     def set_phase_saving(self, ps):
@@ -169,8 +171,8 @@ class Solver(object):
 
         Args:
             assumptions:
-              An iterable returning literals as integers, specified as in
-              ``add_clause()``.
+              An optional iterable returning literals as integers, specified as
+              in ``add_clause()``.
 
         Returns:
             True if the clauses (and assumptions) are satisfiable, False otherwise.
@@ -183,6 +185,7 @@ class Solver(object):
             return self.lib.solve_assumptions(self.s, size, a_ptr)
 
     def simplify(self):
+        '''Call Solver.simplify().'''
         return self.lib.simplify(self.s)
 
     def get_model(self, start=0, end=-1):
@@ -214,7 +217,7 @@ class Solver(object):
         Returns:
             An array of true variables in the solver's current model.  If a
             start index was given, the variables are indexed from that value.
-        """
+            """
         if end == -1:
             end = self.nvars()
         a = array.array('i', [-1] * (end-start))
@@ -224,14 +227,15 @@ class Solver(object):
         return a[:count]
 
     def model_value(self, i):
+        '''Get the value of a given variable in the current model.'''
         return self.lib.modelValue(self.s, i)
 
     def implies(self):
-        """Get literals known to be implied by the current formula.
-           (I.e., all assignments made at level 0)
+        """Get literals known to be implied by the current formula.  (I.e., all
+        assignments made at level 0.)
 
         Returns:
-           An array of literals.
+            An array of literals.
         """
         a = array.array('i', [-1] * self.nvars())
         a_ptr, size = self._to_intptr(a)
@@ -247,14 +251,23 @@ class SubsetMixin(object):
 
     def set_varcounts(self, vars, constraints):
         """Record how many of the solver's variables and clauses are
-           "original," as opposed to clause-selector variables, etc.
+        "original," as opposed to clause-selector variables, etc.
         """
         self._origvars = vars
         self._relvars = constraints
 
     def add_clause_instrumented(self, lits, index):
-        """Add a clause with a relaxation variable (the rel.var. is
-           based on the index, which is assumed to be 0-based).
+        """Add a "soft" clause with a relaxation variable (the relaxation var.
+        is based on the index, which is assumed to be 0-based).
+
+        Args:
+            lits:
+                A list of literals specified as in ``add_clause()``.
+            index (int):
+                A 0-based index into the set of soft clauses.  The clause will
+                be given a relaxation variable based on this index, and it will
+                be used to specify the clause in subsets for
+                ``solve_subset()``, etc.
         """
         if self._origvars is None:
             raise Exception("SubsetSolver.set_varcounts() must be called before .add_clause_instrumented()")
@@ -262,6 +275,17 @@ class SubsetMixin(object):
         self.add_clause(instrumented_clause)
 
     def solve_subset(self, subset):
+        """Solve a subset of the constraints equal containing all "hard"
+        clauses (those added with the regular ``add_clause()`` method) and the
+        specified subset of soft clauses.
+
+        Args:
+            subset:
+                An iterable containing the indexes of any soft clauses to be included.
+
+        Returns:
+            True if the given subset is satisfiable, False otherwise.
+        """
         if self._origvars is None:
             raise Exception("SubsetSolver.set_varcounts() must be called before .solve_subset()")
         # convert clause indices to clause-selector variable indices
@@ -270,6 +294,9 @@ class SubsetMixin(object):
         return self.lib.solve_assumptions(self.s, size, a_ptr)
 
     def unsat_core(self):
+        """Get an UNSAT core from the last check performed by
+        ``solve_subset()``.  Assumes the last such check was UNSAT.
+        """
         a = array.array('i', [-1] * self.nclauses())
         a_ptr, size = self._to_intptr(a)
         length = self.lib.unsatCore(self.s, self._origvars, a_ptr)
@@ -277,6 +304,11 @@ class SubsetMixin(object):
         return a[:length]
 
     def sat_subset(self):
+        """Get the set of clauses satisfied in the last check performed by
+        ``solve_subset()``.  Assumes the last such check was SAT.  This may
+        contain additional soft clauses not in the subset that was given to
+        ``solve_subset()``, if they were also satisfied by the model found.
+        """
         return self.get_model_trues(start=self._origvars, end=self._origvars+self._relvars)
 
 
@@ -295,12 +327,14 @@ class MinisatSolver(Solver):
     ...     S.new_var()  # doctest: +ELLIPSIS
     0
     1
-    ...
+    2
+    3
     >>> for clause in [1], [-2], [-1, 2, -3], [3, 4]:
     ...     S.add_clause(clause)  # doctest: +ELLIPSIS
     True
     True
-    ...
+    True
+    True
 
     The ``solve()`` method returns True or False just like MiniSat's.
 
@@ -329,26 +363,40 @@ class MinicardSolver(Solver):
     """A Python analog to MiniCard's Solver class.
 
     >>> S = MinicardSolver()
-    >>> for i in range(4):  tmp=S.new_var()
 
-    Add clauses (x0), (!x1), and (x2 + x3)
+    This has the same interface as :class:`MiniSatSolver`, with the addition of
+    the ``add_atmost()`` method.
+
+    >>> for i in range(4):
+    ...     S.new_var()  # doctest: +ELLIPSIS
+    0
+    1
+    2
+    3
     >>> for clause in [1], [-2], [3, 4]:
     ...    S.add_clause(clause)
     True
     True
     True
 
-    AtMost({x0, !x1, x2}, 2)
+    To add an AtMost constraint, specify the set of literals and the bound.  For example, to add AtMost({x0, !x1, x2}, 2):
+
     >>> S.add_atmost([1,-2,3], 2)
     True
 
     >>> S.solve()
     True
 
-    Models are returned as arrays of Booleans, indexed by var.
-    So the following represents x0=True, x1=False, x2=False, x3=True.
     >>> list(S.get_model())
     [1, 0, 0, 1]
+
+    As with ``add_clause()``, the ``add_atmost()`` method may return False if a
+    conflict is detected when adding the constraint, even without search.
+
+    >>> S.add_atmost([1,-3,4], 2)
+    False
+    >>> S.solve()
+    False
     """
     def __init__(self):
         super(MinicardSolver, self).__init__("libminicard.so")
@@ -395,22 +443,39 @@ class MinisatSubsetSolver(SubsetMixin, MinisatSolver):
 
     >>> S = MinisatSubsetSolver()
 
-    It must be told explicitlyhow many of its variables are "real" and how
-    many are relaxation variables for constraints.
+    It must be told explicitlyhow many of its variables are "real" and how many
+    are relaxation variables for constraints.
+
     >>> S.set_varcounts(vars = 4, constraints = 5)
 
-    >>> for i in range(4+5):  tmp=S.new_var()
-    >>> for i, clause in enumerate([[1], [-2], [-1, 2, 3], [-3], [-1]]):
-    ...    S.add_clause_instrumented(clause, i)
+    >>> for i in range(4+5):
+    ...     _ = S.new_var()
 
-    Any subset of the constraints can be tested for satisfiability.
+    "Soft" clauses are added with ``add_clause_instrumented()``, which has no
+    return value, as it is impossible for these clauses to produce a conflict.
+
+    >>> for i, clause in enumerate([[1], [-2], [-1, 2, 3], [-3], [-1]]):
+    ...     S.add_clause_instrumented(clause, i)
+
+    Any subset of the constraints can be tested for satisfiability.  Subsets
+    are specified as iterables containing soft clause indexes.
+
     >>> S.solve_subset([0,1,2])
     True
-    >>> S.solve_subset([0,1,2,3])
-    False
+
+    If a subset is found to be satisfiable, a potentially larger satisfied
+    subset can be found.  Satisfiable subsets are returned as array objects.
+
+    >>> satset = S.sat_subset()
+    >>> sorted(satset)
+    [0, 1, 2]
 
     If a subset is found to be unsatisfiable, an UNSAT core can be found.
     Cores are returned as array objects.
+
+    >>> S.solve_subset([0,1,2,3])
+    False
+
     >>> core = S.unsat_core()
     >>> sorted(core)
     [0, 1, 2, 3]
@@ -420,30 +485,28 @@ class MinisatSubsetSolver(SubsetMixin, MinisatSolver):
 
 
 class MinicardSubsetSolver(SubsetMixin, MinicardSolver):
-    """A class for reasoning about subsets of constraints within
-    MiniCard.
+    """A class for reasoning about subsets of constraints within MiniCard.
+
+    This has the same interface as :class:`MinisatSubsetSolver`, with the
+    addition of the ``add_atmost()`` method.
 
     >>> S = MinicardSubsetSolver()
     >>> S.set_varcounts(vars = 4, constraints = 4)
-    >>> for i in range(4+4):  tmp=S.new_var()
+    >>> for i in range(4+4):
+    ...     _  = S.new_var()
     >>> for i, clause in enumerate([[1], [-2], [3], [4]]):
-    ...    S.add_clause_instrumented(clause, i)
+    ...     S.add_clause_instrumented(clause, i)
 
-    AtMost constraints cannot be instrumented -- they are simply hard
-    constraints.
+    AtMost constraints cannot be instrumented -- they must be hard constraints.
+
     >>> S.add_atmost([1,-2,3], 2)
     True
 
-    Any subset of the constraints can be tested for satisfiability.
     >>> S.solve_subset([0,1])
     True
     >>> S.solve_subset([0,1,2,3])
     False
 
-    If a subset is found to be unsatisfiable, an UNSAT core can be
-    found.  Cores are returned as array objects.  Hard constraints are
-    not returned in the core, but the core is found with respect to those
-    constraints as well.
     >>> core = S.unsat_core()
     >>> sorted(core)
     [0, 1, 2]
