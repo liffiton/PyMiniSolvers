@@ -1,0 +1,350 @@
+../minicard/minicard -verb=0 in/rand_50_0.15_20__10.cnfp,out/rand_50_0.15_20__10.cnfp.out
+../minicard/minicard -verb=0 in/rand_50_0.15_20__11.cnfp,out/rand_50_0.15_20__11.cnfp.out
+../minicard/minicard -verb=0 in/rand_50_0.15_20__12.cnfp,out/rand_50_0.15_20__12.cnfp.out
+../minicard/minicard -verb=0 in/rand_50_0.15_20__13.cnfp,out/rand_50_0.15_20__13.cnfp.out
+../minicard/minicard -verb=0 in/rand_50_0.15_20__14.cnfp,out/rand_50_0.15_20__14.cnfp.out
+../minicard/minicard -verb=0 in/rand_50_0.15_20__15.cnfp,out/rand_50_0.15_20__15.cnfp.out
+../minicard/minicard -verb=0 in/rand_50_0.15_20__16.cnfp,out/rand_50_0.15_20__16.cnfp.out
+../minicard/minicard -verb=0 in/rand_50_0.15_20__17.cnfp,out/rand_50_0.15_20__17.cnfp.out
+../minicard/minicard -verb=0 in/rand_50_0.15_20__18.cnfp,out/rand_50_0.15_20__18.cnfp.out
+../minicard/minicard -verb=0 in/rand_50_0.15_20__19.cnfp,out/rand_50_0.15_20__19.cnfp.out
+../minicard/minicard -verb=0 in/rand_50_0.15_20__1.cnfp,out/rand_50_0.15_20__1.cnfp.out
+../minicard/minicard -verb=0 in/rand_50_0.15_20__20.cnfp,out/rand_50_0.15_20__20.cnfp.out
+../minicard/minicard -verb=0 in/rand_50_0.15_20__21.cnfp,out/rand_50_0.15_20__21.cnfp.out
+../minicard/minicard -verb=0 in/rand_50_0.15_20__22.cnfp,out/rand_50_0.15_20__22.cnfp.out
+../minicard/minicard -verb=0 in/rand_50_0.15_20__23.cnfp,out/rand_50_0.15_20__23.cnfp.out
+../minicard/minicard -verb=0 in/rand_50_0.15_20__24.cnfp,out/rand_50_0.15_20__24.cnfp.out
+../minicard/minicard -verb=0 in/rand_50_0.15_20__25.cnfp,out/rand_50_0.15_20__25.cnfp.out
+../minicard/minicard -verb=0 in/rand_50_0.15_20__26.cnfp,out/rand_50_0.15_20__26.cnfp.out
+../minicard/minicard -verb=0 in/rand_50_0.15_20__27.cnfp,out/rand_50_0.15_20__27.cnfp.out
+../minicard/minicard -verb=0 in/rand_50_0.15_20__28.cnfp,out/rand_50_0.15_20__28.cnfp.out
+../minicard/minicard -verb=0 in/rand_50_0.15_20__29.cnfp,out/rand_50_0.15_20__29.cnfp.out
+../minicard/minicard -verb=0 in/rand_50_0.15_20__2.cnfp,out/rand_50_0.15_20__2.cnfp.out
+../minicard/minicard -verb=0 in/rand_50_0.15_20__30.cnfp,out/rand_50_0.15_20__30.cnfp.out
+../minicard/minicard -verb=0 in/rand_50_0.15_20__31.cnfp,out/rand_50_0.15_20__31.cnfp.out
+../minicard/minicard -verb=0 in/rand_50_0.15_20__32.cnfp,out/rand_50_0.15_20__32.cnfp.out
+../minicard/minicard -verb=0 in/rand_50_0.15_20__33.cnfp,out/rand_50_0.15_20__33.cnfp.out
+../minicard/minicard -verb=0 in/rand_50_0.15_20__34.cnfp,out/rand_50_0.15_20__34.cnfp.out
+../minicard/minicard -verb=0 in/rand_50_0.15_20__35.cnfp,out/rand_50_0.15_20__35.cnfp.out
+../minicard/minicard -verb=0 in/rand_50_0.15_20__36.cnfp,out/rand_50_0.15_20__36.cnfp.out
+../minicard/minicard -verb=0 in/rand_50_0.15_20__37.cnfp,out/rand_50_0.15_20__37.cnfp.out
+../minicard/minicard -verb=0 in/rand_50_0.15_20__38.cnfp,out/rand_50_0.15_20__38.cnfp.out
+../minicard/minicard -verb=0 in/rand_50_0.15_20__39.cnfp,out/rand_50_0.15_20__39.cnfp.out
+../minicard/minicard -verb=0 in/rand_50_0.15_20__3.cnfp,out/rand_50_0.15_20__3.cnfp.out
+../minicard/minicard -verb=0 in/rand_50_0.15_20__40.cnfp,out/rand_50_0.15_20__40.cnfp.out
+../minicard/minicard -verb=0 in/rand_50_0.15_20__41.cnfp,out/rand_50_0.15_20__41.cnfp.out
+../minicard/minicard -verb=0 in/rand_50_0.15_20__42.cnfp,out/rand_50_0.15_20__42.cnfp.out
+../minicard/minicard -verb=0 in/rand_50_0.15_20__43.cnfp,out/rand_50_0.15_20__43.cnfp.out
+../minicard/minicard -verb=0 in/rand_50_0.15_20__44.cnfp,out/rand_50_0.15_20__44.cnfp.out
+../minicard/minicard -verb=0 in/rand_50_0.15_20__45.cnfp,out/rand_50_0.15_20__45.cnfp.out
+../minicard/minicard -verb=0 in/rand_50_0.15_20__46.cnfp,out/rand_50_0.15_20__46.cnfp.out
+../minicard/minicard -verb=0 in/rand_50_0.15_20__47.cnfp,out/rand_50_0.15_20__47.cnfp.out
+../minicard/minicard -verb=0 in/rand_50_0.15_20__48.cnfp,out/rand_50_0.15_20__48.cnfp.out
+../minicard/minicard -verb=0 in/rand_50_0.15_20__49.cnfp,out/rand_50_0.15_20__49.cnfp.out
+../minicard/minicard -verb=0 in/rand_50_0.15_20__4.cnfp,out/rand_50_0.15_20__4.cnfp.out
+../minicard/minicard -verb=0 in/rand_50_0.15_20__50.cnfp,out/rand_50_0.15_20__50.cnfp.out
+../minicard/minicard -verb=0 in/rand_50_0.15_20__5.cnfp,out/rand_50_0.15_20__5.cnfp.out
+../minicard/minicard -verb=0 in/rand_50_0.15_20__6.cnfp,out/rand_50_0.15_20__6.cnfp.out
+../minicard/minicard -verb=0 in/rand_50_0.15_20__7.cnfp,out/rand_50_0.15_20__7.cnfp.out
+../minicard/minicard -verb=0 in/rand_50_0.15_20__8.cnfp,out/rand_50_0.15_20__8.cnfp.out
+../minicard/minicard -verb=0 in/rand_50_0.15_20__9.cnfp,out/rand_50_0.15_20__9.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=1 in/rand_50_0.15_20__10.cnfp,out/rand_50_0.15_20__10.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=1 in/rand_50_0.15_20__11.cnfp,out/rand_50_0.15_20__11.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=1 in/rand_50_0.15_20__12.cnfp,out/rand_50_0.15_20__12.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=1 in/rand_50_0.15_20__13.cnfp,out/rand_50_0.15_20__13.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=1 in/rand_50_0.15_20__14.cnfp,out/rand_50_0.15_20__14.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=1 in/rand_50_0.15_20__15.cnfp,out/rand_50_0.15_20__15.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=1 in/rand_50_0.15_20__16.cnfp,out/rand_50_0.15_20__16.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=1 in/rand_50_0.15_20__17.cnfp,out/rand_50_0.15_20__17.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=1 in/rand_50_0.15_20__18.cnfp,out/rand_50_0.15_20__18.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=1 in/rand_50_0.15_20__19.cnfp,out/rand_50_0.15_20__19.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=1 in/rand_50_0.15_20__1.cnfp,out/rand_50_0.15_20__1.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=1 in/rand_50_0.15_20__20.cnfp,out/rand_50_0.15_20__20.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=1 in/rand_50_0.15_20__21.cnfp,out/rand_50_0.15_20__21.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=1 in/rand_50_0.15_20__22.cnfp,out/rand_50_0.15_20__22.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=1 in/rand_50_0.15_20__23.cnfp,out/rand_50_0.15_20__23.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=1 in/rand_50_0.15_20__24.cnfp,out/rand_50_0.15_20__24.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=1 in/rand_50_0.15_20__25.cnfp,out/rand_50_0.15_20__25.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=1 in/rand_50_0.15_20__26.cnfp,out/rand_50_0.15_20__26.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=1 in/rand_50_0.15_20__27.cnfp,out/rand_50_0.15_20__27.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=1 in/rand_50_0.15_20__28.cnfp,out/rand_50_0.15_20__28.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=1 in/rand_50_0.15_20__29.cnfp,out/rand_50_0.15_20__29.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=1 in/rand_50_0.15_20__2.cnfp,out/rand_50_0.15_20__2.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=1 in/rand_50_0.15_20__30.cnfp,out/rand_50_0.15_20__30.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=1 in/rand_50_0.15_20__31.cnfp,out/rand_50_0.15_20__31.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=1 in/rand_50_0.15_20__32.cnfp,out/rand_50_0.15_20__32.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=1 in/rand_50_0.15_20__33.cnfp,out/rand_50_0.15_20__33.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=1 in/rand_50_0.15_20__34.cnfp,out/rand_50_0.15_20__34.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=1 in/rand_50_0.15_20__35.cnfp,out/rand_50_0.15_20__35.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=1 in/rand_50_0.15_20__36.cnfp,out/rand_50_0.15_20__36.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=1 in/rand_50_0.15_20__37.cnfp,out/rand_50_0.15_20__37.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=1 in/rand_50_0.15_20__38.cnfp,out/rand_50_0.15_20__38.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=1 in/rand_50_0.15_20__39.cnfp,out/rand_50_0.15_20__39.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=1 in/rand_50_0.15_20__3.cnfp,out/rand_50_0.15_20__3.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=1 in/rand_50_0.15_20__40.cnfp,out/rand_50_0.15_20__40.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=1 in/rand_50_0.15_20__41.cnfp,out/rand_50_0.15_20__41.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=1 in/rand_50_0.15_20__42.cnfp,out/rand_50_0.15_20__42.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=1 in/rand_50_0.15_20__43.cnfp,out/rand_50_0.15_20__43.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=1 in/rand_50_0.15_20__44.cnfp,out/rand_50_0.15_20__44.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=1 in/rand_50_0.15_20__45.cnfp,out/rand_50_0.15_20__45.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=1 in/rand_50_0.15_20__46.cnfp,out/rand_50_0.15_20__46.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=1 in/rand_50_0.15_20__47.cnfp,out/rand_50_0.15_20__47.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=1 in/rand_50_0.15_20__48.cnfp,out/rand_50_0.15_20__48.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=1 in/rand_50_0.15_20__49.cnfp,out/rand_50_0.15_20__49.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=1 in/rand_50_0.15_20__4.cnfp,out/rand_50_0.15_20__4.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=1 in/rand_50_0.15_20__50.cnfp,out/rand_50_0.15_20__50.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=1 in/rand_50_0.15_20__5.cnfp,out/rand_50_0.15_20__5.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=1 in/rand_50_0.15_20__6.cnfp,out/rand_50_0.15_20__6.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=1 in/rand_50_0.15_20__7.cnfp,out/rand_50_0.15_20__7.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=1 in/rand_50_0.15_20__8.cnfp,out/rand_50_0.15_20__8.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=1 in/rand_50_0.15_20__9.cnfp,out/rand_50_0.15_20__9.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=2 in/rand_50_0.15_20__10.cnfp,out/rand_50_0.15_20__10.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=2 in/rand_50_0.15_20__11.cnfp,out/rand_50_0.15_20__11.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=2 in/rand_50_0.15_20__12.cnfp,out/rand_50_0.15_20__12.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=2 in/rand_50_0.15_20__13.cnfp,out/rand_50_0.15_20__13.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=2 in/rand_50_0.15_20__14.cnfp,out/rand_50_0.15_20__14.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=2 in/rand_50_0.15_20__15.cnfp,out/rand_50_0.15_20__15.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=2 in/rand_50_0.15_20__16.cnfp,out/rand_50_0.15_20__16.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=2 in/rand_50_0.15_20__17.cnfp,out/rand_50_0.15_20__17.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=2 in/rand_50_0.15_20__18.cnfp,out/rand_50_0.15_20__18.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=2 in/rand_50_0.15_20__19.cnfp,out/rand_50_0.15_20__19.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=2 in/rand_50_0.15_20__1.cnfp,out/rand_50_0.15_20__1.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=2 in/rand_50_0.15_20__20.cnfp,out/rand_50_0.15_20__20.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=2 in/rand_50_0.15_20__21.cnfp,out/rand_50_0.15_20__21.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=2 in/rand_50_0.15_20__22.cnfp,out/rand_50_0.15_20__22.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=2 in/rand_50_0.15_20__23.cnfp,out/rand_50_0.15_20__23.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=2 in/rand_50_0.15_20__24.cnfp,out/rand_50_0.15_20__24.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=2 in/rand_50_0.15_20__25.cnfp,out/rand_50_0.15_20__25.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=2 in/rand_50_0.15_20__26.cnfp,out/rand_50_0.15_20__26.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=2 in/rand_50_0.15_20__27.cnfp,out/rand_50_0.15_20__27.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=2 in/rand_50_0.15_20__28.cnfp,out/rand_50_0.15_20__28.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=2 in/rand_50_0.15_20__29.cnfp,out/rand_50_0.15_20__29.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=2 in/rand_50_0.15_20__2.cnfp,out/rand_50_0.15_20__2.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=2 in/rand_50_0.15_20__30.cnfp,out/rand_50_0.15_20__30.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=2 in/rand_50_0.15_20__31.cnfp,out/rand_50_0.15_20__31.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=2 in/rand_50_0.15_20__32.cnfp,out/rand_50_0.15_20__32.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=2 in/rand_50_0.15_20__33.cnfp,out/rand_50_0.15_20__33.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=2 in/rand_50_0.15_20__34.cnfp,out/rand_50_0.15_20__34.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=2 in/rand_50_0.15_20__35.cnfp,out/rand_50_0.15_20__35.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=2 in/rand_50_0.15_20__36.cnfp,out/rand_50_0.15_20__36.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=2 in/rand_50_0.15_20__37.cnfp,out/rand_50_0.15_20__37.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=2 in/rand_50_0.15_20__38.cnfp,out/rand_50_0.15_20__38.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=2 in/rand_50_0.15_20__39.cnfp,out/rand_50_0.15_20__39.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=2 in/rand_50_0.15_20__3.cnfp,out/rand_50_0.15_20__3.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=2 in/rand_50_0.15_20__40.cnfp,out/rand_50_0.15_20__40.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=2 in/rand_50_0.15_20__41.cnfp,out/rand_50_0.15_20__41.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=2 in/rand_50_0.15_20__42.cnfp,out/rand_50_0.15_20__42.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=2 in/rand_50_0.15_20__43.cnfp,out/rand_50_0.15_20__43.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=2 in/rand_50_0.15_20__44.cnfp,out/rand_50_0.15_20__44.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=2 in/rand_50_0.15_20__45.cnfp,out/rand_50_0.15_20__45.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=2 in/rand_50_0.15_20__46.cnfp,out/rand_50_0.15_20__46.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=2 in/rand_50_0.15_20__47.cnfp,out/rand_50_0.15_20__47.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=2 in/rand_50_0.15_20__48.cnfp,out/rand_50_0.15_20__48.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=2 in/rand_50_0.15_20__49.cnfp,out/rand_50_0.15_20__49.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=2 in/rand_50_0.15_20__4.cnfp,out/rand_50_0.15_20__4.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=2 in/rand_50_0.15_20__50.cnfp,out/rand_50_0.15_20__50.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=2 in/rand_50_0.15_20__5.cnfp,out/rand_50_0.15_20__5.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=2 in/rand_50_0.15_20__6.cnfp,out/rand_50_0.15_20__6.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=2 in/rand_50_0.15_20__7.cnfp,out/rand_50_0.15_20__7.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=2 in/rand_50_0.15_20__8.cnfp,out/rand_50_0.15_20__8.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=2 in/rand_50_0.15_20__9.cnfp,out/rand_50_0.15_20__9.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=3 in/rand_50_0.15_20__10.cnfp,out/rand_50_0.15_20__10.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=3 in/rand_50_0.15_20__11.cnfp,out/rand_50_0.15_20__11.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=3 in/rand_50_0.15_20__12.cnfp,out/rand_50_0.15_20__12.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=3 in/rand_50_0.15_20__13.cnfp,out/rand_50_0.15_20__13.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=3 in/rand_50_0.15_20__14.cnfp,out/rand_50_0.15_20__14.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=3 in/rand_50_0.15_20__15.cnfp,out/rand_50_0.15_20__15.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=3 in/rand_50_0.15_20__16.cnfp,out/rand_50_0.15_20__16.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=3 in/rand_50_0.15_20__17.cnfp,out/rand_50_0.15_20__17.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=3 in/rand_50_0.15_20__18.cnfp,out/rand_50_0.15_20__18.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=3 in/rand_50_0.15_20__19.cnfp,out/rand_50_0.15_20__19.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=3 in/rand_50_0.15_20__1.cnfp,out/rand_50_0.15_20__1.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=3 in/rand_50_0.15_20__20.cnfp,out/rand_50_0.15_20__20.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=3 in/rand_50_0.15_20__21.cnfp,out/rand_50_0.15_20__21.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=3 in/rand_50_0.15_20__22.cnfp,out/rand_50_0.15_20__22.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=3 in/rand_50_0.15_20__23.cnfp,out/rand_50_0.15_20__23.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=3 in/rand_50_0.15_20__24.cnfp,out/rand_50_0.15_20__24.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=3 in/rand_50_0.15_20__25.cnfp,out/rand_50_0.15_20__25.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=3 in/rand_50_0.15_20__26.cnfp,out/rand_50_0.15_20__26.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=3 in/rand_50_0.15_20__27.cnfp,out/rand_50_0.15_20__27.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=3 in/rand_50_0.15_20__28.cnfp,out/rand_50_0.15_20__28.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=3 in/rand_50_0.15_20__29.cnfp,out/rand_50_0.15_20__29.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=3 in/rand_50_0.15_20__2.cnfp,out/rand_50_0.15_20__2.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=3 in/rand_50_0.15_20__30.cnfp,out/rand_50_0.15_20__30.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=3 in/rand_50_0.15_20__31.cnfp,out/rand_50_0.15_20__31.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=3 in/rand_50_0.15_20__32.cnfp,out/rand_50_0.15_20__32.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=3 in/rand_50_0.15_20__33.cnfp,out/rand_50_0.15_20__33.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=3 in/rand_50_0.15_20__34.cnfp,out/rand_50_0.15_20__34.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=3 in/rand_50_0.15_20__35.cnfp,out/rand_50_0.15_20__35.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=3 in/rand_50_0.15_20__36.cnfp,out/rand_50_0.15_20__36.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=3 in/rand_50_0.15_20__37.cnfp,out/rand_50_0.15_20__37.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=3 in/rand_50_0.15_20__38.cnfp,out/rand_50_0.15_20__38.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=3 in/rand_50_0.15_20__39.cnfp,out/rand_50_0.15_20__39.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=3 in/rand_50_0.15_20__3.cnfp,out/rand_50_0.15_20__3.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=3 in/rand_50_0.15_20__40.cnfp,out/rand_50_0.15_20__40.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=3 in/rand_50_0.15_20__41.cnfp,out/rand_50_0.15_20__41.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=3 in/rand_50_0.15_20__42.cnfp,out/rand_50_0.15_20__42.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=3 in/rand_50_0.15_20__43.cnfp,out/rand_50_0.15_20__43.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=3 in/rand_50_0.15_20__44.cnfp,out/rand_50_0.15_20__44.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=3 in/rand_50_0.15_20__45.cnfp,out/rand_50_0.15_20__45.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=3 in/rand_50_0.15_20__46.cnfp,out/rand_50_0.15_20__46.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=3 in/rand_50_0.15_20__47.cnfp,out/rand_50_0.15_20__47.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=3 in/rand_50_0.15_20__48.cnfp,out/rand_50_0.15_20__48.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=3 in/rand_50_0.15_20__49.cnfp,out/rand_50_0.15_20__49.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=3 in/rand_50_0.15_20__4.cnfp,out/rand_50_0.15_20__4.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=3 in/rand_50_0.15_20__50.cnfp,out/rand_50_0.15_20__50.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=3 in/rand_50_0.15_20__5.cnfp,out/rand_50_0.15_20__5.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=3 in/rand_50_0.15_20__6.cnfp,out/rand_50_0.15_20__6.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=3 in/rand_50_0.15_20__7.cnfp,out/rand_50_0.15_20__7.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=3 in/rand_50_0.15_20__8.cnfp,out/rand_50_0.15_20__8.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=3 in/rand_50_0.15_20__9.cnfp,out/rand_50_0.15_20__9.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=4 in/rand_50_0.15_20__10.cnfp,out/rand_50_0.15_20__10.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=4 in/rand_50_0.15_20__11.cnfp,out/rand_50_0.15_20__11.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=4 in/rand_50_0.15_20__12.cnfp,out/rand_50_0.15_20__12.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=4 in/rand_50_0.15_20__13.cnfp,out/rand_50_0.15_20__13.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=4 in/rand_50_0.15_20__14.cnfp,out/rand_50_0.15_20__14.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=4 in/rand_50_0.15_20__15.cnfp,out/rand_50_0.15_20__15.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=4 in/rand_50_0.15_20__16.cnfp,out/rand_50_0.15_20__16.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=4 in/rand_50_0.15_20__17.cnfp,out/rand_50_0.15_20__17.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=4 in/rand_50_0.15_20__18.cnfp,out/rand_50_0.15_20__18.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=4 in/rand_50_0.15_20__19.cnfp,out/rand_50_0.15_20__19.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=4 in/rand_50_0.15_20__1.cnfp,out/rand_50_0.15_20__1.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=4 in/rand_50_0.15_20__20.cnfp,out/rand_50_0.15_20__20.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=4 in/rand_50_0.15_20__21.cnfp,out/rand_50_0.15_20__21.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=4 in/rand_50_0.15_20__22.cnfp,out/rand_50_0.15_20__22.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=4 in/rand_50_0.15_20__23.cnfp,out/rand_50_0.15_20__23.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=4 in/rand_50_0.15_20__24.cnfp,out/rand_50_0.15_20__24.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=4 in/rand_50_0.15_20__25.cnfp,out/rand_50_0.15_20__25.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=4 in/rand_50_0.15_20__26.cnfp,out/rand_50_0.15_20__26.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=4 in/rand_50_0.15_20__27.cnfp,out/rand_50_0.15_20__27.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=4 in/rand_50_0.15_20__28.cnfp,out/rand_50_0.15_20__28.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=4 in/rand_50_0.15_20__29.cnfp,out/rand_50_0.15_20__29.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=4 in/rand_50_0.15_20__2.cnfp,out/rand_50_0.15_20__2.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=4 in/rand_50_0.15_20__30.cnfp,out/rand_50_0.15_20__30.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=4 in/rand_50_0.15_20__31.cnfp,out/rand_50_0.15_20__31.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=4 in/rand_50_0.15_20__32.cnfp,out/rand_50_0.15_20__32.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=4 in/rand_50_0.15_20__33.cnfp,out/rand_50_0.15_20__33.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=4 in/rand_50_0.15_20__34.cnfp,out/rand_50_0.15_20__34.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=4 in/rand_50_0.15_20__35.cnfp,out/rand_50_0.15_20__35.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=4 in/rand_50_0.15_20__36.cnfp,out/rand_50_0.15_20__36.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=4 in/rand_50_0.15_20__37.cnfp,out/rand_50_0.15_20__37.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=4 in/rand_50_0.15_20__38.cnfp,out/rand_50_0.15_20__38.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=4 in/rand_50_0.15_20__39.cnfp,out/rand_50_0.15_20__39.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=4 in/rand_50_0.15_20__3.cnfp,out/rand_50_0.15_20__3.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=4 in/rand_50_0.15_20__40.cnfp,out/rand_50_0.15_20__40.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=4 in/rand_50_0.15_20__41.cnfp,out/rand_50_0.15_20__41.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=4 in/rand_50_0.15_20__42.cnfp,out/rand_50_0.15_20__42.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=4 in/rand_50_0.15_20__43.cnfp,out/rand_50_0.15_20__43.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=4 in/rand_50_0.15_20__44.cnfp,out/rand_50_0.15_20__44.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=4 in/rand_50_0.15_20__45.cnfp,out/rand_50_0.15_20__45.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=4 in/rand_50_0.15_20__46.cnfp,out/rand_50_0.15_20__46.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=4 in/rand_50_0.15_20__47.cnfp,out/rand_50_0.15_20__47.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=4 in/rand_50_0.15_20__48.cnfp,out/rand_50_0.15_20__48.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=4 in/rand_50_0.15_20__49.cnfp,out/rand_50_0.15_20__49.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=4 in/rand_50_0.15_20__4.cnfp,out/rand_50_0.15_20__4.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=4 in/rand_50_0.15_20__50.cnfp,out/rand_50_0.15_20__50.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=4 in/rand_50_0.15_20__5.cnfp,out/rand_50_0.15_20__5.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=4 in/rand_50_0.15_20__6.cnfp,out/rand_50_0.15_20__6.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=4 in/rand_50_0.15_20__7.cnfp,out/rand_50_0.15_20__7.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=4 in/rand_50_0.15_20__8.cnfp,out/rand_50_0.15_20__8.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=4 in/rand_50_0.15_20__9.cnfp,out/rand_50_0.15_20__9.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=5 in/rand_50_0.15_20__10.cnfp,out/rand_50_0.15_20__10.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=5 in/rand_50_0.15_20__11.cnfp,out/rand_50_0.15_20__11.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=5 in/rand_50_0.15_20__12.cnfp,out/rand_50_0.15_20__12.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=5 in/rand_50_0.15_20__13.cnfp,out/rand_50_0.15_20__13.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=5 in/rand_50_0.15_20__14.cnfp,out/rand_50_0.15_20__14.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=5 in/rand_50_0.15_20__15.cnfp,out/rand_50_0.15_20__15.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=5 in/rand_50_0.15_20__16.cnfp,out/rand_50_0.15_20__16.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=5 in/rand_50_0.15_20__17.cnfp,out/rand_50_0.15_20__17.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=5 in/rand_50_0.15_20__18.cnfp,out/rand_50_0.15_20__18.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=5 in/rand_50_0.15_20__19.cnfp,out/rand_50_0.15_20__19.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=5 in/rand_50_0.15_20__1.cnfp,out/rand_50_0.15_20__1.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=5 in/rand_50_0.15_20__20.cnfp,out/rand_50_0.15_20__20.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=5 in/rand_50_0.15_20__21.cnfp,out/rand_50_0.15_20__21.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=5 in/rand_50_0.15_20__22.cnfp,out/rand_50_0.15_20__22.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=5 in/rand_50_0.15_20__23.cnfp,out/rand_50_0.15_20__23.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=5 in/rand_50_0.15_20__24.cnfp,out/rand_50_0.15_20__24.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=5 in/rand_50_0.15_20__25.cnfp,out/rand_50_0.15_20__25.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=5 in/rand_50_0.15_20__26.cnfp,out/rand_50_0.15_20__26.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=5 in/rand_50_0.15_20__27.cnfp,out/rand_50_0.15_20__27.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=5 in/rand_50_0.15_20__28.cnfp,out/rand_50_0.15_20__28.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=5 in/rand_50_0.15_20__29.cnfp,out/rand_50_0.15_20__29.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=5 in/rand_50_0.15_20__2.cnfp,out/rand_50_0.15_20__2.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=5 in/rand_50_0.15_20__30.cnfp,out/rand_50_0.15_20__30.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=5 in/rand_50_0.15_20__31.cnfp,out/rand_50_0.15_20__31.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=5 in/rand_50_0.15_20__32.cnfp,out/rand_50_0.15_20__32.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=5 in/rand_50_0.15_20__33.cnfp,out/rand_50_0.15_20__33.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=5 in/rand_50_0.15_20__34.cnfp,out/rand_50_0.15_20__34.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=5 in/rand_50_0.15_20__35.cnfp,out/rand_50_0.15_20__35.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=5 in/rand_50_0.15_20__36.cnfp,out/rand_50_0.15_20__36.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=5 in/rand_50_0.15_20__37.cnfp,out/rand_50_0.15_20__37.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=5 in/rand_50_0.15_20__38.cnfp,out/rand_50_0.15_20__38.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=5 in/rand_50_0.15_20__39.cnfp,out/rand_50_0.15_20__39.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=5 in/rand_50_0.15_20__3.cnfp,out/rand_50_0.15_20__3.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=5 in/rand_50_0.15_20__40.cnfp,out/rand_50_0.15_20__40.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=5 in/rand_50_0.15_20__41.cnfp,out/rand_50_0.15_20__41.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=5 in/rand_50_0.15_20__42.cnfp,out/rand_50_0.15_20__42.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=5 in/rand_50_0.15_20__43.cnfp,out/rand_50_0.15_20__43.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=5 in/rand_50_0.15_20__44.cnfp,out/rand_50_0.15_20__44.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=5 in/rand_50_0.15_20__45.cnfp,out/rand_50_0.15_20__45.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=5 in/rand_50_0.15_20__46.cnfp,out/rand_50_0.15_20__46.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=5 in/rand_50_0.15_20__47.cnfp,out/rand_50_0.15_20__47.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=5 in/rand_50_0.15_20__48.cnfp,out/rand_50_0.15_20__48.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=5 in/rand_50_0.15_20__49.cnfp,out/rand_50_0.15_20__49.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=5 in/rand_50_0.15_20__4.cnfp,out/rand_50_0.15_20__4.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=5 in/rand_50_0.15_20__50.cnfp,out/rand_50_0.15_20__50.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=5 in/rand_50_0.15_20__5.cnfp,out/rand_50_0.15_20__5.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=5 in/rand_50_0.15_20__6.cnfp,out/rand_50_0.15_20__6.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=5 in/rand_50_0.15_20__7.cnfp,out/rand_50_0.15_20__7.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=5 in/rand_50_0.15_20__8.cnfp,out/rand_50_0.15_20__8.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=5 in/rand_50_0.15_20__9.cnfp,out/rand_50_0.15_20__9.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=6 in/rand_50_0.15_20__10.cnfp,out/rand_50_0.15_20__10.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=6 in/rand_50_0.15_20__11.cnfp,out/rand_50_0.15_20__11.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=6 in/rand_50_0.15_20__12.cnfp,out/rand_50_0.15_20__12.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=6 in/rand_50_0.15_20__13.cnfp,out/rand_50_0.15_20__13.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=6 in/rand_50_0.15_20__14.cnfp,out/rand_50_0.15_20__14.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=6 in/rand_50_0.15_20__15.cnfp,out/rand_50_0.15_20__15.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=6 in/rand_50_0.15_20__16.cnfp,out/rand_50_0.15_20__16.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=6 in/rand_50_0.15_20__17.cnfp,out/rand_50_0.15_20__17.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=6 in/rand_50_0.15_20__18.cnfp,out/rand_50_0.15_20__18.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=6 in/rand_50_0.15_20__19.cnfp,out/rand_50_0.15_20__19.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=6 in/rand_50_0.15_20__1.cnfp,out/rand_50_0.15_20__1.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=6 in/rand_50_0.15_20__20.cnfp,out/rand_50_0.15_20__20.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=6 in/rand_50_0.15_20__21.cnfp,out/rand_50_0.15_20__21.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=6 in/rand_50_0.15_20__22.cnfp,out/rand_50_0.15_20__22.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=6 in/rand_50_0.15_20__23.cnfp,out/rand_50_0.15_20__23.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=6 in/rand_50_0.15_20__24.cnfp,out/rand_50_0.15_20__24.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=6 in/rand_50_0.15_20__25.cnfp,out/rand_50_0.15_20__25.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=6 in/rand_50_0.15_20__26.cnfp,out/rand_50_0.15_20__26.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=6 in/rand_50_0.15_20__27.cnfp,out/rand_50_0.15_20__27.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=6 in/rand_50_0.15_20__28.cnfp,out/rand_50_0.15_20__28.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=6 in/rand_50_0.15_20__29.cnfp,out/rand_50_0.15_20__29.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=6 in/rand_50_0.15_20__2.cnfp,out/rand_50_0.15_20__2.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=6 in/rand_50_0.15_20__30.cnfp,out/rand_50_0.15_20__30.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=6 in/rand_50_0.15_20__31.cnfp,out/rand_50_0.15_20__31.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=6 in/rand_50_0.15_20__32.cnfp,out/rand_50_0.15_20__32.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=6 in/rand_50_0.15_20__33.cnfp,out/rand_50_0.15_20__33.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=6 in/rand_50_0.15_20__34.cnfp,out/rand_50_0.15_20__34.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=6 in/rand_50_0.15_20__35.cnfp,out/rand_50_0.15_20__35.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=6 in/rand_50_0.15_20__36.cnfp,out/rand_50_0.15_20__36.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=6 in/rand_50_0.15_20__37.cnfp,out/rand_50_0.15_20__37.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=6 in/rand_50_0.15_20__38.cnfp,out/rand_50_0.15_20__38.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=6 in/rand_50_0.15_20__39.cnfp,out/rand_50_0.15_20__39.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=6 in/rand_50_0.15_20__3.cnfp,out/rand_50_0.15_20__3.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=6 in/rand_50_0.15_20__40.cnfp,out/rand_50_0.15_20__40.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=6 in/rand_50_0.15_20__41.cnfp,out/rand_50_0.15_20__41.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=6 in/rand_50_0.15_20__42.cnfp,out/rand_50_0.15_20__42.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=6 in/rand_50_0.15_20__43.cnfp,out/rand_50_0.15_20__43.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=6 in/rand_50_0.15_20__44.cnfp,out/rand_50_0.15_20__44.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=6 in/rand_50_0.15_20__45.cnfp,out/rand_50_0.15_20__45.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=6 in/rand_50_0.15_20__46.cnfp,out/rand_50_0.15_20__46.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=6 in/rand_50_0.15_20__47.cnfp,out/rand_50_0.15_20__47.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=6 in/rand_50_0.15_20__48.cnfp,out/rand_50_0.15_20__48.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=6 in/rand_50_0.15_20__49.cnfp,out/rand_50_0.15_20__49.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=6 in/rand_50_0.15_20__4.cnfp,out/rand_50_0.15_20__4.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=6 in/rand_50_0.15_20__50.cnfp,out/rand_50_0.15_20__50.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=6 in/rand_50_0.15_20__5.cnfp,out/rand_50_0.15_20__5.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=6 in/rand_50_0.15_20__6.cnfp,out/rand_50_0.15_20__6.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=6 in/rand_50_0.15_20__7.cnfp,out/rand_50_0.15_20__7.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=6 in/rand_50_0.15_20__8.cnfp,out/rand_50_0.15_20__8.cnfp.out
+../minicard_encodings/minicard_encodings -verb=0 -encode-type=6 in/rand_50_0.15_20__9.cnfp,out/rand_50_0.15_20__9.cnfp.out

@@ -1,0 +1,48 @@
+MiniCARD 1.0, based on MiniSAT 2.2.0
+ Mark Liffiton and Jordyn Maglalang
+ <mliffito@iwu.edu>,<jmaglala@iwu.edu>
+
+MiniSAT originally by Niklas Eén and Niklas Sörensson
+
+================================================================================
+OVERVIEW:
+
+MiniCARD is a *cardinality solver* based on MiniSAT [www.minisat.se].  It takes
+both CNF and CNF+, a format that extends CNF to include cardinality constraints.
+MiniCARD handles cardinality constraints natively, using the same efficient
+data structures and techniques MiniSAT uses for clauses, giving it much better
+performance on cardinality constraints than CNF encodings of those constraints
+passed to a typical SAT solver.
+
+The CNF+ format extends the DIMACS CNF format, adding the ability to specify
+cardinality constraints alongside regular clauses like so:
+
+  c Example: Two cardinality constraints followed by a clause
+  p cnf+ 7 3
+  1 -2 3 5 -7 <= 3
+  4 5 6 -7 >= 2
+  3 5 7 0
+
+See the tests/in/ directory for examples.
+
+================================================================================
+DIRECTORIES:
+
+[MiniCard directories]
+  minicard/                 The core MiniCard solver with native AtMost constraints
+  minicard_encodings/       A cardinality solver using CNF encodings for AtMosts
+  minicard_simp_encodings/  The above solver with simplification / preprocessing
+  tests/                    A set of simple test instances for the solvers
+[original MiniSAT directories]
+  core/                     The base MiniSAT solver
+  mtl/                      Mini Template Library
+  utils/                    Generic helper code (I/O, Parsing, CPU-time, etc)
+
+================================================================================
+BUILDING: (release version: without assertions, statically linked, etc)
+
+  export MROOT=<minisat-dir>              (or setenv in cshell)
+  cd { minicard | minicard_encodings | minicard_simp_encoding }
+  gmake rs
+  cp minicard_static <install-dir>/minicard
+

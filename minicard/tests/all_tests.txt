@@ -1,0 +1,83 @@
+# Watchers
+../minicard/minicard -verb=0 in/test16.cnfp.gz,out/test16.cnfp.gz.out
+../minicard/minicard -verb=0 in/rand_5_1_3.cnfp,out/rand_5_1_3.cnfp.out
+../minicard/minicard -verb=0 in/tomography-10.cnfp,out/tomography-10.cnfp.out
+../minicard/minicard -verb=0 -mem-lim=1000 in/random-100000-0.192-10-87.cnfp.gz,out/random-100000-0.192-10-87.cnfp.gz.out
+
+### CNF Encodings
+# ITE/BDD
+../minicard_encodings/minicard_encodings -encode-type=1 -verb=0 in/test16.cnfp.gz,out/test16.cnfp.gz.out
+../minicard_encodings/minicard_encodings -encode-type=1 -verb=0 in/rand_5_1_3.cnfp,out/rand_5_1_3.cnfp.out
+../minicard_encodings/minicard_encodings -encode-type=1 -verb=0 in/tomography-10.cnfp,out/tomography-10.cnfp.out
+# takes too much time
+#../minicard_encodings/minicard_encodings -encode-type=1 -verb=0 -mem-lim=1000 in/random-100000-0.192-10-87.cnfp.gz,out/random-100000-0.192-10-87.cnfp.gz.out
+
+# PSN
+../minicard_encodings/minicard_encodings -encode-type=2 -verb=0 in/test16.cnfp.gz,out/test16.cnfp.gz.out
+../minicard_encodings/minicard_encodings -encode-type=2 -verb=0 in/rand_5_1_3.cnfp,out/rand_5_1_3.cnfp.out
+../minicard_encodings/minicard_encodings -encode-type=2 -verb=0 in/tomography-10.cnfp,out/tomography-10.cnfp.out
+../minicard_encodings/minicard_encodings -encode-type=2 -verb=0 -mem-lim=1000 in/random-100000-0.192-10-87.cnfp.gz,out/random-100000-0.192-10-87.cnfp.gz.out
+
+# PCN
+../minicard_encodings/minicard_encodings -encode-type=3 -verb=0 in/test16.cnfp.gz,out/test16.cnfp.gz.out
+../minicard_encodings/minicard_encodings -encode-type=3 -verb=0 in/rand_5_1_3.cnfp,out/rand_5_1_3.cnfp.out
+../minicard_encodings/minicard_encodings -encode-type=3 -verb=0 in/tomography-10.cnfp,out/tomography-10.cnfp.out
+../minicard_encodings/minicard_encodings -encode-type=3 -verb=0 -mem-lim=1000 in/random-100000-0.192-10-87.cnfp.gz,out/random-100000-0.192-10-87.cnfp.gz.out
+
+# PSN3
+../minicard_encodings/minicard_encodings -encode-type=4 -verb=0 in/test16.cnfp.gz,out/test16.cnfp.gz.out
+../minicard_encodings/minicard_encodings -encode-type=4 -verb=0 in/rand_5_1_3.cnfp,out/rand_5_1_3.cnfp.out
+../minicard_encodings/minicard_encodings -encode-type=4 -verb=0 in/tomography-10.cnfp,out/tomography-10.cnfp.out
+../minicard_encodings/minicard_encodings -encode-type=4 -verb=0 -mem-lim=1000 in/random-100000-0.192-10-87.cnfp.gz,out/random-100000-0.192-10-87.cnfp.gz.out
+
+# PCN3
+../minicard_encodings/minicard_encodings -encode-type=5 -verb=0 in/test16.cnfp.gz,out/test16.cnfp.gz.out
+../minicard_encodings/minicard_encodings -encode-type=5 -verb=0 in/rand_5_1_3.cnfp,out/rand_5_1_3.cnfp.out
+../minicard_encodings/minicard_encodings -encode-type=5 -verb=0 in/tomography-10.cnfp,out/tomography-10.cnfp.out
+../minicard_encodings/minicard_encodings -encode-type=5 -verb=0 -mem-lim=1000 in/random-100000-0.192-10-87.cnfp.gz,out/random-100000-0.192-10-87.cnfp.gz.out
+
+# Pairwise encoding
+# uses way too much RAM
+#../minicard_encodings/minicard_encodings -encode-type=6 -verb=0 in/test16.cnfp.gz,out/test16.cnfp.gz.out
+../minicard_encodings/minicard_encodings -encode-type=6 -verb=0 in/rand_5_1_3.cnfp,out/rand_5_1_3.cnfp.out
+../minicard_encodings/minicard_encodings -encode-type=6 -verb=0 in/tomography-10.cnfp,out/tomography-10.cnfp.out
+../minicard_encodings/minicard_encodings -encode-type=6 -verb=0 -mem-lim=1000 in/random-100000-0.192-10-87.cnfp.gz,out/random-100000-0.192-10-87.cnfp.gz.out
+
+### CNF Encodings, with simplification
+# ITE/BDD
+../minicard_simp_encodings/minicard_simp_encodings -encode-type=1 -verb=0 in/test16.cnfp.gz,out/test16.cnfp.gz.out
+../minicard_simp_encodings/minicard_simp_encodings -encode-type=1 -verb=0 in/rand_5_1_3.cnfp,out/rand_5_1_3.cnfp.out
+../minicard_simp_encodings/minicard_simp_encodings -encode-type=1 -verb=0 in/tomography-10.cnfp,out/tomography-10.cnfp.out
+../minicard_simp_encodings/minicard_simp_encodings -encode-type=1 -verb=0 -mem-lim=1000 in/random-100000-0.192-10-87.cnfp.gz,out/random-100000-0.192-10-87.cnfp.gz.out
+
+# PSN
+../minicard_simp_encodings/minicard_simp_encodings -encode-type=2 -verb=0 in/test16.cnfp.gz,out/test16.cnfp.gz.out
+../minicard_simp_encodings/minicard_simp_encodings -encode-type=2 -verb=0 in/rand_5_1_3.cnfp,out/rand_5_1_3.cnfp.out
+../minicard_simp_encodings/minicard_simp_encodings -encode-type=2 -verb=0 in/tomography-10.cnfp,out/tomography-10.cnfp.out
+../minicard_simp_encodings/minicard_simp_encodings -encode-type=2 -verb=0 -mem-lim=1000 in/random-100000-0.192-10-87.cnfp.gz,out/random-100000-0.192-10-87.cnfp.gz.out
+
+# PCN
+../minicard_simp_encodings/minicard_simp_encodings -encode-type=3 -verb=0 in/test16.cnfp.gz,out/test16.cnfp.gz.out
+../minicard_simp_encodings/minicard_simp_encodings -encode-type=3 -verb=0 in/rand_5_1_3.cnfp,out/rand_5_1_3.cnfp.out
+../minicard_simp_encodings/minicard_simp_encodings -encode-type=3 -verb=0 in/tomography-10.cnfp,out/tomography-10.cnfp.out
+../minicard_simp_encodings/minicard_simp_encodings -encode-type=3 -verb=0 -mem-lim=1000 in/random-100000-0.192-10-87.cnfp.gz,out/random-100000-0.192-10-87.cnfp.gz.out
+
+# PSN3
+../minicard_simp_encodings/minicard_simp_encodings -encode-type=4 -verb=0 in/test16.cnfp.gz,out/test16.cnfp.gz.out
+../minicard_simp_encodings/minicard_simp_encodings -encode-type=4 -verb=0 in/rand_5_1_3.cnfp,out/rand_5_1_3.cnfp.out
+../minicard_simp_encodings/minicard_simp_encodings -encode-type=4 -verb=0 in/tomography-10.cnfp,out/tomography-10.cnfp.out
+../minicard_simp_encodings/minicard_simp_encodings -encode-type=4 -verb=0 -mem-lim=1000 in/random-100000-0.192-10-87.cnfp.gz,out/random-100000-0.192-10-87.cnfp.gz.out
+
+# PCN3
+../minicard_simp_encodings/minicard_simp_encodings -encode-type=5 -verb=0 in/test16.cnfp.gz,out/test16.cnfp.gz.out
+../minicard_simp_encodings/minicard_simp_encodings -encode-type=5 -verb=0 in/rand_5_1_3.cnfp,out/rand_5_1_3.cnfp.out
+../minicard_simp_encodings/minicard_simp_encodings -encode-type=5 -verb=0 in/tomography-10.cnfp,out/tomography-10.cnfp.out
+../minicard_simp_encodings/minicard_simp_encodings -encode-type=5 -verb=0 -mem-lim=1000 in/random-100000-0.192-10-87.cnfp.gz,out/random-100000-0.192-10-87.cnfp.gz.out
+
+# Pairwise encoding
+# uses way too much RAM
+#../minicard_simp_encodings/minicard_simp_encodings -encode-type=6 -verb=0 in/test16.cnfp.gz,out/test16.cnfp.gz.out
+../minicard_simp_encodings/minicard_simp_encodings -encode-type=6 -verb=0 in/rand_5_1_3.cnfp,out/rand_5_1_3.cnfp.out
+../minicard_simp_encodings/minicard_simp_encodings -encode-type=6 -verb=0 in/tomography-10.cnfp,out/tomography-10.cnfp.out
+../minicard_simp_encodings/minicard_simp_encodings -encode-type=6 -verb=0 -mem-lim=1000 in/random-100000-0.192-10-87.cnfp.gz,out/random-100000-0.192-10-87.cnfp.gz.out
+
