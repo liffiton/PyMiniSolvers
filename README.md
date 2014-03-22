@@ -2,11 +2,16 @@ PyMiniSolvers
 =============
 
 PyMiniSolvers is a Python API for the [MiniSat](http://minisat.se/) and
-[MiniCard](http://git.io/minicard) constraint solvers.  It closely matches the
-interfaces of their Solver classes, providing flexible and powerful access to
-most of the solvers' standard capabilities.
+[MiniCard](http://git.io/minicard) constraint solvers.  It accesses the solvers
+via shared libraries, reducing overhead and allowing for efficient incremental
+solving.  Its interfaces closely match the interfaces of each tool's Solver
+class, providing flexible and powerful access to most of the solvers' standard
+capabilities.  Additionally, an extended "SubsetSolver" interface is provided
+for each tool, simplifying reasoning about subsets of a constraint set (e.g.,
+solving arbitrary subsets of the added constraints, extracting UNSAT cores,
+etc.).
 
-Example usage:
+Basic usage:
 ```python
 >>> import minisolvers
 >>> S = minisolvers.MinisatSolver()
@@ -20,6 +25,11 @@ True
 
 >>> list(S.get_model())
 [1, 0, 0, 1]
+
+>>> S.add_clause([-1, 2, 3, -4])
+
+>>> S.solve()
+False
 ```
 
 For further examples, see the documentation.
@@ -41,7 +51,7 @@ Tested Platforms:
  - Cygwin
  - OS X
 
-To build and test the API:
+To build the shared libraries and test the API:
 
     $ make
     $ python -m doctest -v minisolvers.py
