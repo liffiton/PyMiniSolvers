@@ -289,7 +289,7 @@ class SubsetMixin(object):
         if self._origvars is None:
             raise Exception("SubsetSolver.set_varcounts() must be called before .solve_subset()")
         # convert clause indices to clause-selector variable indices
-        a = array.array('i', (i+self._origvars+1 for i in subset))
+        a = array.array('i', [i+self._origvars+1 for i in subset])
         a_ptr, size = self._to_intptr(a)
         return self.lib.solve_assumptions(self.s, size, a_ptr)
 
