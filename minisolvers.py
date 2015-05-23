@@ -83,11 +83,11 @@ class Solver(object):
         l.simplify.restype = c_bool
         l.simplify.argtypes = [c_void_p]
 
-        l.unsatCore.argtypes = [c_void_p, c_int, c_void_p]
+        l.unsatCore.argtypes = [c_void_p, c_int, c_void_p, c_int]
         l.modelValue.argtypes = [c_void_p, c_int]
         l.fillModel.argtypes = [c_void_p, c_void_p, c_int, c_int]
         l.getModelTrues.restype = c_int
-        l.getModelTrues.argtypes = [c_void_p, c_void_p, c_int, c_int]
+        l.getModelTrues.argtypes = [c_void_p, c_void_p, c_int, c_int, c_int]
 
         l.getImplies.argtypes = [c_void_p, c_void_p]
         l.getImplies.restype = c_int
@@ -162,7 +162,8 @@ class Solver(object):
             a_ptr, size = self._to_intptr(a)
             return self.lib.addClause(self.s, size, a_ptr)
         elif len(lits) == 1:
-            return self.lib.addUnit(self.s, lits[0])
+            (lit,) = lits   # extract one item whether list or set
+            return self.lib.addUnit(self.s, lit)
         else:
             return self.lib.addClause(self.s, 0, None)
 
@@ -207,12 +208,15 @@ class Solver(object):
         self.lib.fillModel(self.s, a_ptr, start, end)
         return a
 
-    def get_model_trues(self, start=0, end=-1):
+    def get_model_trues(self, start=0, end=-1, offset=0):
         """Get variables assigned true in the current model from the solver.
 
         Args:
             start, end (int):
               Optional start and end indices, interpreted as in ``range()``.
+            offset (int):
+              Optional offset to be added to the zero-based variable numbers
+              from MiniSat.
 
         Returns:
             An array of true variables in the solver's current model.  If a
@@ -222,7 +226,7 @@ class Solver(object):
             end = self.nvars()
         a = array.array('i', [-1] * (end-start))
         a_ptr, size = self._to_intptr(a)
-        count = self.lib.getModelTrues(self.s, a_ptr, start, end)
+        count = self.lib.getModelTrues(self.s, a_ptr, start, end, offset)
         # reduce the array down to just the valid indexes
         return a[:count]
 
@@ -293,23 +297,39 @@ class SubsetMixin(object):
         a_ptr, size = self._to_intptr(a)
         return self.lib.solve_assumptions(self.s, size, a_ptr)
 
-    def unsat_core(self):
+    def unsat_core(self, offset=0):
         """Get an UNSAT core from the last check performed by
         ``solve_subset()``.  Assumes the last such check was UNSAT.
+
+        Args:
+            offset (int):
+              Optional offset to be added to the zero-based indexes from
+              MiniSat.
+
+        Returns:
+            An array of constraint indexes comprising an UNSAT core.
         """
         a = array.array('i', [-1] * self.nclauses())
         a_ptr, size = self._to_intptr(a)
-        length = self.lib.unsatCore(self.s, self._origvars, a_ptr)
+        length = self.lib.unsatCore(self.s, self._origvars, a_ptr, offset)
         # reduce the array down to just the valid indexes
         return a[:length]
 
-    def sat_subset(self):
+    def sat_subset(self, offset=0):
         """Get the set of clauses satisfied in the last check performed by
         ``solve_subset()``.  Assumes the last such check was SAT.  This may
         contain additional soft clauses not in the subset that was given to
         ``solve_subset()``, if they were also satisfied by the model found.
+
+        Args:
+            offset (int):
+              Optional offset to be added to the zero-based indexes from
+              MiniSat.
+
+        Returns:
+            An array of constraint indexes comprising a satisfiable subset.
         """
-        return self.get_model_trues(start=self._origvars, end=self._origvars+self._relvars)
+        return self.get_model_trues(start=self._origvars, end=self._origvars+self._relvars, offset=offset)
 
 
 class MinisatSolver(Solver):

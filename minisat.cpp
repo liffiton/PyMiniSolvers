@@ -61,10 +61,10 @@ extern "C" {
         }
     }
 
-    int getModelTrues(Solver* s, int* trues, int from, int to) {
+    int getModelTrues(Solver* s, int* trues, int from, int to, int offset) {
         int count = 0;
         for (int i = from ; i < to ; i++) {
-            if (s->modelValue(i) == l_True) trues[count++] = i-from;
+            if (s->modelValue(i) == l_True) trues[count++] = i - from + offset;
         }
         return count;
     }
@@ -72,9 +72,9 @@ extern "C" {
     // returns a core with 0-based counting
     // (i.e., first clause is 0, etc.)
     // (subtracts given number of original variables from conflict variables)
-    int unsatCore(Solver* s, int nv, int* core) {
+    int unsatCore(Solver* s, int nv, int* core, int offset) {
         for (int i = 0 ; i < s->conflict.size() ; i++) {
-            core[i] = var(s->conflict[i]) - nv;
+            core[i] = var(s->conflict[i]) - nv + offset;
         }
         return s->conflict.size();
     }
