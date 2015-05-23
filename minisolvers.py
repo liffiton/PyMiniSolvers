@@ -80,6 +80,8 @@ class Solver(object):
         l.solve.argtypes = [c_void_p]
         l.solve_assumptions.restype = c_bool
         l.solve_assumptions.argtypes = [c_void_p, c_int, c_void_p]
+        l.check_complete.restype = c_bool
+        l.check_complete.argtypes = [c_void_p, c_int, c_void_p, c_bool]
         l.simplify.restype = c_bool
         l.simplify.argtypes = [c_void_p]
 
@@ -166,6 +168,33 @@ class Solver(object):
             return self.lib.addUnit(self.s, lit)
         else:
             return self.lib.addClause(self.s, 0, None)
+
+    def check_complete(self, positive_lits=None, negative_lits=None):
+        """Check whether a given complete assignment satisfies the current set
+        of clauses.  For efficiency, it may be given just the positive literals
+        or just the negative literals.
+
+        Args:
+            positive_lits, negative_lits:
+              Optional iterables (exactly one must be specified) returning
+              literals as integers, specified as in ``add_clause()``.  If
+              positive literals are given, the assignment will be completed
+              assuming all other variables are negative, and vice-versa if
+              negative literals are given.
+
+        Returns:
+            True if the assignment satisfies the current clauses, False otherwise.
+        """
+        if positive_lits is not None:
+            a = array.array('i', positive_lits)
+            a_ptr, size = self._to_intptr(a)
+            return self.lib.check_complete(self.s, size, a_ptr, True)
+        elif negative_lits is not None:
+            a = array.array('i', negative_lits)
+            a_ptr, size = self._to_intptr(a)
+            return self.lib.check_complete(self.s, size, a_ptr, False)
+        else:
+            raise Exception("Either positive_lits or negative_lits must be specified in check_complete().")
 
     def solve(self, assumptions=None):
         """Solve the current set of clauses, optionally with a set of assumptions.

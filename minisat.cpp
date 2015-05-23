@@ -47,6 +47,22 @@ extern "C" {
         }
         return s->solve(assumptions);
     }
+    bool check_complete(Solver* s, const int len, const int* lits, const bool pos) {
+        int n = s->nVars();
+        vec<Lit> assumptions;
+        bool * specified = new bool[n+1]();
+        for (int i = 0 ; i < len ; i++) {
+            assumptions.push( itoLit(lits[i]) );
+            specified[pos ? lits[i] : -lits[i]] = true;
+        }
+        for (int i = 1 ; i < n+1 ; i++) {
+            if (!specified[i]) {
+                assumptions.push( itoLit(pos ? -i : i) );
+            }
+        }
+        delete specified;
+        return s->solve(assumptions);
+    }
 
     bool simplify(Solver* s) { return s->simplify(); }
 
