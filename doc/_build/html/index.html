@@ -133,6 +133,28 @@ indicating success (True) or conflict (False).</dd>
 </dd></dl>
 
 <dl class="method">
+<dt id="minisolvers.MinisatSolver.check_complete">
+<code class="descname">check_complete</code><span class="sig-paren">(</span><em>positive_lits=None</em>, <em>negative_lits=None</em><span class="sig-paren">)</span><a class="headerlink" href="#minisolvers.MinisatSolver.check_complete" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check whether a given complete assignment satisfies the current set
+of clauses.  For efficiency, it may be given just the positive literals
+or just the negative literals.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><dl class="first last docutils">
+<dt>positive_lits, negative_lits:</dt>
+<dd>Optional iterables (exactly one must be specified) returning
+literals as integers, specified as in <code class="docutils literal"><span class="pre">add_clause()</span></code>.  If
+positive literals are given, the assignment will be completed
+assuming all other variables are negative, and vice-versa if
+negative literals are given.</dd>
+</dl>
+</dd>
+<dt>Returns:</dt>
+<dd>True if the assignment satisfies the current clauses, False otherwise.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
 <dt id="minisolvers.MinisatSolver.get_model">
 <code class="descname">get_model</code><span class="sig-paren">(</span><em>start=0</em>, <em>end=-1</em><span class="sig-paren">)</span><a class="headerlink" href="#minisolvers.MinisatSolver.get_model" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the current model from the solver, optionally retrieving only a slice.</p>
@@ -338,6 +360,28 @@ integer.  Ex.: [-1, 2, -3] is (!x0 + x1 + !x2)</dd>
 <dt>Returns:</dt>
 <dd>A boolean value returned from MiniSat&#8217;s <code class="docutils literal"><span class="pre">addClause()</span></code> function,
 indicating success (True) or conflict (False).</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="minisolvers.MinicardSolver.check_complete">
+<code class="descname">check_complete</code><span class="sig-paren">(</span><em>positive_lits=None</em>, <em>negative_lits=None</em><span class="sig-paren">)</span><a class="headerlink" href="#minisolvers.MinicardSolver.check_complete" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check whether a given complete assignment satisfies the current set
+of clauses.  For efficiency, it may be given just the positive literals
+or just the negative literals.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><dl class="first last docutils">
+<dt>positive_lits, negative_lits:</dt>
+<dd>Optional iterables (exactly one must be specified) returning
+literals as integers, specified as in <code class="docutils literal"><span class="pre">add_clause()</span></code>.  If
+positive literals are given, the assignment will be completed
+assuming all other variables are negative, and vice-versa if
+negative literals are given.</dd>
+</dl>
+</dd>
+<dt>Returns:</dt>
+<dd>True if the assignment satisfies the current clauses, False otherwise.</dd>
 </dl>
 </dd></dl>
 
@@ -549,6 +593,28 @@ be used to specify the clause in subsets for
 <code class="docutils literal"><span class="pre">solve_subset()</span></code>, etc.</dd>
 </dl>
 </dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="minisolvers.MinisatSubsetSolver.check_complete">
+<code class="descname">check_complete</code><span class="sig-paren">(</span><em>positive_lits=None</em>, <em>negative_lits=None</em><span class="sig-paren">)</span><a class="headerlink" href="#minisolvers.MinisatSubsetSolver.check_complete" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check whether a given complete assignment satisfies the current set
+of clauses.  For efficiency, it may be given just the positive literals
+or just the negative literals.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><dl class="first last docutils">
+<dt>positive_lits, negative_lits:</dt>
+<dd>Optional iterables (exactly one must be specified) returning
+literals as integers, specified as in <code class="docutils literal"><span class="pre">add_clause()</span></code>.  If
+positive literals are given, the assignment will be completed
+assuming all other variables are negative, and vice-versa if
+negative literals are given.</dd>
+</dl>
+</dd>
+<dt>Returns:</dt>
+<dd>True if the assignment satisfies the current clauses, False otherwise.</dd>
 </dl>
 </dd></dl>
 
@@ -828,6 +894,28 @@ be used to specify the clause in subsets for
 <code class="docutils literal"><span class="pre">solve_subset()</span></code>, etc.</dd>
 </dl>
 </dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="minisolvers.MinicardSubsetSolver.check_complete">
+<code class="descname">check_complete</code><span class="sig-paren">(</span><em>positive_lits=None</em>, <em>negative_lits=None</em><span class="sig-paren">)</span><a class="headerlink" href="#minisolvers.MinicardSubsetSolver.check_complete" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check whether a given complete assignment satisfies the current set
+of clauses.  For efficiency, it may be given just the positive literals
+or just the negative literals.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><dl class="first last docutils">
+<dt>positive_lits, negative_lits:</dt>
+<dd>Optional iterables (exactly one must be specified) returning
+literals as integers, specified as in <code class="docutils literal"><span class="pre">add_clause()</span></code>.  If
+positive literals are given, the assignment will be completed
+assuming all other variables are negative, and vice-versa if
+negative literals are given.</dd>
+</dl>
+</dd>
+<dt>Returns:</dt>
+<dd>True if the assignment satisfies the current clauses, False otherwise.</dd>
 </dl>
 </dd></dl>
 
