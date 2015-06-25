@@ -51,9 +51,14 @@ class MinisatTest(unittest.TestCase):
             self.assertTrue(any([ m[abs(x)-1] == isPositive(x) for x in cl ]))
 
     def test_implies(self):
-        self.add_subset(self.clauses)
-        self.solver.solve()
-        self.assertTrue(len(self.solver.implies()) > 0)
+        self.add_subset(self.clauses[:-1])
+        implications = self.solver.implies()
+        self.assertEqual(set(implications), set([1,-2]))
+
+    def test_implies_assumptions(self):
+        self.add_subset(self.clauses[:-1])
+        implications = self.solver.implies([5])
+        self.assertEqual(set(implications), set([1,-2,5,4,6]))
 
 
 class MinisatSubsetTest(unittest.TestCase):

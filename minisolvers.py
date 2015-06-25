@@ -93,6 +93,8 @@ class Solver(object):
 
         l.getImplies.argtypes = [c_void_p, c_void_p]
         l.getImplies.restype = c_int
+        l.getImplies_assumptions.argtypes = [c_void_p, c_void_p, c_void_p, c_int]
+        l.getImplies_assumptions.restype = c_int
 
     def __del__(self):
         """Delete the Solver object"""
@@ -263,18 +265,31 @@ class Solver(object):
         '''Get the value of a given variable in the current model.'''
         return self.lib.modelValue(self.s, i)
 
-    def implies(self):
+    def implies(self, assumptions=None):
         """Get literals known to be implied by the current formula.  (I.e., all
         assignments made at level 0.)
 
+        Args:
+            assumptions:
+              An optional iterable returning literals as integers, specified as
+              in ``add_clause()``.
+
         Returns:
-            An array of literals.
+            An array of literals implied by the current formula (and optionally
+            the given assumptions).
         """
-        a = array.array('i', [-1] * self.nvars())
-        a_ptr, size = self._to_intptr(a)
-        count = self.lib.getImplies(self.s, a_ptr)
+        res = array.array('i', [-1] * self.nvars())
+        res_ptr, _ = self._to_intptr(res)
+
+        if assumptions is None:
+            count = self.lib.getImplies(self.s, res_ptr)
+        else:
+            assumps = array.array('i', assumptions)
+            assumps_ptr, assumps_size = self._to_intptr(assumps)
+            count = self.lib.getImplies_assumptions(self.s, res_ptr, assumps_ptr, assumps_size)
+
         # reduce the array down to just the valid indexes
-        return a[:count]
+        return res[:count]
 
 
 class SubsetMixin(object):

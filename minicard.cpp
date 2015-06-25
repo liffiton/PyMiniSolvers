@@ -115,4 +115,21 @@ extern "C" {
         }
         return len;
     }
+
+    // fills an array w/ any literals known to be implied by the current formula
+    // and any given assumptions (i.e., all 0-level assignments)
+    // returns number of elements in the filled array
+    int getImplies_assumptions(Solver* s, int* assigns, int* assumps, int assumps_size) {
+        vec<Lit> assumptions;
+        for (int i = 0 ; i < assumps_size ; i++) {
+            assumptions.push( itoLit(assumps[i]) );
+        }
+        vec<Lit> outvec;
+        s->implies(assumptions, outvec, true);
+        int len = outvec.size();
+        for (int i = 0 ; i < len ; i++) {
+            assigns[i] = Littoi(outvec[i]);
+        }
+        return len;
+    }
 }
