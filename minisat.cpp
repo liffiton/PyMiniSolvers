@@ -85,6 +85,11 @@ extern "C" {
         return count;
     }
 
+    // returns the size of the current conflict
+    int conflictSize(Solver* s) {
+        return s->conflict.size();
+    }
+
     // returns a core with 0-based counting
     // (i.e., first clause is 0, etc.)
     // (subtracts given number of original variables from conflict variables)

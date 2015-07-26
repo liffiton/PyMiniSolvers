@@ -85,11 +85,15 @@ class Solver(object):
         l.simplify.restype = c_bool
         l.simplify.argtypes = [c_void_p]
 
+        l.conflictSize.argtypes = [c_void_p]
+        l.conflictSize.restype = c_int
         l.unsatCore.argtypes = [c_void_p, c_int, c_void_p, c_int]
+        l.unsatCore.restype = c_int
         l.modelValue.argtypes = [c_void_p, c_int]
+        l.modelValue.restype = c_int
         l.fillModel.argtypes = [c_void_p, c_void_p, c_int, c_int]
-        l.getModelTrues.restype = c_int
         l.getModelTrues.argtypes = [c_void_p, c_void_p, c_int, c_int, c_int]
+        l.getModelTrues.restype = c_int
 
         l.getImplies.argtypes = [c_void_p, c_void_p]
         l.getImplies.restype = c_int
@@ -353,11 +357,11 @@ class SubsetMixin(object):
         Returns:
             An array of constraint indexes comprising an UNSAT core.
         """
-        a = array.array('i', [-1] * self.nclauses())
+        conflict_size = self.lib.conflictSize(self.s)
+        a = array.array('i', [-1] * conflict_size)
         a_ptr, size = self._to_intptr(a)
-        length = self.lib.unsatCore(self.s, self._origvars, a_ptr, offset)
-        # reduce the array down to just the valid indexes
-        return a[:length]
+        self.lib.unsatCore(self.s, self._origvars, a_ptr, offset)
+        return a
 
     def sat_subset(self, offset=0):
         """Get the set of clauses satisfied in the last check performed by
