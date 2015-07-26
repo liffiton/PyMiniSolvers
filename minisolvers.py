@@ -326,7 +326,7 @@ class SubsetMixin(object):
         instrumented_clause = [-(self._origvars+1+index)] + lits
         self.add_clause(instrumented_clause)
 
-    def solve_subset(self, subset):
+    def solve_subset(self, subset, assumptions=None):
         """Solve a subset of the constraints equal containing all "hard"
         clauses (those added with the regular ``add_clause()`` method) and the
         specified subset of soft clauses.
@@ -340,8 +340,12 @@ class SubsetMixin(object):
         """
         if self._origvars is None:
             raise Exception("SubsetSolver.set_varcounts() must be called before .solve_subset()")
-        # convert clause indices to clause-selector variable indices
-        a = array.array('i', [i+self._origvars+1 for i in subset])
+
+        if assumptions:
+            a = array.array('i', assumptions+[i+self._origvars+1 for i in subset])
+        else:
+            # convert clause indices to clause-selector variable indices
+            a = array.array('i', [i+self._origvars+1 for i in subset])
         a_ptr, size = self._to_intptr(a)
         return self.lib.solve_assumptions(self.s, size, a_ptr)
 
