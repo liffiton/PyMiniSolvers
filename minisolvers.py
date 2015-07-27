@@ -326,7 +326,7 @@ class SubsetMixin(object):
         instrumented_clause = [-(self._origvars+1+index)] + lits
         self.add_clause(instrumented_clause)
 
-    def solve_subset(self, subset, assumptions=None):
+    def solve_subset(self, subset, extra_assumps=None):
         """Solve a subset of the constraints equal containing all "hard"
         clauses (those added with the regular ``add_clause()`` method) and the
         specified subset of soft clauses.
@@ -334,6 +334,8 @@ class SubsetMixin(object):
         Args:
             subset:
                 An iterable containing the indexes of any soft clauses to be included.
+            extra_assumps:
+                An optional iterable containing extra literals to use when solving.
 
         Returns:
             True if the given subset is satisfiable, False otherwise.
@@ -341,12 +343,11 @@ class SubsetMixin(object):
         if self._origvars is None:
             raise Exception("SubsetSolver.set_varcounts() must be called before .solve_subset()")
 
-        if assumptions:
-            a = array.array('i', assumptions+[i+self._origvars+1 for i in subset])
-        else:
-            # convert clause indices to clause-selector variable indices
-            a = array.array('i', [i+self._origvars+1 for i in subset])
-        a_ptr, size = self._to_intptr(a)
+        assumptions = [i+self._origvars+1 for i in subset]
+        if extra_assumps:
+            assumptions.extend(extra_assumps)
+        assumps_array = array.array('i', assumptions)
+        a_ptr, size = self._to_intptr(assumps_array)
         return self.lib.solve_assumptions(self.s, size, a_ptr)
 
     def unsat_core(self, offset=0):
@@ -533,6 +534,13 @@ class MinisatSubsetSolver(SubsetMixin, MinisatSolver):
     are specified as iterables containing soft clause indexes.
 
     >>> S.solve_subset([0,1,2])
+    True
+
+    Extra assumptions can be passed to solve_subset():
+
+    >>> S.solve_subset([0,1,2], extra_assumps=[-3])
+    False
+    >>> S.solve_subset([0,1,2], extra_assumps=[3])
     True
 
     If a subset is found to be satisfiable, a potentially larger satisfied

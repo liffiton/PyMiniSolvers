@@ -86,6 +86,7 @@ class MinisatSubsetTest(unittest.TestCase):
 
     def test_subsets(self):
         self.assertEqual(self.solver.solve_subset(range(self.n)), False)
+        self.assertEqual(self.solver.solve_subset(range(self.n-1), extra_assumps=[2]), False)
         for i in range(1, self.n):
             self.assertEqual(self.solver.solve_subset(range(self.n-i)), True)
 
