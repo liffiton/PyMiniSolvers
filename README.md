@@ -37,7 +37,7 @@ For further examples, see the documentation.
 API Documentation
 -----------------
 
-http://liffiton.github.io/PyMiniSolvers/
+https://pyminisolvers.readthedocs.org/
 
 Setup
 -----
@@ -56,6 +56,11 @@ To build the shared libraries and test the API:
     $ make
     $ python -m doctest -v minisolvers.py
     $ python test_minisolvers.py
+
+and/or
+
+    $ python3 -m doctest -v minisolvers.py
+    $ python3 test_minisolvers.py
 
 License
 -------

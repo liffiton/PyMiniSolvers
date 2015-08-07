@@ -9,14 +9,14 @@ Classes:
   SubsetMixin
     A mixin class adding 'subset' functionality to Solver subclasses.
 
-  :class:`MinisatSolver`
+  `MinisatSolver`
     Solve CNF instances using MiniSat.
-  :class:`MinicardSolver`
+  `MinicardSolver`
     Solve CNF+ (CNF plus cardinality constraints) using MiniCard.
 
-  :class:`MinisatSubsetSolver`
+  `MinisatSubsetSolver`
     Solve arbitrary subsets of CNF instances and find SAT subsets / UNSAT cores.
-  :class:`MinicardSubsetSolver`
+  `MinicardSubsetSolver`
     Solve arbitrary subsets of CNF+ instances and find SAT subsets / UNSAT cores.
 """
 
@@ -183,7 +183,7 @@ class Solver(object):
         Args:
             positive_lits, negative_lits:
               Optional iterables (exactly one must be specified) returning
-              literals as integers, specified as in ``add_clause()``.  If
+              literals as integers, specified as in `add_clause()`.  If
               positive literals are given, the assignment will be completed
               assuming all other variables are negative, and vice-versa if
               negative literals are given.
@@ -208,7 +208,7 @@ class Solver(object):
         Args:
             assumptions:
               An optional iterable returning literals as integers, specified as
-              in ``add_clause()``.
+              in `add_clause()`.
 
         Returns:
             True if the clauses (and assumptions) are satisfiable, False otherwise.
@@ -276,7 +276,7 @@ class Solver(object):
         Args:
             assumptions:
               An optional iterable returning literals as integers, specified as
-              in ``add_clause()``.
+              in `add_clause()`.
 
         Returns:
             An array of literals implied by the current formula (and optionally
@@ -314,12 +314,12 @@ class SubsetMixin(object):
 
         Args:
             lits:
-                A list of literals specified as in ``add_clause()``.
+                A list of literals specified as in `add_clause()`.
             index (int):
                 A 0-based index into the set of soft clauses.  The clause will
                 be given a relaxation variable based on this index, and it will
                 be used to specify the clause in subsets for
-                ``solve_subset()``, etc.
+                `solve_subset()`, etc.
         """
         if self._origvars is None:
             raise Exception("SubsetSolver.set_varcounts() must be called before .add_clause_instrumented()")
@@ -328,7 +328,7 @@ class SubsetMixin(object):
 
     def solve_subset(self, subset, extra_assumps=None):
         """Solve a subset of the constraints equal containing all "hard"
-        clauses (those added with the regular ``add_clause()`` method) and the
+        clauses (those added with the regular `add_clause()` method) and the
         specified subset of soft clauses.
 
         Args:
@@ -352,7 +352,7 @@ class SubsetMixin(object):
 
     def unsat_core(self, offset=0):
         """Get an UNSAT core from the last check performed by
-        ``solve_subset()``.  Assumes the last such check was UNSAT.
+        `solve_subset()`.  Assumes the last such check was UNSAT.
 
         Args:
             offset (int):
@@ -370,9 +370,9 @@ class SubsetMixin(object):
 
     def sat_subset(self, offset=0):
         """Get the set of clauses satisfied in the last check performed by
-        ``solve_subset()``.  Assumes the last such check was SAT.  This may
+        `solve_subset()`.  Assumes the last such check was SAT.  This may
         contain additional soft clauses not in the subset that was given to
-        ``solve_subset()``, if they were also satisfied by the model found.
+        `solve_subset()`, if they were also satisfied by the model found.
 
         Args:
             offset (int):
@@ -390,8 +390,8 @@ class MinisatSolver(Solver):
 
     >>> S = MinisatSolver()
 
-    Create variables using ``new_var()``.  Add clauses as list of literals with
-    ``add_clause()``, analogous to MiniSat's ``add_clause()``.  Literals are
+    Create variables using `new_var()`.  Add clauses as list of literals with
+    `add_clause()`, analogous to MiniSat's ``addClause()``.  Literals are
     specified as integers, with the magnitude indicating the variable index
     (with 1-based counting) and the sign indicating True/False.  For example,
     to add clauses (x0), (!x1), (!x0 + x1 + !x2), and (x2 + x3):
@@ -409,7 +409,7 @@ class MinisatSolver(Solver):
     True
     True
 
-    The ``solve()`` method returns True or False just like MiniSat's.
+    The `solve()` method returns True or False just like MiniSat's.
 
     >>> S.solve()
     True
@@ -420,7 +420,7 @@ class MinisatSolver(Solver):
     >>> list(S.get_model())
     [1, 0, 0, 1]
 
-    The ``add_clause()`` method may return False if a conflict is detected
+    The `add_clause()` method may return False if a conflict is detected
     when adding the clause, even without search.
 
     >>> S.add_clause([-4])
@@ -437,8 +437,8 @@ class MinicardSolver(Solver):
 
     >>> S = MinicardSolver()
 
-    This has the same interface as :class:`MiniSatSolver`, with the addition of
-    the ``add_atmost()`` method.
+    This has the same interface as `MinisatSolver`, with the addition of
+    the `add_atmost()` method.
 
     >>> for i in range(4):
     ...     S.new_var()  # doctest: +ELLIPSIS
@@ -463,7 +463,7 @@ class MinicardSolver(Solver):
     >>> list(S.get_model())
     [1, 0, 0, 1]
 
-    As with ``add_clause()``, the ``add_atmost()`` method may return False if a
+    As with `add_clause()`, the `add_atmost()` method may return False if a
     conflict is detected when adding the constraint, even without search.
 
     >>> S.add_atmost([1,-3,4], 2)
@@ -524,7 +524,7 @@ class MinisatSubsetSolver(SubsetMixin, MinisatSolver):
     >>> for i in range(4+5):
     ...     _ = S.new_var()
 
-    "Soft" clauses are added with ``add_clause_instrumented()``, which has no
+    "Soft" clauses are added with `add_clause_instrumented()`, which has no
     return value, as it is impossible for these clauses to produce a conflict.
 
     >>> for i, clause in enumerate([[1], [-2], [-1, 2, 3], [-3], [-1]]):
@@ -567,8 +567,8 @@ class MinisatSubsetSolver(SubsetMixin, MinisatSolver):
 class MinicardSubsetSolver(SubsetMixin, MinicardSolver):
     """A class for reasoning about subsets of constraints within MiniCard.
 
-    This has the same interface as :class:`MinisatSubsetSolver`, with the
-    addition of the ``add_atmost()`` method.
+    This has the same interface as `MinisatSubsetSolver`, with the
+    addition of the `add_atmost()` method.
 
     >>> S = MinicardSubsetSolver()
     >>> S.set_varcounts(vars = 4, constraints = 4)

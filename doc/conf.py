@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+# flake8: noqa
 #
 # PyMiniSolvers documentation build configuration file, created by
 # sphinx-quickstart on Tue Mar 11 10:21:04 2014.
@@ -23,7 +24,7 @@ sys.path.insert(0, os.path.abspath('..'))
 # -- General configuration ------------------------------------------------
 
 # If your documentation needs a minimal Sphinx version, state it here.
-#needs_sphinx = '1.0'
+needs_sphinx = '1.3'
 
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
@@ -31,6 +32,17 @@ sys.path.insert(0, os.path.abspath('..'))
 extensions = [
     'sphinx.ext.autodoc',
 ]
+
+# Options for autodoc
+autodoc_member_order = 'bysource'
+
+def skip_base_classes(app, what, name, obj, skip, options):
+    if what == 'module' and name in ['Solver', 'SubsetMixin']:
+        return True
+    return skip
+
+def setup(app):
+    app.connect('autodoc-skip-member', skip_base_classes)
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -73,7 +85,7 @@ exclude_patterns = ['_build']
 
 # The reST default role (used for this markup: `text`) to use for all
 # documents.
-#default_role = None
+default_role = 'any'
 
 # If true, '()' will be appended to :func: etc. cross-reference text.
 #add_function_parentheses = True
@@ -100,7 +112,7 @@ pygments_style = 'sphinx'
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
-html_theme = 'classic'
+html_theme = 'sphinx_rtd_theme'
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
