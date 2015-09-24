@@ -25,6 +25,9 @@ extern "C" {
     // Control whether random polarities are used (overridden if vars are created with a user polarity other than Undef)
     void setRndPol(Solver* s, bool val) { s->rnd_pol = val; }
 
+    // Initialize the solver's random seed
+    void setRndSeed(Solver* s, double seed) { assert(seed != 0.0); s->random_seed = seed; }
+
     // polarity: 0=False, 1=True, 2=Undef
     int newVar(Solver* s, uint8_t polarity, bool dvar=true) { return s->newVar(polarity, dvar); }
 

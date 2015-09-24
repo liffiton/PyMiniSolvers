@@ -4,11 +4,6 @@
 .. _MiniCard: http://git.io/minicard
 
 Classes:
-  Solver
-    An abstract base class for the other classes.
-  SubsetMixin
-    A mixin class adding 'subset' functionality to Solver subclasses.
-
   `MinisatSolver`
     Solve CNF instances using MiniSat.
   `MinicardSolver`
@@ -18,13 +13,18 @@ Classes:
     Solve arbitrary subsets of CNF instances and find SAT subsets / UNSAT cores.
   `MinicardSubsetSolver`
     Solve arbitrary subsets of CNF+ instances and find SAT subsets / UNSAT cores.
+
+  Solver
+    An abstract base class for the other classes.
+  SubsetMixin
+    A mixin class adding 'subset' functionality to Solver subclasses.
 """
 
 import array
 import os
 import ctypes
 from abc import ABCMeta, abstractmethod
-from ctypes import c_void_p, c_ubyte, c_bool, c_int
+from ctypes import c_void_p, c_ubyte, c_bool, c_int, c_double
 
 
 class Solver(object):
@@ -68,6 +68,7 @@ class Solver(object):
         l.nClauses.argtypes = [c_void_p]
         l.setPhaseSaving.argtypes = [c_void_p, c_int]
         l.setRndPol.argtypes = [c_void_p, c_bool]
+        l.setRndSeed.argtypes = [c_void_p, c_double]
 
         l.newVar.argtypes = [c_void_p, c_ubyte, c_bool]
 
@@ -149,6 +150,11 @@ class Solver(object):
     def set_rnd_pol(self, val):
         '''Set whether random polarities are used for decisions (overridden if vars are created with a user polarity other than None)'''
         self.lib.setRndPol(self.s, val)
+
+    def set_rnd_seed(self, seed):
+        '''Set the solver's random seed to the given double value.  Cannot be 0.0.'''
+        assert(seed != 0.0)
+        self.lib.setRndSeed(self.s, seed)
 
     def add_clause(self, lits):
         """Add a clause to the solver.
