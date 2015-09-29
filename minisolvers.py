@@ -68,6 +68,7 @@ class Solver(object):
         l.nClauses.argtypes = [c_void_p]
         l.setPhaseSaving.argtypes = [c_void_p, c_int]
         l.setRndPol.argtypes = [c_void_p, c_bool]
+        l.setRndInitAct.argtypes = [c_void_p, c_bool]
         l.setRndSeed.argtypes = [c_void_p, c_double]
 
         l.newVar.argtypes = [c_void_p, c_ubyte, c_bool]
@@ -150,6 +151,11 @@ class Solver(object):
     def set_rnd_pol(self, val):
         '''Set whether random polarities are used for decisions (overridden if vars are created with a user polarity other than None)'''
         self.lib.setRndPol(self.s, val)
+
+    def set_rnd_init_act(self, val):
+        '''Set whether variables are intialized with a random initial activity.
+           (default: False)'''
+        self.lib.setRndInitAct(self.s, val)
 
     def set_rnd_seed(self, seed):
         '''Set the solver's random seed to the given double value.  Cannot be 0.0.'''

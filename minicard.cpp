@@ -25,6 +25,10 @@ extern "C" {
     // Control whether random polarities are used (overridden if vars are created with a user polarity other than Undef)
     void setRndPol(Solver* s, bool val) { s->rnd_pol = val; }
 
+    // Control whether variables are intialized with a random initial activity
+    // (default: False)
+    void setRndInitAct(Solver* s, bool val) { s->rnd_init_act = val; }
+
     // Initialize the solver's random seed
     void setRndSeed(Solver* s, double seed) { assert(seed != 0.0); s->random_seed = seed; }
 
