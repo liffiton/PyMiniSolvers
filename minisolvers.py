@@ -52,7 +52,7 @@ class Solver(object):
            library.
         """
         dirname = os.path.dirname(os.path.abspath(__file__))
-        libfile = dirname + '/' + libfilename
+        libfile = os.path.join(dirname, libfilename)
         if not os.path.exists(libfile):
             raise IOError("Specified library file not found.  Did you run 'make' to build the solver libraries?\nFile not found: %s" % libfile)
 
@@ -112,6 +112,14 @@ class Solver(object):
         addr, size = a.buffer_info()
         return ctypes.cast(addr, ctypes.POINTER(c_int)), size
 
+    @staticmethod
+    def _get_array(seq):
+        """Helper function to turn any iterable into an array (unless it already is one)"""
+        if isinstance(seq, array.array):
+            return seq
+        else:
+            return array.array('i', seq)
+
     def new_var(self, polarity=None, dvar=True):
         """Create a new variable in the solver.
 
@@ -167,7 +175,7 @@ class Solver(object):
 
         Args:
             lits:
-              A list of literals as integers.  Each integer specifies a
+              An iterable of literals as integers.  Each integer specifies a
               variable with *1*-based counting and a sign via the sign of the
               integer.  Ex.: [-1, 2, -3] is (!x0 + x1 + !x2)
 
@@ -178,7 +186,7 @@ class Solver(object):
         if not all(abs(x) <= self.nvars() for x in lits):
             raise Exception("Not all variables in %s are created yet.  Call new_var() first." % lits)
         if len(lits) > 1:
-            a = array.array('i', lits)
+            a = self._get_array(lits)
             a_ptr, size = self._to_intptr(a)
             return self.lib.addClause(self.s, size, a_ptr)
         elif len(lits) == 1:
@@ -204,11 +212,11 @@ class Solver(object):
             True if the assignment satisfies the current clauses, False otherwise.
         """
         if positive_lits is not None:
-            a = array.array('i', positive_lits)
+            a = self._get_array(positive_lits)
             a_ptr, size = self._to_intptr(a)
             return self.lib.check_complete(self.s, size, a_ptr, True)
         elif negative_lits is not None:
-            a = array.array('i', negative_lits)
+            a = self._get_array(negative_lits)
             a_ptr, size = self._to_intptr(a)
             return self.lib.check_complete(self.s, size, a_ptr, False)
         else:
@@ -228,7 +236,7 @@ class Solver(object):
         if assumptions is None:
             return self.lib.solve(self.s)
         else:
-            a = array.array('i', assumptions)
+            a = self._get_array(assumptions)
             a_ptr, size = self._to_intptr(a)
             return self.lib.solve_assumptions(self.s, size, a_ptr)
 
@@ -300,7 +308,7 @@ class Solver(object):
         if assumptions is None:
             count = self.lib.getImplies(self.s, res_ptr)
         else:
-            assumps = array.array('i', assumptions)
+            assumps = self._get_array(assumptions)
             assumps_ptr, assumps_size = self._to_intptr(assumps)
             count = self.lib.getImplies_assumptions(self.s, res_ptr, assumps_ptr, assumps_size)
 
@@ -326,7 +334,7 @@ class SubsetMixin(object):
 
         Args:
             lits:
-                A list of literals specified as in `add_clause()`.
+                An iterable of literals specified as in `add_clause()`.
             index (int):
                 A 0-based index into the set of soft clauses.  The clause will
                 be given a relaxation variable based on this index, and it will
@@ -335,7 +343,8 @@ class SubsetMixin(object):
         """
         if self._origvars is None:
             raise Exception("SubsetSolver.set_varcounts() must be called before .add_clause_instrumented()")
-        instrumented_clause = [-(self._origvars+1+index)] + lits
+        instrumented_clause = array.array('i', [-(self._origvars+1+index)])
+        instrumented_clause.extend(lits)
         self.add_clause(instrumented_clause)
 
     def solve_subset(self, subset, extra_assumps=None):
@@ -355,11 +364,10 @@ class SubsetMixin(object):
         if self._origvars is None:
             raise Exception("SubsetSolver.set_varcounts() must be called before .solve_subset()")
 
-        assumptions = [i+self._origvars+1 for i in subset]
+        assumptions = array.array('i', [i+self._origvars+1 for i in subset])
         if extra_assumps:
             assumptions.extend(extra_assumps)
-        assumps_array = array.array('i', assumptions)
-        a_ptr, size = self._to_intptr(assumps_array)
+        a_ptr, size = self._to_intptr(assumptions)
         return self.lib.solve_assumptions(self.s, size, a_ptr)
 
     def unsat_core(self, offset=0):
@@ -402,8 +410,8 @@ class MinisatSolver(Solver):
 
     >>> S = MinisatSolver()
 
-    Create variables using `new_var()`.  Add clauses as list of literals with
-    `add_clause()`, analogous to MiniSat's ``addClause()``.  Literals are
+    Create variables using `new_var()`.  Add clauses as iterables of literals
+    with `add_clause()`, analogous to MiniSat's ``addClause()``.  Literals are
     specified as integers, with the magnitude indicating the variable index
     (with 1-based counting) and the sign indicating True/False.  For example,
     to add clauses (x0), (!x1), (!x0 + x1 + !x2), and (x2 + x3):
@@ -502,7 +510,7 @@ class MinicardSolver(Solver):
 
         Args:
             lits:
-              A list of literals as integers.  Each integer specifies a
+              An iterable of literals as integers.  Each integer specifies a
               variable with **1**-based counting and a sign via the sign of
               the integer.  Ex.: [-1, 2, -3] is {!x0, x1, !x2}
             k (int):
@@ -516,7 +524,7 @@ class MinicardSolver(Solver):
             raise Exception("Not all variables in %s are created yet.  Call new_var() first." % lits)
 
         if len(lits) > 1:
-            a = array.array('i', lits)
+            a = self._get_array(lits)
             a_ptr, size = self._to_intptr(a)
             return self.lib.addAtMost(self.s, size, a_ptr, k)
         else:
