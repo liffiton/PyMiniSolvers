@@ -134,8 +134,10 @@ class Solver(object):
             polarity (bool):
               The default polarity for this variable.  True = variable's
               default is True, etc.  Note that this is the reverse of the 'user
-              polarity' in MiniSat, where True indicates the *sign* is True,
-              hence the default value is False.
+              polarity' in MiniSat, where True indicates the *sign* is True.
+              The default, None, creates the variable using Minisat's default,
+              which assigns a variable False at first, but then may change that
+              based on the phase-saving setting.
             dvar (bool):
               Whether this variable will be used as a decision variable.
 
@@ -144,11 +146,11 @@ class Solver(object):
         """
 
         if polarity is None:
-            pol_int = 2
+            pol_int = 2  # lbool l_Undef
         elif polarity is True:
-            pol_int = 1
+            pol_int = 1  # lbool l_False (hence, the *sign* is false, so the literal is true)
         elif polarity is False:
-            pol_int = 0
+            pol_int = 0  # lbool l_True (hence the literal is false)
         return self.lib.newVar(self.s, pol_int, dvar)
 
     def nvars(self):  # type: () -> int
