@@ -37,7 +37,7 @@ For further examples, see the documentation.
 API Documentation
 -----------------
 
-https://pyminisolvers.readthedocs.org/
+https://pyminisolvers.readthedocs.io/
 
 Setup
 -----

@@ -294,6 +294,10 @@ class Solver(object):
         # reduce the array down to just the valid indexes
         return a[:count]
 
+    def block_model(self):
+        """Block the current model from the solver."""
+        self.add_clause([-i for i in self.get_model()])
+
     def model_value(self, i):  # type: (int) -> bool
         '''Get the value of a given variable in the current model.'''
         return self.lib.modelValue(self.s, i)
