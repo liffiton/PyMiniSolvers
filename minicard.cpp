@@ -74,7 +74,7 @@ extern "C" {
                 assumptions.push( itoLit(pos ? -i : i) );
             }
         }
-        delete specified;
+        delete[] specified;
         return s->solve(assumptions);
     }
 
