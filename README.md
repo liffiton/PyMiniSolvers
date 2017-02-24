@@ -43,7 +43,7 @@ Setup
 -----
 
 Requirements:
- - Python 2.7 or above (compatible with Python 3)
+ - Python 2.7 or 3.x
  - A standard build environment (make, gcc, etc.)
 
 Tested Platforms:
@@ -51,9 +51,16 @@ Tested Platforms:
  - Cygwin
  - OS X
 
-To build the shared libraries and test the API:
+To build the shared libraries:
 
     $ make
+
+To test the API (automatically tests w/ Python 2 and/or 3 as available):
+
+    $ make test
+
+Or manually run the tests:
+
     $ python -m doctest -v minisolvers.py
     $ python test_minisolvers.py
 
