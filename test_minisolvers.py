@@ -167,5 +167,47 @@ class MinicardTest(unittest.TestCase):
         self.int_check()
         self.assertEqual(self.solver.solve(self.assumptions), True)
 
+
+class MinicardSubsetTest(unittest.TestCase):
+    def setUp(self):
+        self.solver = minisolvers.MinicardSubsetSolver()
+        self.atmosts = [ [[1, 2, 3], 1], [[2, 3, 4], 1], [[-3, -4, -5], 1], [[1, 2, 3, 4, 5], 1], [[-1, -2, -3, -4, -5], 1] ]
+        self.n = len(self.atmosts)
+        self.numvars = max(max(abs(var) for var in atmost[0]) for atmost in self.atmosts)
+        self.solver.set_varcounts(self.numvars, self.n)
+        for i in range(self.numvars):
+            self.solver.new_var()
+        for i in range(self.n):
+            self.solver.new_var()
+        i = 0
+        for atmost in self.atmosts:
+            self.solver.add_atmost_instrumented(atmost[0], atmost[1], i)
+            i += 1
+
+    def tearDown(self):
+        del self.solver
+
+    def test_subsets(self):
+        self.assertEqual(self.solver.solve_subset(range(0)), True)
+        self.assertEqual(self.solver.solve_subset(range(1)), True)
+        self.assertEqual(self.solver.solve_subset(range(2)), True)
+        self.assertEqual(self.solver.solve_subset(range(3)), True)
+        self.assertEqual(self.solver.solve_subset(range(4)), False)
+        self.assertEqual(self.solver.solve_subset(range(5)), False)
+        self.assertEqual(self.solver.solve_subset([0, 1, 3]), True)
+        self.assertEqual(self.solver.solve_subset([0, 1, 4]), False)
+
+    def test_cores(self):
+        # Given that cores are not always minimal, we re-extract a core several times
+        # to try to ensure it's minimal.  This *could* still fail spuriously, however.
+        self.assertEqual(self.solver.solve_subset([0, 1, 2, 3]), False)
+        core1 = self.solver.unsat_core()
+        self.assertEqual(self.solver.solve_subset(core1), False)
+        core2 = self.solver.unsat_core()
+        self.assertEqual(self.solver.solve_subset(core2), False)
+        core3 = self.solver.unsat_core()
+        self.assertEqual(sorted(core3), [2, 3])
+
+
 if __name__ == '__main__':
     unittest.main()

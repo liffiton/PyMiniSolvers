@@ -349,9 +349,9 @@ class SubsetMixin(Solver):
             lits:
                 A sequence of literals specified as in `add_clause()`.
             index (int):
-                A 0-based index into the set of soft clauses.  The clause will
-                be given a relaxation variable based on this index, and it will
-                be used to specify the clause in subsets for
+                A 0-based index into the set of soft constraints.  The clause
+                will be given a relaxation variable based on this index, and it
+                will be used to specify the clause in subsets for
                 `solve_subset()`, etc.
         """
         if self._origvars is None:
@@ -363,11 +363,11 @@ class SubsetMixin(Solver):
     def solve_subset(self, subset, extra_assumps=None):  # type: (Sequence[int], Sequence[int]) -> bool
         """Solve a subset of the constraints containing all "hard" clauses
         (those added with the regular `add_clause()` method) and the
-        specified subset of soft clauses.
+        specified subset of soft constraints.
 
         Args:
             subset:
-                A sequence of the indexes of any soft clauses to be included.
+                A sequence of the indexes of any soft constraints to be included.
             extra_assumps:
                 An optional sequence of extra literals to use when solving.
 
@@ -404,7 +404,7 @@ class SubsetMixin(Solver):
     def sat_subset(self, offset=0):  # type: (int) -> array.array
         """Get the set of clauses satisfied in the last check performed by
         `solve_subset()`.  Assumes the last such check was SAT.  This may
-        contain additional soft clauses not in the subset that was given to
+        contain additional soft constraints not in the subset that was given to
         `solve_subset()`, if they were also satisfied by the model found.
 
         Args:
@@ -604,25 +604,56 @@ class MinicardSubsetSolver(SubsetMixin, MinicardSolver):
     addition of the `add_atmost()` method.
 
     >>> S = MinicardSubsetSolver()
-    >>> S.set_varcounts(vars = 4, constraints = 4)
-    >>> for i in range(4+4):
+    >>> S.set_varcounts(vars = 4, constraints = 5)
+    >>> for i in range(4+5):
     ...     _  = S.new_var()
     >>> for i, clause in enumerate([[1], [-2], [3], [4]]):
     ...     S.add_clause_instrumented(clause, i)
 
-    AtMost constraints cannot be instrumented -- they must be hard constraints.
+    AtMost constraints can be instrumented as well as clauses.
 
-    >>> S.add_atmost([1,-2,3], 2)
-    True
+    >>> S.add_atmost_instrumented([1,-2,3], 2, 4)
 
-    >>> S.solve_subset([0,1])
+    >>> S.solve_subset([0,1,4])
     True
-    >>> S.solve_subset([0,1,2,3])
+    >>> S.solve_subset([0,1,2,3,4])
     False
 
     >>> core = S.unsat_core()
     >>> sorted(core)
-    [0, 1, 2]
+    [0, 1, 2, 4]
     """
 
-    pass
+    def add_atmost_instrumented(self, lits, k, index):  # type: (Sequence[int], int, int) -> None
+        """Add a "soft" ATMost constraint with a relaxation variable (the
+        relaxation variable is based on the index, which is assumed to be
+        0-based).
+
+        Args:
+            lits:
+                A sequence of literals specified as in `add_atmost()`.
+            k (int):
+                The [upper] bound to place on these literals.
+            index (int):
+                A 0-based index into the set of soft constraints.  The clause
+                will be given a relaxation variable based on this index, and it
+                will be used to specify the clause in subsets for
+                `solve_subset()`, etc.
+        """
+        if self._origvars is None:
+            raise Exception("SubsetSolver.set_varcounts() must be called before .add_atmost_instrumented()")
+        if not all(abs(x) <= self.nvars() for x in lits):
+            raise Exception("Not all variables in %s are created yet.  Call new_var() first." % lits)
+
+        numlits = len(lits)
+        numnew = numlits - k
+        # Original:     AtMost([lits], k)
+        # Instrumented: AtMost([lits, newvar*numnew], numlits)
+        # If newvar set False -> AtMost([lits], numlits) -> satisfied
+        # If newvar set True  -> AtMost([lits], numlits-numnew) = AtMost([lits], k) [original]
+
+        instrumented_lits = [self._origvars+1+index] * numnew
+        instrumented_lits.extend(lits)
+        a = self._get_array(instrumented_lits)
+        a_ptr, size = self._to_intptr(a)
+        self.lib.addAtMost(self.s, size, a_ptr, numlits)
