@@ -94,7 +94,7 @@ static void parse_DIMACS_main(B& in, Solver& S) {
                 //     S.eliminate(true);
             }
             else {
-                printf("PARSE ERROR! Unexpected char: %c\n", *in), exit(3);
+                printf("c PARSE ERROR! Unexpected char: %c\n", *in), exit(3);
             }
         } else if (*in == 'c' || *in == 'p')
             skipLine(in);

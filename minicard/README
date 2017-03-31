@@ -1,18 +1,21 @@
-MiniCARD 1.0, based on MiniSAT 2.2.0
+MiniCARD 1.1, based on MiniSAT 2.2.0
  Mark Liffiton and Jordyn Maglalang
  <mliffito@iwu.edu>,<jmaglala@iwu.edu>
 
 MiniSAT originally by Niklas Eén and Niklas Sörensson
 
 ================================================================================
-OVERVIEW:
 
-MiniCARD is a *cardinality solver* based on MiniSAT [www.minisat.se].  It takes
-both CNF and CNF+, a format that extends CNF to include cardinality constraints.
-MiniCARD handles cardinality constraints natively, using the same efficient
-data structures and techniques MiniSAT uses for clauses, giving it much better
+OVERVIEW
+--------
+
+MiniCARD is a *cardinality solver* based on MiniSAT [www.minisat.se].  MiniCARD
+handles cardinality constraints natively, using the same efficient data
+structures and techniques MiniSAT uses for clauses, giving it much better
 performance on cardinality constraints than CNF encodings of those constraints
-passed to a typical SAT solver.
+passed to a typical SAT solver.  It can read the standard DIMACS CNF format,
+the OPB pseudo-boolean format (with linear cardinality constraints only), and
+CNF+, a format that extends CNF to include cardinality constraints.  
 
 The CNF+ format extends the DIMACS CNF format, adding the ability to specify
 cardinality constraints alongside regular clauses like so:
@@ -23,10 +26,23 @@ cardinality constraints alongside regular clauses like so:
   4 5 6 -7 >= 2
   3 5 7 0
 
-See the tests/in/ directory for examples.
+See the tests/in/ directory for example files.
 
-================================================================================
-DIRECTORIES:
+Run minicard with the --help and --help-verb flags for details on command line
+options.
+
+
+HISTORY
+-------
+
+Version 1.1 added a basic ability to parse and solve OPB-format instances
+(http://www.cril.univ-artois.fr/PB12/format.pdf) in which the constraints are
+limited to linear cardinality constraints only (i.e., all weights are -1 or
++1).  To solve OPB instances, use the -opb command line flag.
+
+
+DIRECTORIES
+-----------
 
 [MiniCard directories]
   minicard/                 The core MiniCard solver with native AtMost constraints
@@ -38,11 +54,11 @@ DIRECTORIES:
   mtl/                      Mini Template Library
   utils/                    Generic helper code (I/O, Parsing, CPU-time, etc)
 
-================================================================================
-BUILDING: (release version: without assertions, statically linked, etc)
+
+BUILDING (release version: without assertions, statically linked, etc)
+--------
 
   export MROOT=<minisat-dir>              (or setenv in cshell)
   cd { minicard | minicard_encodings | minicard_simp_encoding }
   gmake rs
   cp minicard_static <install-dir>/minicard
-

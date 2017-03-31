@@ -170,7 +170,7 @@ bool Solver::addAtMost_(vec<Lit>& ps, int k) {
     assert(decisionLevel() == 0);
     if (!ok) return false;
         
-    // Remove false, already-true, opposite, and duplicate variables
+    // Remove false or already-true variables; filter opposite literals
     sort(ps);
     Lit p; int i, j;
     for (i = j = 0, p = lit_Undef; i < ps.size(); i++) {
@@ -182,15 +182,16 @@ bool Solver::addAtMost_(vec<Lit>& ps, int k) {
             // Already false: left out, but bound unchanged
             continue;
         }
-        else if (ps[i] == p) {
-            // Duplicate: leave this one out
-            continue;
-        }
         else if (ps[i] == ~p) {
             // Opposite literals: leave both out and decrement the bound by one
             //                    (exactly one of the two will be true)
-            p = ps[i];
             j--;    // remove the last literal kept
+            if (j > 0) {
+                p = ps[j-1];
+            }
+            else {
+                p = lit_Undef;
+            }
             k--;
         }
         else {
@@ -225,7 +226,9 @@ bool Solver::addAtMost_(vec<Lit>& ps, int k) {
     // Propagate negation of remaining literals if already at bound
     if (k == 0) {
         for (i = 0; i < ps.size(); i++) {
-            uncheckedEnqueue(~ps[i]);
+            if (i == 0 || ps[i] != ps[i-1]) {
+                uncheckedEnqueue(~ps[i]);
+            }
         }
         return ok = (propagate() == CRef_Undef);
     }
@@ -649,7 +652,8 @@ Lit Solver::findNewWatch(CRef cr, Lit p) {
             return lit_Error;
         }
 
-        if (c[q] == p) {
+        if (newWatch != lit_Undef && c[q] == p) {
+            // Haven't hit our watched lit before now, and this *is* our watched lit
             assert(newWatch == lit_Error);
 
             // Need to find new watch
@@ -727,10 +731,10 @@ CRef Solver::propagate()
 
                 if (newWatch == lit_Undef) {
                     // No new watch found, so we have reached the bound.
-                    // Enque the negation of each remaining literal
+                    // Enqueue the negation of each remaining literal
                     for (int k = 0 ; k < c.atmost_watches() ; k++) {
-                        if (c[k] != p && value(c[k]) != l_False) {
-                            assert(value(c[k]) == l_Undef || value(c[k]) == l_False);
+                        if (c[k] != p && value(c[k]) != l_False && (k==0 || c[k] != c[k-1])) {
+                            assert(value(c[k]) == l_Undef);
                             uncheckedEnqueue(~c[k],cr);
                         }
                     }
@@ -946,7 +950,7 @@ lbool Solver::search(int nof_conflicts)
                 max_learnts             *= learntsize_inc;
 
                 if (verbosity >= 1)
-                    printf("| %9d | %7d %8d %8d | %8d %8d %6.0f | %6.3f %% |\n", 
+                    printf("c | %9d | %7d %8d %8d | %8d %8d %6.0f | %6.3f %% |\n", 
                            (int)conflicts, 
                            (int)dec_vars - (trail_lim.size() == 0 ? trail.size() : trail_lim[0]), nClauses(), (int)clauses_literals, 
                            (int)max_learnts, nLearnts(), (double)learnts_literals/nLearnts(), progressEstimate()*100);
@@ -1059,10 +1063,10 @@ lbool Solver::solve_()
     lbool   status            = l_Undef;
 
     if (verbosity >= 1){
-        printf("============================[ Search Statistics ]==============================\n");
-        printf("| Conflicts |          ORIGINAL         |          LEARNT          | Progress |\n");
-        printf("|           |    Vars  Clauses Literals |    Limit  Clauses Lit/Cl |          |\n");
-        printf("===============================================================================\n");
+        printf("c ============================[ Search Statistics ]==============================\n");
+        printf("c | Conflicts |          ORIGINAL         |          LEARNT          | Progress |\n");
+        printf("c |           |    Vars  Clauses Literals |    Limit  Clauses Lit/Cl |          |\n");
+        printf("c ===============================================================================\n");
     }
 
     // Search:
@@ -1075,7 +1079,7 @@ lbool Solver::solve_()
     }
 
     if (verbosity >= 1)
-        printf("===============================================================================\n");
+        printf("c ===============================================================================\n");
 
 
     if (status == l_True){
@@ -1191,7 +1195,7 @@ void Solver::toDimacs(FILE* f, const vec<Lit>& assumps)
         toDimacs(f, ca[clauses[i]], map, max);
 
     if (verbosity > 0)
-        printf("Wrote %d clauses with %d variables.\n", cnt, max);
+        printf("c Wrote %d clauses with %d variables.\n", cnt, max);
 }
 
 
@@ -1207,7 +1211,7 @@ void Solver::relocAll(ClauseAllocator& to)
     for (int v = 0; v < nVars(); v++)
         for (int s = 0; s < 2; s++){
             Lit p = mkLit(v, s);
-            // printf(" >>> RELOCING: %s%d\n", sign(p)?"-":"", var(p)+1);
+            // printf("c  >>> RELOCING: %s%d\n", sign(p)?"-":"", var(p)+1);
             vec<Watcher>& ws = watches[p];
             for (int j = 0; j < ws.size(); j++)
                 ca.reloc(ws[j].cref, to);
@@ -1242,7 +1246,7 @@ void Solver::garbageCollect()
 
     relocAll(to);
     if (verbosity >= 2)
-        printf("|  Garbage collection:   %12d bytes => %12d bytes             |\n", 
+        printf("c |  Garbage collection:   %12d bytes => %12d bytes             |\n", 
                ca.size()*ClauseAllocator::Unit_Size, to.size()*ClauseAllocator::Unit_Size);
     to.moveTo(ca);
 }
