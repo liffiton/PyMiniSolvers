@@ -474,7 +474,7 @@ class MinicardSolver(Solver):
     >>> S = MinicardSolver()
 
     This has the same interface as `MinisatSolver`, with the addition of
-    the `add_atmost()` method.
+    the `add_atmost()` and `add_atleast()` methods.
 
     >>> for i in range(4):
     ...     S.new_var()  # doctest: +ELLIPSIS
@@ -498,6 +498,12 @@ class MinicardSolver(Solver):
 
     >>> list(S.get_model())
     [1, 0, 0, 1]
+
+    >>> S.add_atleast([1,2,3,4], 2)
+    True
+
+    >>> S.solve()
+    True
 
     As with `add_clause()`, the `add_atmost()` method may return False if a
     conflict is detected when adding the constraint, even without search.
@@ -545,6 +551,27 @@ class MinicardSolver(Solver):
             return self.lib.addAtMost(self.s, size, a_ptr, k)
         else:
             return self.lib.addAtMost(self.s, 0, None, 0)
+
+    def add_atleast(self, lits, k):  # type: (Sequence[int], int) -> bool
+        """Convenience function to add an AtLeast constraint.
+        Translates the AtLeast into an equivalent AtMost.
+        See add_atmost().
+
+        Args:
+            lits:
+              A sequence of literals as integers.  Each integer specifies a
+              variable with **1**-based counting and a sign via the sign of
+              the integer.  Ex.: [-1, 2, -3] is {!x0, x1, !x2}
+            k (int):
+              The [lower] bound to place on these literals.
+
+        Returns:
+            A boolean value returned from MiniCard's ``addAtMost()``
+            function, indicating success (True) or conflict (False).
+        """
+        new_k = len(lits) - k
+        new_lits = [-x for x in lits]
+        return self.add_atmost(new_lits, new_k)
 
 
 class MinisatSubsetSolver(SubsetMixin, MinisatSolver):
@@ -613,7 +640,7 @@ class MinicardSubsetSolver(SubsetMixin, MinicardSolver):
     >>> for i, clause in enumerate([[1], [-2], [3], [4]]):
     ...     S.add_clause_instrumented(clause, i)
 
-    AtMost constraints can be instrumented as well as clauses.
+    AtMost and AtLeast constraints can be instrumented as well as clauses.
 
     >>> S.add_atmost_instrumented([1,-2,3], 2, 4)
 
@@ -660,3 +687,23 @@ class MinicardSubsetSolver(SubsetMixin, MinicardSolver):
         a = self._get_array(instrumented_lits)
         a_ptr, size = self._to_intptr(a)
         self.lib.addAtMost(self.s, size, a_ptr, numlits)
+
+    def add_atleast_instrumented(self, lits, k, index):  # type: (Sequence[int], int, int) -> None
+        """Convenience function to add a soft AtLeast constraint.
+        Translates the AtLeast into an equivalent AtMost.
+        See add_atmost_instrumented().
+
+        Args:
+            lits:
+                A sequence of literals specified as in `add_atmost()`.
+            k (int):
+                The [lower] bound to place on these literals.
+            index (int):
+                A 0-based index into the set of soft constraints.  The clause
+                will be given a relaxation variable based on this index, and it
+                will be used to specify the clause in subsets for
+                `solve_subset()`, etc.
+        """
+        new_k = len(lits) - k
+        new_lits = [-x for x in lits]
+        return self.add_atmost_instrumented(new_lits, new_k, index)
