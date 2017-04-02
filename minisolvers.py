@@ -396,6 +396,8 @@ class SubsetMixin(Solver):
         Returns:
             An array of constraint indexes comprising an UNSAT core.
         """
+        if self._origvars is None:
+            raise Exception("SubsetSolver.set_varcounts() must be called (and at least one instrumented constraint added) before .unsat_core()")
         conflict_size = self.lib.conflictSize(self.s)
         a = array.array('i', [-1] * conflict_size)
         a_ptr, size = self._to_intptr(a)
