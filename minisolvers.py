@@ -579,10 +579,13 @@ class MinisatSubsetSolver(SubsetMixin, MinisatSolver):
 
     >>> S = MinisatSubsetSolver()
 
-    It must be told explicitlyhow many of its variables are "real" and how many
-    are relaxation variables for constraints.
+    It must be told explicitly how many of its variables are "real" and how
+    many are relaxation variables for constraints.
 
     >>> S.set_varcounts(vars = 4, constraints = 5)
+
+    And variables must be created for both the "real" variables and the
+    relaxation variables.
 
     >>> for i in range(4+5):
     ...     _ = S.new_var()
@@ -674,6 +677,8 @@ class MinicardSubsetSolver(SubsetMixin, MinicardSolver):
             raise Exception("SubsetSolver.set_varcounts() must be called before .add_atmost_instrumented()")
         if not all(abs(x) <= self.nvars() for x in lits):
             raise Exception("Not all variables in %s are created yet.  Call new_var() first." % lits)
+        if self._origvars+1+index > self.nvars():
+            raise Exception("Relaxation variable %i has not been created yet.  Call new_var() first." % self._origvars+1+index)
 
         numlits = len(lits)
         numnew = numlits - k
