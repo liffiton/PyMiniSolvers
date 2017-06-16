@@ -678,7 +678,7 @@ class MinicardSubsetSolver(SubsetMixin, MinicardSolver):
         if not all(abs(x) <= self.nvars() for x in lits):
             raise Exception("Not all variables in %s are created yet.  Call new_var() first." % lits)
         if self._origvars+1+index > self.nvars():
-            raise Exception("Relaxation variable %i has not been created yet.  Call new_var() first." % self._origvars+1+index)
+            raise Exception("Relaxation variable %i has not been created yet.  Call new_var() first." % (self._origvars+1+index))
 
         numlits = len(lits)
         numnew = numlits - k
