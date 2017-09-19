@@ -297,7 +297,7 @@ class Solver(object):
     def block_model(self):
         """Block the current model from the solver."""
         model = self.get_model()
-        self.add_clause([-(x+1) if model[x] > 0 else x+1 for x in range(1, len(model))])
+        self.add_clause([-(x+1) if model[x] > 0 else x+1 for x in range(len(model))])
 
     def model_value(self, i):  # type: (int) -> bool
         '''Get the value of a given variable in the current model.'''
