@@ -137,4 +137,12 @@ extern "C" {
         }
         return len;
     }
+
+    // getter methods for accessing solver statistics
+    uint64_t get_solves(Solver* s) { return s->solves; }
+    uint64_t get_starts(Solver* s) { return s->starts; }
+    uint64_t get_decisions(Solver* s) { return s->decisions; }
+    uint64_t get_rnd_decisions(Solver* s) { return s->rnd_decisions; }
+    uint64_t get_propagations(Solver* s) { return s->propagations; }
+    uint64_t get_conflicts(Solver* s) { return s->conflicts; }
 }
