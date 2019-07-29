@@ -45,6 +45,7 @@ Setup
 Requirements:
  - Python 2.7 or 3.x
  - A standard build environment (make, gcc, etc.)
+ - zlib development libraries (e.g., `zlib1g-dev` or `zlib-devel` packages)
 
 Tested Platforms:
  - Linux
