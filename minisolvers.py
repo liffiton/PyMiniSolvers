@@ -24,7 +24,7 @@ import array
 import os
 import ctypes  # type: ignore
 from abc import ABCMeta, abstractmethod
-from ctypes import c_void_p, c_ubyte, c_bool, c_int, c_int64, c_double  # type: ignore
+from ctypes import c_void_p, c_ubyte, c_bool, c_int, c_int64, c_double, pointer  # type: ignore
 
 try:
     import typing  # noqa: for mypy-lang type-checking
@@ -127,7 +127,7 @@ class Solver(object):
         self.lib.Solver_delete(self.s)
 
     @staticmethod
-    def _to_intptr(a):  # type: (array.array) -> Tuple[int, int]
+    def _to_intptr(a):  # type: (array.array) -> Tuple[pointer[c_int], int]
         """Helper function to get a ctypes POINTER(c_int) for an array"""
         addr, size = a.buffer_info()
         return ctypes.cast(addr, ctypes.POINTER(c_int)), size
