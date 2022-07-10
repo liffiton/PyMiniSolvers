@@ -44,17 +44,17 @@ clean:
 	rm -f *.so *.o
 
 # check for existence of python versions to control tests
-PYTHON2 := $(shell command -v python 2> /dev/null)
-PYTHON3 := $(shell command -v python3 2> /dev/null)
+PYTHON2 := $(shell command -v python || command -v python2)
+PYTHON3 := $(shell command -v python3)
 
 test:
 ifdef PYTHON2
-	python test_minisolvers.py
-	python -m doctest -v minisolvers.py
+	${PYTHON2} test_minisolvers.py
+	${PYTHON2} -m doctest -v minisolvers.py
 endif
 ifdef PYTHON3
-	python3 test_minisolvers.py
-	python3 -m doctest -v minisolvers.py
+	${PYTHON3} test_minisolvers.py
+	${PYTHON3} -m doctest -v minisolvers.py
 endif
 	@echo
 	@echo "[32mAll tests passed.[m"
