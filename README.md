@@ -42,7 +42,7 @@ Setup
 -----
 
 Requirements:
- - Python 3.10+
+ - Python 3.9+
  - A standard build environment (make, gcc, etc.)
  - zlib development libraries (e.g., `zlib1g-dev` or `zlib-devel` packages)
 
