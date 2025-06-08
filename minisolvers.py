@@ -24,8 +24,14 @@ import array
 import os
 import ctypes
 from abc import ABCMeta, abstractmethod
-from typing import Tuple, Iterable, Optional, Sequence
+from collections.abc import Iterable, Sequence
 from ctypes import c_void_p, c_ubyte, c_bool, c_int, c_int64, c_double
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    IntPointer = ctypes._Pointer[ctypes.c_int]
+else:
+    IntPointer = ctypes.POINTER(ctypes.c_int)
 
 
 class Solver(object):
@@ -121,20 +127,20 @@ class Solver(object):
         self.lib.Solver_delete(self.s)
 
     @staticmethod
-    def _to_intptr(a: array.array) -> Tuple[ctypes.POINTER(ctypes.c_int), int]:
+    def _to_intptr(a: array.array[int]) -> tuple[IntPointer, int]:
         """Helper function to get a ctypes POINTER(c_int) for an array"""
         addr, size = a.buffer_info()
-        return ctypes.cast(addr, ctypes.POINTER(ctypes.c_int)), size
+        return ctypes.cast(addr, IntPointer), size
 
     @staticmethod
-    def _get_array(seq: Iterable[int]) -> array.array:
+    def _get_array(seq: Iterable[int]) -> array.array[int]:
         """Helper function to turn any iterable into an array (unless it already is one)"""
         if isinstance(seq, array.array):
             return seq
         else:
             return array.array('i', seq)
 
-    def new_var(self, polarity: Optional[bool] = None, dvar: bool = True) -> int:
+    def new_var(self, polarity: bool | None = None, dvar: bool = True) -> int:
         """Create a new variable in the solver.
 
         Args:
@@ -211,7 +217,7 @@ class Solver(object):
         else:
             return self.lib.addClause(self.s, 0, None)
 
-    def check_complete(self, positive_lits: Optional[Sequence[int]] = None, negative_lits: Optional[Sequence[int]] = None) -> bool:
+    def check_complete(self, positive_lits: Sequence[int] | None = None, negative_lits: Sequence[int] | None = None) -> bool:
         """Check whether a given complete assignment satisfies the current set
         of clauses.  For efficiency, it may be given just the positive literals
         or just the negative literals.
@@ -238,7 +244,7 @@ class Solver(object):
         else:
             raise Exception("Either positive_lits or negative_lits must be specified in check_complete().")
 
-    def solve(self, assumptions: Optional[Sequence[int]] = None) -> bool:
+    def solve(self, assumptions: Sequence[int] | None = None) -> bool:
         """Solve the current set of clauses, optionally with a set of assumptions.
 
         Args:
@@ -260,7 +266,7 @@ class Solver(object):
         '''Call Solver.simplify().'''
         return self.lib.simplify(self.s)
 
-    def get_model(self, start: int = 0, end: int = -1) -> array.array:
+    def get_model(self, start: int = 0, end: int = -1) -> array.array[int]:
         """Get the current model from the solver, optionally retrieving only a slice.
 
         Args:
@@ -279,7 +285,7 @@ class Solver(object):
         self.lib.fillModel(self.s, a_ptr, start, end)
         return a
 
-    def get_model_trues(self, start: int = 0, end: int = -1, offset: int = 0) -> array.array:
+    def get_model_trues(self, start: int = 0, end: int = -1, offset: int = 0) -> array.array[int]:
         """Get variables assigned true in the current model from the solver.
 
         Args:
@@ -301,7 +307,7 @@ class Solver(object):
         # reduce the array down to just the valid indexes
         return a[:count]
 
-    def block_model(self):
+    def block_model(self) -> None:
         """Block the current model from the solver."""
         model = self.get_model()
         self.add_clause([-(x+1) if model[x] > 0 else x+1 for x in range(len(model))])
@@ -310,7 +316,7 @@ class Solver(object):
         '''Get the value of a given variable in the current model.'''
         return self.lib.modelValue(self.s, i)
 
-    def implies(self, assumptions: Optional[Sequence[int]] = None) -> array.array:
+    def implies(self, assumptions: Sequence[int] | None = None) -> array.array[int]:
         """Get literals known to be implied by the current formula.  (I.e., all
         assignments made at level 0.)
 
@@ -336,7 +342,7 @@ class Solver(object):
         # reduce the array down to just the valid indexes
         return res[:count]
 
-    def get_stats(self):
+    def get_stats(self) -> dict[str, int]:
         """Returns a dictionary of solver statistics."""
         return {
             "solves": self.lib.get_solves(self.s),
@@ -350,8 +356,8 @@ class Solver(object):
 
 class SubsetMixin(Solver):
     """A mixin for any Solver class that lets it reason about subsets of a clause set."""
-    _origvars: Optional[int] = None
-    _relvars: Optional[int] = None
+    _origvars: int | None = None
+    _relvars: int | None = None
 
     def set_varcounts(self, vars: int, constraints: int) -> None:
         """Record how many of the solver's variables and clauses are
@@ -379,7 +385,7 @@ class SubsetMixin(Solver):
         instrumented_clause.extend(lits)
         self.add_clause(instrumented_clause)
 
-    def solve_subset(self, subset: Sequence[int], extra_assumps: Optional[Sequence[int]] = None) -> bool:
+    def solve_subset(self, subset: Sequence[int], extra_assumps: Sequence[int] | None = None) -> bool:
         """Solve a subset of the constraints containing all "hard" clauses
         (those added with the regular `add_clause()` method) and the
         specified subset of soft constraints.
@@ -402,7 +408,7 @@ class SubsetMixin(Solver):
         a_ptr, size = self._to_intptr(assumptions)
         return self.lib.solve_assumptions(self.s, size, a_ptr)
 
-    def unsat_core(self, offset: int = 0) -> array.array:
+    def unsat_core(self, offset: int = 0) -> array.array[int]:
         """Get an UNSAT core from the last check performed by
         `solve_subset()`.  Assumes the last such check was UNSAT.
 
@@ -422,7 +428,7 @@ class SubsetMixin(Solver):
         self.lib.unsatCore(self.s, self._origvars, a_ptr, offset)
         return a
 
-    def sat_subset(self, offset: int = 0) -> array.array:
+    def sat_subset(self, offset: int = 0) -> array.array[int]:
         """Get the set of clauses satisfied in the last check performed by
         `solve_subset()`.  Assumes the last such check was SAT.  This may
         contain additional soft constraints not in the subset that was given to
@@ -436,6 +442,8 @@ class SubsetMixin(Solver):
         Returns:
             An array of constraint indexes comprising a satisfiable subset.
         """
+        if self._origvars is None or self._relvars is None:
+            raise Exception("SubsetSolver.set_varcounts() must be called before .sat_subset()")
         return self.get_model_trues(start=self._origvars, end=self._origvars+self._relvars, offset=offset)
 
 
