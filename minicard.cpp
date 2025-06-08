@@ -34,6 +34,13 @@ extern "C" {
 
     // polarity: 0=False, 1=True, 2=Undef
     int newVar(Solver* s, uint8_t polarity, bool dvar=true) { return s->newVar(polarity, dvar); }
+    int newVars(Solver* s, int number, uint8_t polarity, bool dvar=true) {
+        int ret;
+        for (int i = 0 ; i < number ; i++) {
+            ret = s->newVar(polarity, dvar);
+        }
+        return ret;
+    }
 
     bool addAtMost(Solver* s, int len, int* lits, int k) {
         vec<Lit> atmost;

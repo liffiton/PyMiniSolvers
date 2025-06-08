@@ -11,10 +11,18 @@ class MinisatTest(unittest.TestCase):
     def tearDown(self):
         del self.solver
 
-    def test_newvars(self):
+    def test_newvar(self):
         for i in range(self.numvars):
             self.solver.new_var(True)
             self.assertEqual(self.solver.nvars(), i+1)
+        self.assertEqual(self.solver.nvars(), self.numvars)
+
+    def test_newvars(self):
+        final_index = self.solver.new_vars(self.numvars, True)
+        self.assertEqual(final_index, self.numvars-1)
+        self.assertEqual(self.solver.nvars(), self.numvars)
+        final_index = self.solver.new_vars(5, True)
+        self.assertEqual(final_index, self.numvars+5-1)
 
     def test_add_clause_without_vars(self):
         self.assertRaises(Exception, self.solver.add_clause, [-1, 2])
@@ -102,10 +110,17 @@ class MinicardTest(unittest.TestCase):
     def tearDown(self):
         del self.solver
 
-    def test_newvars(self):
+    def test_newvar(self):
         for i in range(self.numvars):
             self.solver.new_var(True)
             self.assertEqual(self.solver.nvars(), i+1)
+
+    def test_newvars(self):
+        final_index = self.solver.new_vars(self.numvars, True)
+        self.assertEqual(final_index, self.numvars-1)
+        self.assertEqual(self.solver.nvars(), self.numvars)
+        final_index = self.solver.new_vars(5, True)
+        self.assertEqual(final_index, self.numvars+5-1)
 
     def test_add_clause_without_vars(self):
         self.assertRaises(Exception, self.solver.add_clause, [-1, 2])
