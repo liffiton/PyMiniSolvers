@@ -229,7 +229,7 @@ class Solver(object):
             A boolean value returned from MiniSat's ``addClause()`` function,
             indicating success (True) or conflict (False).
         """
-        if not all(abs(x) <= self.nvars() for x in lits):
+        if max(abs(x) for x in lits) > self.nvars():
             raise Exception("Not all variables in %s are created yet.  Call new_var() or new_vars() first." % lits)
         if len(lits) > 1:
             a = self._get_array(lits)
@@ -584,9 +584,8 @@ class MinicardSolver(Solver):
             A boolean value returned from MiniCard's ``addAtMost()``
             function, indicating success (True) or conflict (False).
         """
-        if not all(abs(x) <= self.nvars() for x in lits):
+        if max(abs(x) for x in lits) > self.nvars():
             raise Exception("Not all variables in %s are created yet.  Call new_var() or new_vars() first." % lits)
-
         if len(lits) > 1:
             a = self._get_array(lits)
             a_ptr, size = self._to_intptr(a)
@@ -717,7 +716,7 @@ class MinicardSubsetSolver(SubsetMixin, MinicardSolver):
         """
         if self._origvars is None:
             raise Exception("SubsetSolver.set_varcounts() must be called before .add_atmost_instrumented()")
-        if not all(abs(x) <= self.nvars() for x in lits):
+        if max(abs(x) for x in lits) > self.nvars():
             raise Exception("Not all variables in %s are created yet.  Call new_var() or new_vars() first." % lits)
         if self._origvars+1+index > self.nvars():
             raise Exception("Relaxation variable %i has not been created yet.  Call new_var() or new_vars() first." % (self._origvars+1+index))
