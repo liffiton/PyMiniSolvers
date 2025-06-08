@@ -24,6 +24,7 @@ import array
 import os
 import ctypes
 from abc import ABCMeta, abstractmethod
+from typing import Tuple, Iterable, Optional, Sequence
 from ctypes import c_void_p, c_ubyte, c_bool, c_int, c_int64, c_double
 
 
@@ -41,11 +42,11 @@ class Solver(object):
     __metaclass__ = ABCMeta
 
     @abstractmethod
-    def __init__(self, libfilename):  # type: (str) -> None
+    def __init__(self, libfilename: str) -> None:
         self._setup_lib(libfilename)
         self.s = self.lib.Solver_new()
 
-    def _setup_lib(self, libfilename):  # type: (str) -> None
+    def _setup_lib(self, libfilename: str) -> None:
         """Load the minisat library with ctypes and create a Solver
            object.  Correct return types (if not int as assumed by
            ctypes) and set argtypes for functions from the minisat
@@ -115,25 +116,25 @@ class Solver(object):
         l.get_conflicts.argtypes = [c_void_p]
         l.get_conflicts.restype = c_int64
 
-    def __del__(self):  # type: () -> None
+    def __del__(self) -> None:
         """Delete the Solver object"""
         self.lib.Solver_delete(self.s)
 
     @staticmethod
-    def _to_intptr(a):  # type: (array.array) -> Tuple[pointer[c_int], int]
+    def _to_intptr(a: array.array) -> Tuple[ctypes.POINTER(ctypes.c_int), int]:
         """Helper function to get a ctypes POINTER(c_int) for an array"""
         addr, size = a.buffer_info()
-        return ctypes.cast(addr, ctypes.POINTER(c_int)), size
+        return ctypes.cast(addr, ctypes.POINTER(ctypes.c_int)), size
 
     @staticmethod
-    def _get_array(seq):  # type: (Iterable[int]) -> array.array
+    def _get_array(seq: Iterable[int]) -> array.array:
         """Helper function to turn any iterable into an array (unless it already is one)"""
         if isinstance(seq, array.array):
             return seq
         else:
             return array.array('i', seq)
 
-    def new_var(self, polarity=None, dvar=True):  # type: (bool, bool) -> int
+    def new_var(self, polarity: Optional[bool] = None, dvar: bool = True) -> int:
         """Create a new variable in the solver.
 
         Args:
@@ -159,33 +160,33 @@ class Solver(object):
             pol_int = 0  # lbool l_True (hence the literal is false)
         return self.lib.newVar(self.s, pol_int, dvar)
 
-    def nvars(self):  # type: () -> int
+    def nvars(self) -> int:
         '''Get the number of variables created in the solver.'''
         return self.lib.nVars(self.s)
 
-    def nclauses(self):  # type: () -> int
+    def nclauses(self) -> int:
         '''Get the number of clauses or constraints added to the solver.'''
         return self.lib.nClauses(self.s)
 
-    def set_phase_saving(self, ps):  # type: (int) -> None
+    def set_phase_saving(self, ps: int) -> None:
         '''Set the level of phase saving (0=none, 1=limited, 2=full (default)).'''
         self.lib.setPhaseSaving(self.s, ps)
 
-    def set_rnd_pol(self, val):  # type: (bool) -> None
+    def set_rnd_pol(self, val: bool) -> None:
         '''Set whether random polarities are used for decisions (overridden if vars are created with a user polarity other than None)'''
         self.lib.setRndPol(self.s, val)
 
-    def set_rnd_init_act(self, val):  # type: (bool) -> None
+    def set_rnd_init_act(self, val: bool) -> None:
         '''Set whether variables are intialized with a random initial activity.
            (default: False)'''
         self.lib.setRndInitAct(self.s, val)
 
-    def set_rnd_seed(self, seed):  # type: (float) -> None
+    def set_rnd_seed(self, seed: float) -> None:
         '''Set the solver's random seed to the given double value.  Cannot be 0.0.'''
         assert(seed != 0.0)
         self.lib.setRndSeed(self.s, seed)
 
-    def add_clause(self, lits):  # type: (Sequence[int]) -> bool
+    def add_clause(self, lits: Sequence[int]) -> bool:
         """Add a clause to the solver.
 
         Args:
@@ -210,7 +211,7 @@ class Solver(object):
         else:
             return self.lib.addClause(self.s, 0, None)
 
-    def check_complete(self, positive_lits=None, negative_lits=None):  # type: (Sequence[int], Sequence[int]) -> bool
+    def check_complete(self, positive_lits: Optional[Sequence[int]] = None, negative_lits: Optional[Sequence[int]] = None) -> bool:
         """Check whether a given complete assignment satisfies the current set
         of clauses.  For efficiency, it may be given just the positive literals
         or just the negative literals.
@@ -237,7 +238,7 @@ class Solver(object):
         else:
             raise Exception("Either positive_lits or negative_lits must be specified in check_complete().")
 
-    def solve(self, assumptions=None):  # type: (Sequence[int]) -> bool
+    def solve(self, assumptions: Optional[Sequence[int]] = None) -> bool:
         """Solve the current set of clauses, optionally with a set of assumptions.
 
         Args:
@@ -255,11 +256,11 @@ class Solver(object):
             a_ptr, size = self._to_intptr(a)
             return self.lib.solve_assumptions(self.s, size, a_ptr)
 
-    def simplify(self):  # type: () -> bool
+    def simplify(self) -> bool:
         '''Call Solver.simplify().'''
         return self.lib.simplify(self.s)
 
-    def get_model(self, start=0, end=-1):  # type: (int, int) -> array.array
+    def get_model(self, start: int = 0, end: int = -1) -> array.array:
         """Get the current model from the solver, optionally retrieving only a slice.
 
         Args:
@@ -278,7 +279,7 @@ class Solver(object):
         self.lib.fillModel(self.s, a_ptr, start, end)
         return a
 
-    def get_model_trues(self, start=0, end=-1, offset=0):  # type: (int, int, int) -> array.array
+    def get_model_trues(self, start: int = 0, end: int = -1, offset: int = 0) -> array.array:
         """Get variables assigned true in the current model from the solver.
 
         Args:
@@ -305,11 +306,11 @@ class Solver(object):
         model = self.get_model()
         self.add_clause([-(x+1) if model[x] > 0 else x+1 for x in range(len(model))])
 
-    def model_value(self, i):  # type: (int) -> bool
+    def model_value(self, i: int) -> bool:
         '''Get the value of a given variable in the current model.'''
         return self.lib.modelValue(self.s, i)
 
-    def implies(self, assumptions=None):  # type(Sequence[int]) -> array.array
+    def implies(self, assumptions: Optional[Sequence[int]] = None) -> array.array:
         """Get literals known to be implied by the current formula.  (I.e., all
         assignments made at level 0.)
 
@@ -349,17 +350,17 @@ class Solver(object):
 
 class SubsetMixin(Solver):
     """A mixin for any Solver class that lets it reason about subsets of a clause set."""
-    _origvars = None    # type: int
-    _relvars = None     # type: int
+    _origvars: Optional[int] = None
+    _relvars: Optional[int] = None
 
-    def set_varcounts(self, vars, constraints):  # type: (int, int) -> None
+    def set_varcounts(self, vars: int, constraints: int) -> None:
         """Record how many of the solver's variables and clauses are
         "original," as opposed to clause-selector variables, etc.
         """
         self._origvars = vars
         self._relvars = constraints
 
-    def add_clause_instrumented(self, lits, index):  # type: (Sequence[int], int) -> None
+    def add_clause_instrumented(self, lits: Sequence[int], index: int) -> None:
         """Add a "soft" clause with a relaxation variable (the relaxation var.
         is based on the index, which is assumed to be 0-based).
 
@@ -378,7 +379,7 @@ class SubsetMixin(Solver):
         instrumented_clause.extend(lits)
         self.add_clause(instrumented_clause)
 
-    def solve_subset(self, subset, extra_assumps=None):  # type: (Sequence[int], Sequence[int]) -> bool
+    def solve_subset(self, subset: Sequence[int], extra_assumps: Optional[Sequence[int]] = None) -> bool:
         """Solve a subset of the constraints containing all "hard" clauses
         (those added with the regular `add_clause()` method) and the
         specified subset of soft constraints.
@@ -401,7 +402,7 @@ class SubsetMixin(Solver):
         a_ptr, size = self._to_intptr(assumptions)
         return self.lib.solve_assumptions(self.s, size, a_ptr)
 
-    def unsat_core(self, offset=0):  # type: (int) -> array.array
+    def unsat_core(self, offset: int = 0) -> array.array:
         """Get an UNSAT core from the last check performed by
         `solve_subset()`.  Assumes the last such check was UNSAT.
 
@@ -421,7 +422,7 @@ class SubsetMixin(Solver):
         self.lib.unsatCore(self.s, self._origvars, a_ptr, offset)
         return a
 
-    def sat_subset(self, offset=0):  # type: (int) -> array.array
+    def sat_subset(self, offset: int = 0) -> array.array:
         """Get the set of clauses satisfied in the last check performed by
         `solve_subset()`.  Assumes the last such check was SAT.  This may
         contain additional soft constraints not in the subset that was given to
@@ -481,7 +482,7 @@ class MinisatSolver(Solver):
     >>> S.solve()
     False
     """
-    def __init__(self):  # type: () -> None
+    def __init__(self) -> None:
         super(MinisatSolver, self).__init__("libminisat.so")
 
 
@@ -530,10 +531,10 @@ class MinicardSolver(Solver):
     >>> S.solve()
     False
     """
-    def __init__(self):  # type: () -> None
+    def __init__(self) -> None:
         super(MinicardSolver, self).__init__("libminicard.so")
 
-    def _setup_lib(self, libfilename):  # type: (str) -> None
+    def _setup_lib(self, libfilename: str) -> None:
         """Correct return types (if not int as assumed by ctypes) and set argtypes for
            functions from the minicard library.
         """
@@ -544,7 +545,7 @@ class MinicardSolver(Solver):
         l.addAtMost.restype = c_bool
         l.addAtMost.argtypes = [c_void_p, c_int, c_void_p, c_int]
 
-    def add_atmost(self, lits, k):  # type: (Sequence[int], int) -> bool
+    def add_atmost(self, lits: Sequence[int], k: int) -> bool:
         """Add an AtMost constraint to the solver.
 
         Args:
@@ -569,7 +570,7 @@ class MinicardSolver(Solver):
         else:
             return self.lib.addAtMost(self.s, 0, None, 0)
 
-    def add_atleast(self, lits, k):  # type: (Sequence[int], int) -> bool
+    def add_atleast(self, lits: Sequence[int], k: int) -> bool:
         """Convenience function to add an AtLeast constraint.
         Translates the AtLeast into an equivalent AtMost.
         See add_atmost().
@@ -674,7 +675,7 @@ class MinicardSubsetSolver(SubsetMixin, MinicardSolver):
     [0, 1, 2, 4]
     """
 
-    def add_atmost_instrumented(self, lits, k, index):  # type: (Sequence[int], int, int) -> None
+    def add_atmost_instrumented(self, lits: Sequence[int], k: int, index: int) -> None:
         """Add a "soft" ATMost constraint with a relaxation variable (the
         relaxation variable is based on the index, which is assumed to be
         0-based).
@@ -710,7 +711,7 @@ class MinicardSubsetSolver(SubsetMixin, MinicardSolver):
         a_ptr, size = self._to_intptr(a)
         self.lib.addAtMost(self.s, size, a_ptr, numlits)
 
-    def add_atleast_instrumented(self, lits, k, index):  # type: (Sequence[int], int, int) -> None
+    def add_atleast_instrumented(self, lits: Sequence[int], k: int, index: int) -> None:
         """Convenience function to add a soft AtLeast constraint.
         Translates the AtLeast into an equivalent AtMost.
         See add_atmost_instrumented().
