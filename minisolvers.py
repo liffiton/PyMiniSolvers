@@ -168,18 +168,20 @@ class Solver(object):
         return self.lib.newVar(self.s, pol_int, dvar)
     
     def new_vars(self, n: int, polarity: bool | None = None, dvar: bool = True) -> int:
-        """Create a new variable in the solver.
+        """Create multiple new variables in the solver.
 
         Args:
+            n (int):
+              The number of new variables to create.
             polarity (bool):
-              The default polarity for this variable.  True = variable's
+              The default polarity for the variables.  True = variable's
               default is True, etc.  Note that this is the reverse of the 'user
               polarity' in MiniSat, where True indicates the *sign* is True.
               The default, None, creates the variable using Minisat's default,
               which assigns a variable False at first, but then may change that
               based on the phase-saving setting.
             dvar (bool):
-              Whether this variable will be used as a decision variable.
+              Whether the variables will be used as decision variables.
 
         Returns:
             The final new variable's index (0-based counting).
@@ -228,7 +230,7 @@ class Solver(object):
             indicating success (True) or conflict (False).
         """
         if not all(abs(x) <= self.nvars() for x in lits):
-            raise Exception("Not all variables in %s are created yet.  Call new_var() first." % lits)
+            raise Exception("Not all variables in %s are created yet.  Call new_var() or new_vars() first." % lits)
         if len(lits) > 1:
             a = self._get_array(lits)
             a_ptr, size = self._to_intptr(a)
@@ -474,17 +476,13 @@ class MinisatSolver(Solver):
 
     >>> S = MinisatSolver()
 
-    Create variables using `new_var()`.  Add clauses as sequences of literals
+    Create variables using `new_vars()`.  Add clauses as sequences of literals
     with `add_clause()`, analogous to MiniSat's ``addClause()``.  Literals are
     specified as integers, with the magnitude indicating the variable index
     (with 1-based counting) and the sign indicating True/False.  For example,
     to add clauses (x0), (!x1), (!x0 + x1 + !x2), and (x2 + x3):
 
-    >>> for i in range(4):
-    ...     S.new_var()  # doctest: +ELLIPSIS
-    0
-    1
-    2
+    >>> S.new_vars(4)
     3
     >>> for clause in [1], [-2], [-1, 2, -3], [3, 4]:
     ...     S.add_clause(clause)  # doctest: +ELLIPSIS
@@ -524,11 +522,7 @@ class MinicardSolver(Solver):
     This has the same interface as `MinisatSolver`, with the addition of
     the `add_atmost()` and `add_atleast()` methods.
 
-    >>> for i in range(4):
-    ...     S.new_var()  # doctest: +ELLIPSIS
-    0
-    1
-    2
+    >>> S.new_vars(4)
     3
     >>> for clause in [1], [-2], [3, 4]:
     ...    S.add_clause(clause)
@@ -591,7 +585,7 @@ class MinicardSolver(Solver):
             function, indicating success (True) or conflict (False).
         """
         if not all(abs(x) <= self.nvars() for x in lits):
-            raise Exception("Not all variables in %s are created yet.  Call new_var() first." % lits)
+            raise Exception("Not all variables in %s are created yet.  Call new_var() or new_vars() first." % lits)
 
         if len(lits) > 1:
             a = self._get_array(lits)
@@ -635,8 +629,8 @@ class MinisatSubsetSolver(SubsetMixin, MinisatSolver):
     And variables must be created for both the "real" variables and the
     relaxation variables.
 
-    >>> for i in range(4+5):
-    ...     _ = S.new_var()
+    >>> S.new_vars(4+5)
+    8
 
     "Soft" clauses are added with `add_clause_instrumented()`, which has no
     return value, as it is impossible for these clauses to produce a conflict.
@@ -686,8 +680,8 @@ class MinicardSubsetSolver(SubsetMixin, MinicardSolver):
 
     >>> S = MinicardSubsetSolver()
     >>> S.set_varcounts(vars = 4, constraints = 5)
-    >>> for i in range(4+5):
-    ...     _  = S.new_var()
+    >>> S.new_vars(4+5)
+    8
     >>> for i, clause in enumerate([[1], [-2], [3], [4]]):
     ...     S.add_clause_instrumented(clause, i)
 
@@ -724,9 +718,9 @@ class MinicardSubsetSolver(SubsetMixin, MinicardSolver):
         if self._origvars is None:
             raise Exception("SubsetSolver.set_varcounts() must be called before .add_atmost_instrumented()")
         if not all(abs(x) <= self.nvars() for x in lits):
-            raise Exception("Not all variables in %s are created yet.  Call new_var() first." % lits)
+            raise Exception("Not all variables in %s are created yet.  Call new_var() or new_vars() first." % lits)
         if self._origvars+1+index > self.nvars():
-            raise Exception("Relaxation variable %i has not been created yet.  Call new_var() first." % (self._origvars+1+index))
+            raise Exception("Relaxation variable %i has not been created yet.  Call new_var() or new_vars() first." % (self._origvars+1+index))
 
         numlits = len(lits)
         numnew = numlits - k

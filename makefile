@@ -43,19 +43,9 @@ cardSystem.o: minicard/utils/System.cc
 clean:
 	rm -f *.so *.o
 
-# check for existence of python versions to control tests
-PYTHON2 := $(shell command -v python 2> /dev/null || command -v python2 2> /dev/null)
-PYTHON3 := $(shell command -v python3 2> /dev/null)
-
 test:
-ifdef PYTHON2
-	${PYTHON2} test_minisolvers.py
-	${PYTHON2} -m doctest minisolvers.py
-endif
-ifdef PYTHON3
-	${PYTHON3} test_minisolvers.py
-	${PYTHON3} -m doctest minisolvers.py
-endif
+	python3 test_minisolvers.py
+	python3 -m doctest minisolvers.py
 	@echo
 	@echo "[32mAll tests passed.[m"
 
