@@ -22,16 +22,9 @@ Classes:
 
 import array
 import os
-import ctypes  # type: ignore
+import ctypes
 from abc import ABCMeta, abstractmethod
-from ctypes import c_void_p, c_ubyte, c_bool, c_int, c_int64, c_double, pointer  # type: ignore
-
-try:
-    import typing  # noqa: for mypy-lang type-checking
-    from typing import Iterable, Sequence, Tuple  # noqa: for mypy-lang type-checking
-except ImportError:
-    # not needed at runtime, so no error
-    pass
+from ctypes import c_void_p, c_ubyte, c_bool, c_int, c_int64, c_double
 
 
 class Solver(object):
