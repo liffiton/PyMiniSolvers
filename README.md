@@ -44,13 +44,12 @@ Setup
 Requirements:
  - Python 3.9+
  - A standard build environment (make, gcc, etc.)
- - zlib development libraries (e.g., `zlib1g-dev` or `zlib-devel` packages)
 
 To build the shared libraries:
 
     $ make
 
-To test the API (automatically tests w/ Python 2 and/or 3 as available):
+To test the API:
 
     $ make test
 
