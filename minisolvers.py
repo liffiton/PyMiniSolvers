@@ -51,6 +51,7 @@ class Solver(object):
     def __init__(self, libfilename: str) -> None:
         self._setup_lib(libfilename)
         self.s = self.lib.Solver_new()
+        self._model_array: array.array[int] | None = None  # will be reused array to avoid reallocation
 
     def _setup_lib(self, libfilename: str) -> None:
         """Load the minisat library with ctypes and create a Solver
@@ -164,6 +165,7 @@ class Solver(object):
         Returns:
             The new variable's index (0-based counting).
         """
+        self._model_array = None   # invalidate; to be recreated when needed next
         pol_int = self.polarity_map[polarity]
         return self.lib.newVar(self.s, pol_int, dvar)
     
@@ -186,6 +188,7 @@ class Solver(object):
         Returns:
             The final new variable's index (0-based counting).
         """
+        self._model_array = None   # invalidate; to be recreated when needed next
         pol_int = self.polarity_map[polarity]
         return self.lib.newVars(self.s, n, pol_int, dvar)
 
@@ -323,13 +326,18 @@ class Solver(object):
             An array of true variables in the solver's current model.  If a
             start index was given, the variables are indexed from that value.
             """
+        if self._model_array is None:
+            # pre-allocate a buffer for all variables that will be reused as long as nvars doesn't change
+            self._model_array = array.array('i', [-1] * self.nvars())
+
+        a_ptr, size = self._to_intptr(self._model_array)
+
         if end == -1:
             end = self.nvars()
-        a = array.array('i', [-1] * (end-start))
-        a_ptr, size = self._to_intptr(a)
+
         count = self.lib.getModelTrues(self.s, a_ptr, start, end, offset)
         # reduce the array down to just the valid indexes
-        return a[:count]
+        return self._model_array[:count]
 
     def block_model(self) -> None:
         """Block the current model from the solver."""
@@ -426,7 +434,8 @@ class SubsetMixin(Solver):
         if self._origvars is None:
             raise Exception("SubsetSolver.set_varcounts() must be called before .solve_subset()")
 
-        assumptions = array.array('i', [i+self._origvars+1 for i in subset])
+        offset = self._origvars + 1
+        assumptions = array.array('i', [i+offset for i in subset])
         if extra_assumps:
             assumptions.extend(extra_assumps)
         a_ptr, size = self._to_intptr(assumptions)
