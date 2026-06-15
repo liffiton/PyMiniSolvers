@@ -49,7 +49,19 @@ class Solver(metaclass=ABCMeta):
     def __init__(self, libfilename: str) -> None:
         self._setup_lib(libfilename)
         self.s = self.lib.Solver_new()
-        self._model_array: array[int] | None = None  # will be reused array to avoid reallocation
+        # a reused array to limit/avoid allocations
+        # (will be reused as long as nvars doesn't change, which invalidates it, triggering a realloc)
+        self._buf_storage: array[int] | None = None
+
+    @property
+    def _buf(self) -> array[int]:
+        if self._buf_storage is None:
+            self._buf_storage = array('i', [-1] * self.nvars())
+        return self._buf_storage
+
+    @property
+    def _buf_ptr(self) -> tuple[IntPointer, int]:
+        return self._to_intptr(self._buf)
 
     def _setup_lib(self, libfilename: str) -> None:
         """Load the minisat library with ctypes and create a Solver
@@ -163,7 +175,7 @@ class Solver(metaclass=ABCMeta):
         Returns:
             The new variable's index (0-based counting).
         """
-        self._model_array = None   # invalidate; to be recreated when needed next
+        self._buf_storage = None   # invalidate; to be recreated when needed next
         pol_int = self.polarity_map[polarity]
         return self.lib.newVar(self.s, pol_int, dvar)
     
@@ -186,7 +198,7 @@ class Solver(metaclass=ABCMeta):
         Returns:
             The final new variable's index (0-based counting).
         """
-        self._model_array = None   # invalidate; to be recreated when needed next
+        self._buf_storage = None   # invalidate; to be recreated when needed next
         pol_int = self.polarity_map[polarity]
         return self.lib.newVars(self.s, n, pol_int, dvar)
 
@@ -305,10 +317,9 @@ class Solver(metaclass=ABCMeta):
         """
         if end == -1:
             end = self.nvars()
-        a = array('i', [-1] * (end-start))
-        a_ptr, size = self._to_intptr(a)
+        a_ptr, _ = self._buf_ptr
         self.lib.fillModel(self.s, a_ptr, start, end)
-        return a
+        return self._buf[:end-start]
 
     def get_model_trues(self, start: int = 0, end: int = -1, offset: int = 0) -> array[int]:
         """Get variables assigned true in the current model from the solver.
@@ -324,18 +335,13 @@ class Solver(metaclass=ABCMeta):
             An array of true variables in the solver's current model.  If a
             start index was given, the variables are indexed from that value.
             """
-        if self._model_array is None:
-            # pre-allocate a buffer for all variables that will be reused as long as nvars doesn't change
-            self._model_array = array('i', [-1] * self.nvars())
-
-        a_ptr, size = self._to_intptr(self._model_array)
+        a_ptr, _ = self._buf_ptr
 
         if end == -1:
             end = self.nvars()
 
         count = self.lib.getModelTrues(self.s, a_ptr, start, end, offset)
-        # reduce the array down to just the valid indexes
-        return self._model_array[:count]
+        return self._buf[:count]
 
     def block_model(self) -> None:
         """Block the current model from the solver."""
@@ -359,8 +365,7 @@ class Solver(metaclass=ABCMeta):
             An array of literals implied by the current formula (and optionally
             the given assumptions).
         """
-        res = array('i', [-1] * self.nvars())
-        res_ptr, _ = self._to_intptr(res)
+        res_ptr, _ = self._buf_ptr
 
         if assumptions is None:
             count = self.lib.getImplies(self.s, res_ptr)
@@ -369,8 +374,7 @@ class Solver(metaclass=ABCMeta):
             assumps_ptr, assumps_size = self._to_intptr(assumps)
             count = self.lib.getImplies_assumptions(self.s, res_ptr, assumps_ptr, assumps_size)
 
-        # reduce the array down to just the valid indexes
-        return res[:count]
+        return self._buf[:count]
 
     def get_stats(self) -> dict[str, int]:
         """Returns a dictionary of solver statistics."""

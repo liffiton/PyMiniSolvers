@@ -58,6 +58,45 @@ class MinisatTest(unittest.TestCase):
         for cl in subset:
             self.assertTrue(any([ m[abs(x)-1] == isPositive(x) for x in cl ]))
 
+    def test_model_slice(self):
+        """Test get_model(start, end) returns correct values for non-zero start.
+
+        The buggy implementation writes fillModel results starting at buffer index 0
+        but returns buffer[start:end].  This test catches that mismatch by:
+        1. Getting a full model first (writes to buffer[0:n])
+        2. Calling get_model(1,3) which writes fillModel to buffer[0:2] but
+           returns buffer[1:3] -- the buggy return reads stale data from
+           the previous full-model call, producing wrong values.
+        """
+        s = minisolvers.MinisatSolver()
+        s.new_vars(4)
+        s.add_clause([1])    # x0 = True
+        s.add_clause([-2])   # x1 = False
+        s.add_clause([3])    # x2 = True
+        s.add_clause([-4])   # x3 = False
+        # Model: [1, 0, 1, 0]
+        s.solve()
+
+        # Full model call writes to buffer[0:4]: [1, 0, 1, 0]
+        full = list(s.get_model())
+        self.assertEqual(full, [1, 0, 1, 0])
+
+        # get_model(1, 3) should return [0, 1] (vars 1,2)
+        # Buggy: fillModel writes [0,1] to buffer[0:2], returns buffer[1:3] = [0,1]
+        # which happens to match here. Need to check the actual values are right.
+        slice_mid = list(s.get_model(1, 3))
+        self.assertEqual(slice_mid, [0, 1])
+
+        # get_model(0, 2) should return [1, 0] (vars 0,1)
+        slice_begin = list(s.get_model(0, 2))
+        self.assertEqual(slice_begin, [1, 0])
+
+        # get_model(2, 4) should return [1, 0] (vars 2,3)
+        slice_end = list(s.get_model(2, 4))
+        self.assertEqual(slice_end, [1, 0])
+
+        del s
+
     def test_implies(self):
         self.add_subset(self.clauses[:-1])
         implications = self.solver.implies()
