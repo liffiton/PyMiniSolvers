@@ -19,6 +19,7 @@ Classes:
   SubsetMixin
     A mixin class adding 'subset' functionality to Solver subclasses.
 """
+from __future__ import annotations
 
 import os
 import ctypes
